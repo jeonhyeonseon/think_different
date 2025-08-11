@@ -5,6 +5,7 @@ import com.think_different.think_different.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,12 +23,15 @@ public class BoardController {
     // 등록
     @GetMapping("/registerBoard")
     public String registerBoard() {
+        log.info("GET: board/registerBoard");
+
         return "board/register";
     }
 
     @PostMapping("/actionRegisterBoard")
     public String actionRegisterBoard(@ModelAttribute BoardRegisterRequestDto boardRegisterRequestDto,
                                       RedirectAttributes redirectAttributes) {
+        log.info("POST: board/actionRegisterBoard");
 
         boardService.actionRegisterBoard(boardRegisterRequestDto);
         redirectAttributes.addFlashAttribute("message", "게시글이 등록되었습니다.");
