@@ -1,5 +1,6 @@
 package com.think_different.think_different.board.controller;
 
+import com.think_different.think_different.board.dto.BoardListResponseDto;
 import com.think_different.think_different.board.dto.BoardRegisterRequestDto;
 import com.think_different.think_different.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Slf4j
 @Controller
 @RequestMapping("/board")
@@ -19,6 +22,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class BoardController {
 
     private final BoardService boardService;
+
+    // 목록
+    @GetMapping("/listBoard")
+    public List<BoardListResponseDto> listBoard() {
+        log.info("GET: board/listBoard");
+
+        List<BoardListResponseDto> boardList = boardService.findByBoardList();
+
+        return boardList;
+    }
 
     // 등록
     @GetMapping("/registerBoard")
