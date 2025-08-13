@@ -5,6 +5,9 @@ import com.think_different.think_different.board.dto.BoardRegisterRequestDto;
 import com.think_different.think_different.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -25,12 +26,14 @@ public class BoardController {
 
     // 목록
     @GetMapping("/listBoard")
-    public List<BoardListResponseDto> listBoard() {
+    public String listBoard(@PageableDefault(page = 0, size = 10) Pageable pageable,
+                                                Model model) {
         log.info("GET: board/listBoard");
 
-        List<BoardListResponseDto> boardList = boardService.findByBoardList();
+        Page<BoardListResponseDto> boardList = boardService.findByBoardList(pageable);
+        model.addAttribute("boardList", boardList);
 
-        return boardList;
+        return "board/list";
     }
 
     // 등록
