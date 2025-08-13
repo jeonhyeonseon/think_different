@@ -7,9 +7,9 @@ import com.think_different.think_different.board.repository.BoardRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -19,11 +19,9 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public List<BoardListResponseDto> findByBoardList() {
-        return boardRepository.findAll()
-                .stream()
-                .map(BoardListResponseDto::fromBoard)
-                .toList();
+    public Page<BoardListResponseDto> findByBoardList(Pageable pageable) {
+        return boardRepository.findAll(pageable)
+                .map(BoardListResponseDto::fromBoard);
     }
 
     public void actionRegisterBoard(BoardRegisterRequestDto boardRegisterRequestDto) {
