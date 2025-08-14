@@ -52,6 +52,6 @@ public class BoardController {
         boardService.actionRegisterBoard(boardRegisterRequestDto);
         redirectAttributes.addFlashAttribute("message", "게시글이 등록되었습니다.");
 
-        return "redirect:/board/actionRegisterBoard";
+        return "redirect:/board/listBoard";
     }
 }
