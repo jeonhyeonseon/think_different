@@ -24,7 +24,7 @@ public class BoardController {
     private final BoardService boardService;
 
     // 목록
-    @GetMapping("/listBoard")
+    @GetMapping
     public String listBoard(@PageableDefault(page = 0, size = 10) Pageable pageable,
                                                 Model model) {
         log.info("GET: board/listBoard");
@@ -36,14 +36,14 @@ public class BoardController {
     }
 
     // 등록
-    @GetMapping("/registerBoard")
+    @GetMapping("/new")
     public String registerBoard() {
         log.info("GET: board/registerBoard");
 
         return "board/register";
     }
 
-    @PostMapping("/actionRegisterBoard")
+    @PostMapping
     public String actionRegisterBoard(@ModelAttribute BoardRegisterRequestDto boardRegisterRequestDto,
                                       RedirectAttributes redirectAttributes) {
         log.info("POST: board/actionRegisterBoard");
@@ -51,11 +51,11 @@ public class BoardController {
         boardService.registerBoard(boardRegisterRequestDto);
         redirectAttributes.addFlashAttribute("message", "게시글이 등록되었습니다.");
 
-        return "redirect:/board/listBoard";
+        return "redirect:/board";
     }
 
     // 상세
-    @GetMapping("/detailBoard/{id}")
+    @GetMapping("/{id}")
     public String detailBoard(@PathVariable Long id, Model model) {
         log.info("GET: board/detailBoard");
 
@@ -66,7 +66,7 @@ public class BoardController {
     }
 
     // 수정
-    @GetMapping("/updateBoard/{id}")
+    @GetMapping("/{id}/edit")
     public String updateBoard(@PathVariable Long id, Model model) {
         log.info("GET: board/updateBoard");
 
@@ -76,23 +76,23 @@ public class BoardController {
         return "board/update";
     }
 
-    @PostMapping("/updateBoard/{id}")
+    @PostMapping("/{id}/edit")
     public String actionUpdateBoard(@PathVariable Long id,
                                     @ModelAttribute BoardUpdateRequestDto boardUpdateRequestDto ) {
         log.info("POST: board/updateBoard");
 
         boardService.updateBoard(id, boardUpdateRequestDto);
 
-        return "redirect:/board/updateBoard" + id;
+        return "redirect:/board" + id;
     }
 
     // 삭제
-    @PostMapping("/deleteBoard/{id}")
+    @PostMapping("/{id}/delete")
     public String deleteBoard(@PathVariable Long id) {
         log.info("POST: board/delete");
 
         boardService.deleteBoard(id);
 
-        return "redirect:/board/list";
+        return "redirect:/board";
     }
 }
