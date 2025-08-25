@@ -21,19 +21,19 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public Page<BoardListResponseDto> findByBoardList(Pageable pageable) {
+    public Page<BoardListResponseDto> getBoardList(Pageable pageable) {
         return boardRepository.findAll(pageable)
                 .map(BoardListResponseDto::fromBoard);
     }
 
-    public void actionRegisterBoard(BoardRegisterRequestDto boardRegisterRequestDto) {
+    public void registerBoard(BoardRegisterRequestDto boardRegisterRequestDto) {
         // DTO를 Entity로 변환하기
         Board board = boardRegisterRequestDto.toBoard();
 
         boardRepository.save(board);
     }
 
-    public BoardDetailResponseDto findByBoardDetail(Long id) {
+    public BoardDetailResponseDto getBoardDetail(Long id) {
 
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
