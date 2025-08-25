@@ -85,4 +85,14 @@ public class BoardController {
 
         return "redirect:/board/updateBoard" + id;
     }
+
+    // 삭제
+    @PostMapping("/deleteBoard/{id}")
+    public String deleteBoard(@PathVariable Long id) {
+        log.info("POST: board/delete");
+
+        boardService.deleteBoard(id);
+
+        return "redirect:/board/list";
+    }
 }
