@@ -29,7 +29,7 @@ public class BoardController {
                                                 Model model) {
         log.info("GET: board/listBoard");
 
-        Page<BoardListResponseDto> boardList = boardService.findByBoardList(pageable);
+        Page<BoardListResponseDto> boardList = boardService.getBoardList(pageable);
         model.addAttribute("boardList", boardList);
 
         return "board/list";
@@ -48,7 +48,7 @@ public class BoardController {
                                       RedirectAttributes redirectAttributes) {
         log.info("POST: board/actionRegisterBoard");
 
-        boardService.actionRegisterBoard(boardRegisterRequestDto);
+        boardService.registerBoard(boardRegisterRequestDto);
         redirectAttributes.addFlashAttribute("message", "게시글이 등록되었습니다.");
 
         return "redirect:/board/listBoard";
@@ -59,7 +59,7 @@ public class BoardController {
     public String detailBoard(@PathVariable Long id, Model model) {
         log.info("GET: board/detailBoard");
 
-        BoardDetailResponseDto boardDetail = boardService.findByBoardDetail(id);
+        BoardDetailResponseDto boardDetail = boardService.getBoardDetail(id);
 
         model.addAttribute("boardDetail", boardDetail);
         return "board/detail";
