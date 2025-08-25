@@ -29,4 +29,12 @@ public class Board {
     private LocalDateTime createAt; // 생성시간
     @LastModifiedDate
     private LocalDateTime updatedAt; // 수정시간
+
+    public void updateBoard(String title, String contents) {
+        if(title == null || title.isBlank()) {
+            throw new IllegalArgumentException("제목은 비어있을 수 없습니다.");
+        }
+        this.title = title;
+        this.contents = contents;
+    }
 }

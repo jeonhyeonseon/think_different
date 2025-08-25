@@ -3,6 +3,7 @@ package com.think_different.think_different.board.controller;
 import com.think_different.think_different.board.dto.BoardDetailResponseDto;
 import com.think_different.think_different.board.dto.BoardListResponseDto;
 import com.think_different.think_different.board.dto.BoardRegisterRequestDto;
+import com.think_different.think_different.board.dto.BoardUpdateRequestDto;
 import com.think_different.think_different.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,5 +63,26 @@ public class BoardController {
 
         model.addAttribute("boardDetail", boardDetail);
         return "board/detail";
+    }
+
+    // 수정
+    @GetMapping("/updateBoard/{id}")
+    public String updateBoard(@PathVariable Long id, Model model) {
+        log.info("GET: board/updateBoard");
+
+        BoardUpdateRequestDto boardUpdate = boardService.getUpdateBoard(id);
+
+        model.addAttribute("boardUpdate", boardUpdate);
+        return "board/update";
+    }
+
+    @PostMapping("/updateBoard/{id}")
+    public String actionUpdateBoard(@PathVariable Long id,
+                                    @ModelAttribute BoardUpdateRequestDto boardUpdateRequestDto ) {
+        log.info("POST: board/updateBoard");
+
+        boardService.updateBoard(id, boardUpdateRequestDto);
+
+        return "redirect:/board/updateBoard" + id;
     }
 }
