@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Think Different</title>
+    <link rel="stylesheet" th:href="@{/css/layout-default.css}">
+</head>
+<body>
+    <!-- 헤더 -->
+    <div th:replace="~{fragments/header :: HeaderFragment}"></div>
+
+    <div class="layout">
+        <!-- 사이드 -->
+        <aside class="sidebar" th:replace="~{fragments/side :: SideFragment}"></aside>
+
+        <!-- 본문 -->
+        <main class="main-content" layout:fragment="content"></main>
+    </div>
+</body>
+</html>
