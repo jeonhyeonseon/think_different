@@ -4,6 +4,8 @@ body {
 }
 
 #board-register-container {
+    display: flex;
+    justify-content: space-between;
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
@@ -19,8 +21,10 @@ body {
     margin-bottom: 20px;
 }
 
-#input-title{
-    width: 630px;
+#title{
+    display: flex;
+    justify-content: space-between;
+    width: 750px;
     height: 40px;
     padding: 8px 10px;
     border: solid 1px gainsboro;
@@ -29,8 +33,10 @@ body {
     outline: none;
 }
 
-.input-contents {
-    width: 630px;
+.contents {
+    display: flex;
+    justify-content: space-between;
+    width: 750px;
     height: 650px;
     padding: 8px 10px;
     border: solid 1px gainsboro;
