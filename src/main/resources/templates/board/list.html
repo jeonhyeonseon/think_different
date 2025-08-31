@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+  <meta charset="UTF-8">
+  <title>Board List</title>
+  <link rel="stylesheet" th:href="@{/css/reset.css}">
+  <link rel="stylesheet" th:href="@{/css/layout-default.css}">
+  <link rel="stylesheet" th:href="@{/css/board/list.css}">
+</head>
+<body>
+  <main id="board-list-container">
+    <!-- 검색창 -->
+    <form class="search-board" method="get" th:action="@{/board}">
+      <input type="text" name="keyword" placeholder="검색어를 입력하세요" th:value="${param.keyword}">
+      <button type="submit"></button>
+    </form>
+
+    <!-- 전체 목록 수, 글쓰기 버튼 -->
+    <div class="summary">
+      <div id="board-count">
+        전체 수<span id="totalCount" th:text="@{boardList.totalElements}">0</span>개
+      </div>
+      <div id="register-button">
+        <a th:href="@{/board/new}" class="register-button">글쓰기</a>
+      </div>
+    </div>
+
+    <!-- 목록 -->
+    <div>
+      <ul class="list-container">
+        <li class="list-item" th:each="b : ${boardList.content}">
+          <a th:href="@{|/board/${b.id}|}">
+          <!-- 상세페이지로 이동 -->
+            <div>
+              <!-- 제목 -->
+              <h3 class="list-title" th:text="${b.title}"></h3>
+              <!-- 작성자 -->
+              <!-- 날짜 -->
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </main>
+</body>
+</html>
