@@ -1,0 +1,32 @@
+#board-list-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: solid 1px slategrey;
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* 검색창 */
+.search-board {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.search-board input {
+    width: 60%;
+    height: 40%;
+    padding: 0 20px;
+}
+
+/* 전체 목록 수 */
+.summary {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+}
+
