@@ -44,12 +44,10 @@ public class BoardController {
     }
 
     @PostMapping
-    public String actionRegisterBoard(@ModelAttribute BoardRegisterRequestDto boardRegisterRequestDto,
-                                      RedirectAttributes redirectAttributes) {
+    public String actionRegisterBoard(@ModelAttribute BoardRegisterRequestDto boardRegisterRequestDto) {
         log.info("POST: board/actionRegisterBoard");
 
         boardService.registerBoard(boardRegisterRequestDto);
-        redirectAttributes.addFlashAttribute("message", "게시글이 등록되었습니다.");
 
         return "redirect:/board";
     }
