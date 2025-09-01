@@ -25,12 +25,25 @@ public class BoardController {
 
     // 목록
     @GetMapping
-    public String listBoard(@PageableDefault(page = 0, size = 10) Pageable pageable,
-                                                Model model) {
+    public String listBoard(@RequestParam(required = false) String keyword,
+                            @PageableDefault(page = 0, size = 10) Pageable pageable,
+                            Model model) {
         log.info("GET: board/listBoard");
 
-        Page<BoardListResponseDto> boardList = boardService.getBoardList(pageable);
+        Page<BoardListResponseDto> boardList = boardService.getBoardList(keyword, pageable);
+
+        // 페이지 바 표시
+        int page = boardList.getNumber();
+        int totalPage = boardList.getTotalPages();
+        int barSize = 5;
+        int startPage = Math.max(0, (page / barSize) * barSize);
+        int endPage = Math.min(totalPage, startPage + barSize);
+
         model.addAttribute("boardList", boardList);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("barSize", barSize);
 
         return "board/list";
     }
