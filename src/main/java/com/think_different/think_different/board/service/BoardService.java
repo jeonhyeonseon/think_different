@@ -21,9 +21,13 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public Page<BoardListResponseDto> getBoardList(Pageable pageable) {
-        return boardRepository.findAll(pageable)
-                .map(BoardListResponseDto::fromBoard);
+    public Page<BoardListResponseDto> getBoardList(String keyword, Pageable pageable) {
+
+        Page<Board> page = (keyword == null || keyword.isBlank())
+                ? boardRepository.findAll(pageable)
+                : boardRepository.findByTitleContainingIgnoreCase(keyword, pageable);
+
+        return page.map(BoardListResponseDto::fromBoard);
     }
 
     public void registerBoard(BoardRegisterRequestDto boardRegisterRequestDto) {
