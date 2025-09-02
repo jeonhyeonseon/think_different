@@ -13,7 +13,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -94,7 +93,7 @@ public class BoardController {
 
         boardService.updateBoard(id, boardUpdateRequestDto);
 
-        return "redirect:/board" + id;
+        return "redirect:/board/" + id;
     }
 
     // 삭제
