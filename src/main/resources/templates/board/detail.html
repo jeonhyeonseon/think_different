@@ -19,18 +19,20 @@
                 <h1 class="title" th:text="${boardDetail.title}">제목</h1>
             </div>
             <div class="summary">
-                <div class="">
+                <div class="left-info">
                     <span>닉네임</span>
                     <span th:text="${#temporals.format(boardDetail.createdAt, 'yyyy-MM-dd HH:mm')}">생성일</span>
                 </div>
-                <ul>
-                    <li><a th:href="@{/board/{id}/edit(id=${boardDetail.id})}">수정하기</a></li>
-                    <li>
-                        <form th:action="@{/board/{id}/delete(id=${boardDetail.id})}" method="post">
-                            <button type="submit">삭제하기</button>
-                        </form>
-                    </li>
-                </ul>
+                <div class="right-info">
+                    <ul>
+                        <li><a th:href="@{/board/{id}/edit(id=${boardDetail.id})}">수정하기</a></li>
+                        <li>
+                            <form th:action="@{/board/{id}/delete(id=${boardDetail.id})}" method="post">
+                                <button type="submit">삭제하기</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </header>
         <!-- 내용 -->
