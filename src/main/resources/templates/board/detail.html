@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,12 +23,14 @@
                     <span>닉네임</span>
                     <span th:text="${#temporals.format(boardDetail.createdAt, 'yyyy-MM-dd HH:mm')}">생성일</span>
                 </div>
-                <button>
-                    <ul>
-                        <li>수정하기</li>
-                        <li>삭제하기</li>
-                    </ul>
-                </button>
+                <ul>
+                    <li><a th:href="@{/board/{id}/edit(id=${boardDetail.id})}">수정하기</a></li>
+                    <li>
+                        <form th:action="@{/board/{id}/delete(id=${boardDetail.id})}" method="post">
+                            <button type="submit">삭제하기</button>
+                        </form>
+                    </li>
+                </ul>
             </div>
         </header>
         <!-- 내용 -->
