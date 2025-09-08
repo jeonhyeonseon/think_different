@@ -1,15 +1,13 @@
 package com.think_different.think_different.chat.chatroom.controller;
 
+import com.think_different.think_different.chat.chatroom.dto.ChatroomDetailResponseDto;
 import com.think_different.think_different.chat.chatroom.dto.ChatroomRegisterRequestDto;
 import com.think_different.think_different.chat.chatroom.service.ChatroomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Controller
@@ -34,5 +32,17 @@ public class ChatroomController {
         chatroomService.registerChatroom(chatroomRegisterRequestDto);
 
         return "redirect:/chatroom";
+    }
+
+    // 상세
+    @GetMapping("/{id}")
+    public String showDetailChatroom(@PathVariable Long id, Model model) {
+        log.info("GET: detailChatroom");
+
+        ChatroomDetailResponseDto chatroomDetail = chatroomService.getChatroomDetail(id);
+
+        model.addAttribute("chatroomDetail", chatroomDetail);
+
+        return "chatroom/detail";
     }
 }
