@@ -2,6 +2,7 @@ package com.think_different.think_different.chat.chatroom.service;
 
 import com.think_different.think_different.chat.chatroom.dto.ChatroomDetailResponseDto;
 import com.think_different.think_different.chat.chatroom.dto.ChatroomRegisterRequestDto;
+import com.think_different.think_different.chat.chatroom.dto.ChatroomUpdateRequestDto;
 import com.think_different.think_different.chat.chatroom.entity.Chatroom;
 import com.think_different.think_different.chat.chatroom.repository.ChatroomRepository;
 import jakarta.transaction.Transactional;
@@ -30,5 +31,21 @@ public class ChatroomService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채팅방입니다."));
 
         return ChatroomDetailResponseDto.fromChatroom(chatroom);
+    }
+
+    public ChatroomUpdateRequestDto getChatroom(Long id) {
+
+        Chatroom chatroom = chatroomRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채팅방입니다."));
+
+        return ChatroomUpdateRequestDto.fromChatroom(chatroom);
+    }
+
+    public void getUpdateChatroom(Long id, ChatroomUpdateRequestDto chatroomUpdateRequestDto) {
+
+        Chatroom chatroom = chatroomRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채팅방입니다."));
+
+        chatroom.updateChatroom(chatroomUpdateRequestDto.getTitle(), chatroomUpdateRequestDto.getContents(), chatroomUpdateRequestDto.getCategory());
     }
 }

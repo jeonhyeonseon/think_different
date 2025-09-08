@@ -43,4 +43,12 @@ public class Chatroom {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    public void updateChatroom(String title, String contents, Set<Category> category) {
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("제목은 빈칸이 될 수 없습니다.");
+        }
+        this.title = title;
+        this.contents = contents;
+        this.category = category;
+    }
 }
