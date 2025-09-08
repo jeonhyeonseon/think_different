@@ -59,7 +59,7 @@ public class ChatroomController {
         return "chatroom/update";
     }
 
-    @PostMapping
+    @PostMapping("/{id}/edit")
     public String updateChatroom(@PathVariable Long id,
                                  @ModelAttribute ChatroomUpdateRequestDto chatroomUpdateRequestDto) {
 
