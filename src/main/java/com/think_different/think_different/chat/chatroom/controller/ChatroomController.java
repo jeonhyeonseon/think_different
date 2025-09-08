@@ -2,6 +2,7 @@ package com.think_different.think_different.chat.chatroom.controller;
 
 import com.think_different.think_different.chat.chatroom.dto.ChatroomDetailResponseDto;
 import com.think_different.think_different.chat.chatroom.dto.ChatroomRegisterRequestDto;
+import com.think_different.think_different.chat.chatroom.dto.ChatroomUpdateRequestDto;
 import com.think_different.think_different.chat.chatroom.service.ChatroomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,5 +45,26 @@ public class ChatroomController {
         model.addAttribute("chatroomDetail", chatroomDetail);
 
         return "chatroom/detail";
+    }
+
+    // 수정
+    @GetMapping("/{id}/edit")
+    public String showEditChatroom(@PathVariable Long id,
+                                   Model model) {
+        log.info("GET: updateChatroom");
+
+        ChatroomUpdateRequestDto chatroomUpdate = chatroomService.getChatroom(id);
+
+        model.addAttribute("chatroomUpdate", chatroomUpdate);
+        return "chatroom/update";
+    }
+
+    @PostMapping
+    public String updateChatroom(@PathVariable Long id,
+                                 @ModelAttribute ChatroomUpdateRequestDto chatroomUpdateRequestDto) {
+
+        chatroomService.getUpdateChatroom(id, chatroomUpdateRequestDto);
+
+        return "redirect:/chatroom/" + id;
     }
 }
