@@ -67,4 +67,13 @@ public class ChatroomController {
 
         return "redirect:/chatroom/" + id;
     }
+
+    @PostMapping("/{id}/delete")
+    public String deleteChatroom(@PathVariable Long id) {
+        log.info("POST: deleteChatroom");
+
+        chatroomService.deleteChatroom(id);
+
+        return "redirect:/chatroom";
+    }
 }
