@@ -14,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter(AccessLevel.PRIVATE)
+@Builder
 public class Chatroom {
 
     @Id
