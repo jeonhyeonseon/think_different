@@ -48,4 +48,12 @@ public class ChatroomService {
 
         chatroom.updateChatroom(chatroomUpdateRequestDto.getTitle(), chatroomUpdateRequestDto.getContents(), chatroomUpdateRequestDto.getCategory());
     }
+
+    public void deleteChatroom(Long id) {
+
+        Chatroom chatroom = chatroomRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채팅방입니다."));
+
+        chatroomRepository.delete(chatroom);
+    }
 }
