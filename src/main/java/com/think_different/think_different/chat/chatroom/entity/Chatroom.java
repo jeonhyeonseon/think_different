@@ -10,7 +10,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tbl_chatroom")
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter(AccessLevel.PRIVATE)
