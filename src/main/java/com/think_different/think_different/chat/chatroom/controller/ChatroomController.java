@@ -23,7 +23,7 @@ public class ChatroomController {
     public String showRegisterChatroom() {
         log.info("GET: registerChatroom");
 
-        return "chatroom/register";
+        return "chatrooms/register";
     }
 
     @PostMapping
@@ -32,7 +32,7 @@ public class ChatroomController {
 
         chatroomService.registerChatroom(chatroomRegisterRequestDto);
 
-        return "redirect:/chatroom";
+        return "redirect:/chatrooms";
     }
 
     // 상세
@@ -44,7 +44,7 @@ public class ChatroomController {
 
         model.addAttribute("chatroomDetail", chatroomDetail);
 
-        return "chatroom/detail";
+        return "chatrooms/detail";
     }
 
     // 수정
@@ -56,7 +56,7 @@ public class ChatroomController {
         ChatroomUpdateRequestDto chatroomUpdate = chatroomService.getChatroom(id);
 
         model.addAttribute("chatroomUpdate", chatroomUpdate);
-        return "chatroom/update";
+        return "chatrooms/update";
     }
 
     @PostMapping("/{id}/edit")
@@ -65,7 +65,7 @@ public class ChatroomController {
 
         chatroomService.getUpdateChatroom(id, chatroomUpdateRequestDto);
 
-        return "redirect:/chatroom/" + id;
+        return "redirect:/chatrooms/" + id;
     }
 
     @PostMapping("/{id}/delete")
@@ -74,6 +74,6 @@ public class ChatroomController {
 
         chatroomService.deleteChatroom(id);
 
-        return "redirect:/chatroom";
+        return "redirect:/chatrooms";
     }
 }
