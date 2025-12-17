@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tbl_chat")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter(AccessLevel.PRIVATE)
