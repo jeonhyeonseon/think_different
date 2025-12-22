@@ -13,11 +13,13 @@
     <div th:replace="~{fragments/header :: HeaderFragment}"></div>
 
     <div class="layout">
-        <!-- 사이드 -->
-        <aside class="sidebar" th:replace="~{fragments/side :: SideFragment}"></aside>
+        <div class="container">
+            <!-- 사이드 -->
+            <aside class="sidebar" th:replace="~{fragments/side :: SideFragment}"></aside>
 
-        <!-- 본문 -->
-        <main class="main-content" layout:fragment="content"></main>
+            <!-- 본문 -->
+            <main class="main-content" layout:fragment="content"></main>
+        </div>
     </div>
 </body>
 </html>

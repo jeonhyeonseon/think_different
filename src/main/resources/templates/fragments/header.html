@@ -8,11 +8,13 @@
     <title>Header</title>
     <link rel="stylesheet" th:href="@{/css/layout-default.css}">
 </head>
-<body>
-    <header th:fragment="HeaderFragment" class="header">
-        <div class="header-group">
-            <h1><a th:href="@{/}"><span>Think</span> <span>Different</span></a></h1>
-        </div>
-    </header>
-</body>
+<header th:fragment="HeaderFragment" class="header">
+    <div class="header-group">
+        <h1>
+            <a th:href="@{/}">
+                <span>Think</span> <span>Different</span>
+            </a>
+        </h1>
+    </div>
+</header>
 </html>

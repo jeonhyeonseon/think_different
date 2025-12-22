@@ -8,7 +8,13 @@
     <title>Think Different Side</title>
     <link rel="stylesheet" th:href="@{/css/layout-default.css}">
 </head>
-<body>
-    <aside th:fragment="SideFragment"></aside>
-</body>
+<aside th:fragment="SideFragment">
+    <!-- 여기에 사이드 메뉴 넣으면 됨 -->
+    <nav>
+        <ul>
+            <li><a th:href="@{/board}">Board</a></li>
+            <li><a th:href="@{/chatrooms}">Chatrooms</a></li>
+        </ul>
+    </nav>
+</aside>
 </html>
