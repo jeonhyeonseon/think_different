@@ -12,8 +12,8 @@ public class ChatConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.setApplicationDestinationPrefixes("/pub");
-        config.enableSimpleBroker("/sub");
+        config.setApplicationDestinationPrefixes("/pub"); // 클라이언트 -> 서버
+        config.enableSimpleBroker("/sub"); // 서버 -> 클라이언트
     }
 
     @Override
