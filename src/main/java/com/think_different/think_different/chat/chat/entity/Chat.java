@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter(AccessLevel.PRIVATE)
+@Builder
 public class Chat {
 
     @Id
@@ -21,7 +22,7 @@ public class Chat {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "chatroom_id")
-    private Chatroom chatroom; // 채팅방 id
+    private Chatroom chatroomId; // 채팅방 id
 
     @Column(nullable = false)
     private Long memberId; // 채팅방 멤버 id

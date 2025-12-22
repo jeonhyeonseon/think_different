@@ -1,5 +1,6 @@
 package com.think_different.think_different.chat.chatroom.service;
 
+import com.think_different.think_different.chat.chatroom.dto.ChatroomDataInfo;
 import com.think_different.think_different.chat.chatroom.dto.ChatroomDetailResponseDto;
 import com.think_different.think_different.chat.chatroom.dto.ChatroomRegisterRequestDto;
 import com.think_different.think_different.chat.chatroom.dto.ChatroomUpdateRequestDto;
@@ -55,5 +56,17 @@ public class ChatroomService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채팅방입니다."));
 
         chatroomRepository.delete(chatroom);
+    }
+
+    public ChatroomDataInfo getChatroomInfo(Long chatroomId) {
+
+        Chatroom chatroom = chatroomRepository.findById(chatroomId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채팅방입니다."));
+
+        return ChatroomDataInfo.builder()
+                .title(chatroom.getTitle())
+                .categories(chatroom.getCategory())
+                // 인원수
+                .build();
     }
 }
