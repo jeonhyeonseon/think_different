@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Header</title>
-    <link rel="stylesheet" th:href="@{/css/layout-default.css}">
-</head>
-<header th:fragment="HeaderFragment" class="header">
+<header th:fragment="headerFragment" class="header">
     <div class="header-group">
         <h1>
             <a th:href="@{/}">
@@ -17,4 +7,3 @@
         </h1>
     </div>
 </header>
-</html>
