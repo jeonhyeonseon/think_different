@@ -1,15 +1,11 @@
 @import "reset.css";
 
-/* 공통 컨테이너 */
-.container {
+.content-container {
     width: 100%;
-    height: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
-
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 24px;
+    max-width: calc(100vw - 540px);
+    margin: 0;
+    padding: 24px;
+    box-sizing: border-box;
 }
 
 /* 헤더 */
@@ -39,15 +35,26 @@
 
 /* 사이드 */
 .layout {
-    min-height: calc(100vh - 64vh);
+    min-width: 720px;
+    min-height: calc(100vh - 64px);
     padding: 24px 0;
+    display: flex;
 }
 
-.sidebar {
-    min-height: 400px;
-    background-color: gainsboro;
+.right-side {
+    width: 100%;
+    max-width: 270px;
+    background-color: blue;
 }
 
 .main-content {
+    margin: 0;
     min-width: 0;
+    flex: 1;
+}
+
+.left-side {
+    width: 100%;
+    max-width: 270px;
+    background-color: blueviolet;
 }

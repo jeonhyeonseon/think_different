@@ -6,19 +6,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Think Different</title>
+
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/layout-default.css}">
+
+    <th:block layout:fragment="head"></th:block>
 </head>
 <body>
     <!-- 헤더 -->
-    <div th:replace="~{fragments/header :: HeaderFragment}"></div>
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
 
     <div class="layout">
-        <div class="container">
-            <!-- 사이드 -->
-            <aside class="sidebar" th:replace="~{fragments/side :: SideFragment}"></aside>
-
+            <!-- 오른쪽 -->
+            <aside class="right-side">
+                <div th:replace="~{fragments/right-side-nav :: rightSideFragment}"></div>
+            </aside>
             <!-- 본문 -->
-            <main class="main-content" layout:fragment="content"></main>
+            <main class="main-content">
+                <div class="content-container" layout:fragment="content"></div>
+            </main>
+            <!-- 왼쪽 -->
+            <aside class="left-side">
+                <div th:replace="~{fragments/left-side-nav :: leftSideFragment}"></div>
+            </aside>
         </div>
     </div>
 </body>
