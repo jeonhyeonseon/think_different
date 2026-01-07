@@ -18,9 +18,15 @@ public class ChatroomService {
 
     private final ChatroomRepository chatroomRepository;
 
-    public Page<ChatroomListResponseDto> getChatroomList(Pageable pageable) {
+    public Page<ChatroomListResponseDto> getChatroomList(String keyword, Pageable pageable) {
 
-        Page<Chatroom> chatrooms = chatroomRepository.findAll(pageable);
+        Page<Chatroom> chatrooms;
+
+        if (keyword == null || keyword.isBlank()) {
+            chatrooms = chatroomRepository.findAll(pageable);
+        } else {
+            chatrooms = chatroomRepository.findByTitleContaining(keyword, pageable);
+        }
 
         return chatrooms.map(chatroom -> new ChatroomListResponseDto(
                 chatroom.getId(),
