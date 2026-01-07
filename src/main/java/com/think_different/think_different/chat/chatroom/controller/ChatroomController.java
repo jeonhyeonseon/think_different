@@ -1,11 +1,16 @@
 package com.think_different.think_different.chat.chatroom.controller;
 
 import com.think_different.think_different.chat.chatroom.dto.ChatroomDetailResponseDto;
+import com.think_different.think_different.chat.chatroom.dto.ChatroomListResponseDto;
 import com.think_different.think_different.chat.chatroom.dto.ChatroomRegisterRequestDto;
 import com.think_different.think_different.chat.chatroom.dto.ChatroomUpdateRequestDto;
+import com.think_different.think_different.chat.chatroom.entity.Category;
 import com.think_different.think_different.chat.chatroom.service.ChatroomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +22,19 @@ import org.springframework.web.bind.annotation.*;
 public class ChatroomController {
 
     private final ChatroomService chatroomService;
+
+    // 목록
+    @GetMapping
+    public String showChatroomList(@PageableDefault(page = 0, size = 10) Pageable pageable,
+                                   Model model) {
+
+        Page<ChatroomListResponseDto> chatroomList = chatroomService.getChatroomList(pageable);
+
+        model.addAttribute("categories", Category.values());
+        model.addAttribute("chatroomList", chatroomList);
+
+        return "chatroom/list";
+    }
 
     // 등록
     @GetMapping("/new")

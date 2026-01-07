@@ -1,14 +1,13 @@
 package com.think_different.think_different.chat.chatroom.service;
 
-import com.think_different.think_different.chat.chatroom.dto.ChatroomDataInfo;
-import com.think_different.think_different.chat.chatroom.dto.ChatroomDetailResponseDto;
-import com.think_different.think_different.chat.chatroom.dto.ChatroomRegisterRequestDto;
-import com.think_different.think_different.chat.chatroom.dto.ChatroomUpdateRequestDto;
+import com.think_different.think_different.chat.chatroom.dto.*;
 import com.think_different.think_different.chat.chatroom.entity.Chatroom;
 import com.think_different.think_different.chat.chatroom.repository.ChatroomRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -18,6 +17,18 @@ import org.springframework.stereotype.Service;
 public class ChatroomService {
 
     private final ChatroomRepository chatroomRepository;
+
+    public Page<ChatroomListResponseDto> getChatroomList(Pageable pageable) {
+
+        Page<Chatroom> chatrooms = chatroomRepository.findAll(pageable);
+
+        return chatrooms.map(chatroom -> new ChatroomListResponseDto(
+                chatroom.getId(),
+                chatroom.getTitle(),
+                chatroom.getCategory(),
+                chatroom.getCreatedAt()
+        ));
+    }
 
     public void registerChatroom(ChatroomRegisterRequestDto chatroomRegisterRequestDto) {
 
