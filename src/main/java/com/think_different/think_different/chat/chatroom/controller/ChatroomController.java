@@ -19,7 +19,7 @@ public class ChatroomController {
     private final ChatroomService chatroomService;
 
     // 등록
-    @GetMapping
+    @GetMapping("/new")
     public String showRegisterChatroom() {
         log.info("GET: registerChatroom");
 
