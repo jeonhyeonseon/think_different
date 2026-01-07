@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <title>Chatroom List</title>
+    <th:block layout:fragment="head">
+        <link rel="stylesheet" th:href="@{/css/chatroom/list.css}">
+    </th:block>
+</head>
+<body>
+    <th:block layout:fragment="content">
+        <div class="chatroom-list-container">
+            <!-- 검색창, 카테고리 -->
+            <form class="search-chatroom" method="get" th:action="@{/chatrooms}">
+                <div class="search-chatroom-title">
+                    <input type="text" class="search" name="keyword" placeholder="검색어를 입력하세요">
+                    <button type="submit" class="submit-btn">검색</button>
+                </div>
+                <div class="search-chatroom-category">
+                    <button type="button" 
+                            class="category-button" 
+                            th:each="category : ${categories}" 
+                            th:text="${category}">카테고리</button>
+                </div>
+            </form>
+
+            <!-- 전체 수 & 만들기 -->
+            <div class="summary">
+                <!-- <div class="chatroom-total-count">
+                    전체 수<span id="chatroomTotalCount" th:text="${chatroomList.totalCount}">0</span>개
+                </div> -->
+                <div class="chatroom-register-container">
+                    <a th:href="@{/chatrooms/register}" class="chatroom-register-btn">만들기</a>
+                </div>
+            </div>
+
+            <!-- 목록 -->
+            <ul class="list-container" id="list-container">
+                <li class="list-item" th:each="chatroom : ${chatroomList.content}">
+                    <a th:href="@{|/chatrooms/${chatroom.id}|}">
+                        <!-- 채팅페이지로 이동 -->
+                        <div id="message-container">
+                            <!-- 채팅방 제목 -->
+                            <h3 class="chatroom-title" th:text="${chatroom.title}">제목</h3>
+                            <!-- 카테고리 -->
+                            <div class="chatroom-category">
+                                <span th:each="category : ${chatroom.categories}" th:text="${category}">카테고리</span>
+                            </div>
+                            <!-- 닉네임 -->
+                            <!-- 인원수 -->
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- 페이지네이션 -->
+            <nav class="pagination" th:if="${chatroomList.totalPages > 0}">
+                <!-- 이전 -->
+                <a th:if="${chatroomList.hasPrevious()}"
+                th:href="@{/chatrooms(page=${chatroomList.number - 1}, size=${chatroomList.size}, keyword=${keyword})}">
+                ‹ 이전
+                </a>
+
+                <!-- 번호바: 0 .. totalPages-1 (0기반이라 +1 표기) -->
+                <span th:each="p : ${#numbers.sequence(0, chatroomList.totalPages - 1)}">
+                <a th:if="${p != chatroomList.number}"
+                    th:href="@{/chatrooms(page=${p}, size=${chatroomList.size}, keyword=${keyword})}"
+                    th:text="${p + 1}">1</a>
+                <strong th:if="${p == chatroomList.number}"
+                        th:text="${p + 1}">1</strong>
+                </span>
+
+                <!-- 다음 -->
+                <a th:if="${chatroomList.hasNext()}"
+                th:href="@{/chatrooms(page=${chatroomList.number + 1}, size=${chatroomList.size}, keyword=${keyword})}">
+                다음 ›
+                </a>
+            </nav>
+        </div>
+    </th:block>
+</body>
+</html>

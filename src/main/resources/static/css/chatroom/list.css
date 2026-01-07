@@ -1,0 +1,116 @@
+.chatroom-list-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+
+    border: solid 1px slategray;
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.search-chatroom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-chatroom-title {
+    width: 100%;
+    max-width: 500px;
+    margin: 10px 0;
+    padding: 5px 10px;
+
+    display: flex;
+    justify-content: center;
+}
+
+.search {
+    width: 400px;
+    height: 30px;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.submit-btn {
+    height: 30px;
+    padding: 5px;
+
+    border: solid 1px darkred;
+    border-radius: 2px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+}
+
+.search-chatroom-category {
+    margin: 10px 0 20px;
+    padding: 0 5px;
+
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.category-button {
+    padding: 6px 10px;
+
+    border: solid 1px cornflowerblue;
+    border-radius: 6px;
+
+    background-color: cornflowerblue;
+    color: aliceblue;
+    cursor: pointer;
+
+    white-space: nowrap;
+}
+
+.category-button:hover {
+    border: solid 1px cornflowerblue;
+    color: black;
+    background-color: white;
+}
+
+.summary {
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 전체수 */
+
+/* 만들기 버튼 */
+.chatroom-register-container {
+    margin: 10px;
+    padding: 10px;
+}
+
+.chatroom-register-btn {
+    padding: 8px;
+
+    border: solid 1px hotpink;
+    border-radius: 5px;
+
+    display: inline-block;
+}
+
+.list-container {
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+    list-style: none;
+}
+
+.list-item {
+    border: solid 1px purple;
+    border-radius: 4px;
+    padding: 10px;
+}
