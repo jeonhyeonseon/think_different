@@ -45,7 +45,7 @@ public class ChatroomController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("barSize", barSize);
 
-        return "chatroom/list";
+        return "chatrooms/list";
     }
 
     // 등록
