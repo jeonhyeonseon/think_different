@@ -50,8 +50,10 @@ public class ChatroomController {
 
     // 등록
     @GetMapping("/new")
-    public String showRegisterChatroom() {
+    public String showRegisterChatroom(Model model) {
         log.info("GET: registerChatroom");
+
+        model.addAttribute("categories", Category.values());
 
         return "chatrooms/register";
     }
