@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <title>Chatroom Register</title>
+    <th:block layout:fragment="head">
+        <link rel="stylesheet" th:href="@{/css/chatroom/register.css}">
+    </th:block>
+</head>
+<body>
+    <th:block layout:fragment="content">
+        <form th:action="@{/chatrooms}" id="chatroom-register" method="post">
+            <!-- 제목 -->
+            <div class="chatroom-title-container">
+                <input type="text" name="title" id="chatroom-title" placeholder="제목을 입력하세요">
+            </div>
+            <!-- 카테고리 -->
+            <div class="chatroom-categories-container">
+                <button type="button" 
+                        class="category-button"
+                        th:each="category : ${categories}"
+                        th:text="${category}">카테고리</button>
+            </div>
+            <!-- 내용 -->
+            <div class="chatroom-content-container">
+                <textarea name="contents" id="chatroom-contents" placeholder="내용을 작성하세요"></textarea>
+            </div>
+            <div class="chatroom-register-button">
+                <button type="submit" class="register-btn">등록</button>
+            </div>
+        </form>
+    </th:block>
+</body>
+</html>

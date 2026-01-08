@@ -1,0 +1,147 @@
+#chatroom-register {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: solid 1px skyblue;
+    border-radius: 20px;
+}
+
+.chatroom-title-container {
+    margin-bottom: 20px;
+}
+
+#chatroom-title {
+    width: 750px;
+    height: 40px;
+    padding: 8px 10px;
+
+    border: solid 1px sandybrown;
+    border-radius: 4px;
+
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    outline: none;
+}
+
+.chatroom-categories-container {
+    margin: 10px 0 20px;
+    padding: 0 5px;
+
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.category-button {
+    padding: 6px 10px;
+
+    border: solid 1px palevioletred;
+    border-radius: 6px;
+
+    background-color: palevioletred;
+    color: aliceblue;
+    cursor: pointer;
+
+    white-space: nowrap;
+}
+
+.chatroom-content-container {
+    margin-bottom: 20px;
+}
+
+#chatroom-contents {
+    width: 750px;
+}
+
+.contents {
+    width: 750px;
+    height: 500px;
+    padding: 8px 10px;
+
+    border: solid 1px seagreen;
+    border-radius: 4px;
+
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 12px;
+    resize: none;
+}
+
+.chatroom-register-button {
+    text-align: center;
+}#chatroom-register {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: solid 1px skyblue;
+    border-radius: 20px;
+}
+
+.chatroom-title-container {
+    margin-bottom: 20px;
+}
+
+#chatroom-title {
+    width: 750px;
+    height: 40px;
+    padding: 8px 10px;
+
+    border: solid 1px sandybrown;
+    border-radius: 4px;
+
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    outline: none;
+}
+
+.chatroom-categories-container {
+    margin: 10px 0 20px;
+    padding: 0 5px;
+
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.category-button {
+    padding: 6px 10px;
+
+    border: solid 1px palevioletred;
+    border-radius: 6px;
+
+    background-color: palevioletred;
+    color: aliceblue;
+    cursor: pointer;
+
+    white-space: nowrap;
+}
+
+.chatroom-content-container {
+    margin-bottom: 20px;
+}
+
+#chatroom-contents {
+    width: 750px;
+    height: 500px;
+    padding: 8px 10px;
+    border: solid 1px seagreen;
+    border-radius: 4px;
+    font-size: 12px;
+    resize: none;
+}
+
+.chatroom-register-button {
+    text-align: center;
+}
+
+.register-btn {
+    padding: 8px 16px;
+    background-color: plum;
+    border-radius: 4px;
+    font-size: 14px;
+}
