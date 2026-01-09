@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+    <title>Chatroom Detail</title>
+<th:block layout:fragment="head">
+    <link rel="stylesheet" th:href="@{/css/chatroom/detail.css}">
+    <script th:src="@{/js/chatroom/detail.js}" defer></script>
+</th:block>
+
+<th:block layout:fragment="content">
+    <div class="chatroom-detail-container">
+        <!-- 제목 -->
+        <div class="chatroom-title-box">
+            <h1 class="chatroom-title" th:text="${chatroomDetail.title}"></h1>
+        </div>
+        <div class="summary">
+            <!-- 닉네임 & 생성일 -->
+            <div class="left-info">
+                <!-- <span id="nickname" th:text="${}">닉네임</span> -->
+                <span id="createdAt" th:text="${#temporals.format(chatroomDetail.createdAt, 'yyyy-MM-dd HH:mm')}">등록일</span>
+            </div>
+            <!-- 수정 & 삭제 -->
+            <div class="right-info">
+                <div class="more-menu">
+                    <button type="button" class="more-btn">⋮</button>
+                </div>
+                <div class="dropdown">
+                    <a th:href="@{/chatrooms/{id}/edit(id=${chatroomDetail.id})}">수정하기</a>
+                    <form th:action="@{/chatrooms/{id}/delete(id=${chatroomDetail.id})}" method="post">
+                        <button type="submit">삭제하기</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 내용 -->
+        <div class="chatroom-contents-box">
+            <p class="chatroom-contents" th:text="${chatroomDetail.contents}">소개글</p>
+        </div>
+    </div>
+</th:block>
+
+</html>
