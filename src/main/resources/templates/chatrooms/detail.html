@@ -14,6 +14,12 @@
         <!-- 제목 -->
         <div class="chatroom-title-box">
             <h1 class="chatroom-title" th:text="${chatroomDetail.title}"></h1>
+            <!-- 카테고리 -->
+            <ul class="category-pills">
+                <li th:each="category : ${chatroomDetail.category}">
+                    <span class="category-pill" th:text="${category.displayKoreanName}">카테고리</span>
+                </li>
+            </ul>
         </div>
         <div class="summary">
             <!-- 닉네임 & 생성일 -->
