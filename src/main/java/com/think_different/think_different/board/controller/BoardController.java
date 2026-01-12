@@ -31,18 +31,8 @@ public class BoardController {
 
         Page<BoardListResponseDto> boardList = boardService.getBoardList(keyword, pageable);
 
-        // 페이지 바 표시
-        int page = boardList.getNumber();
-        int totalPage = boardList.getTotalPages();
-        int barSize = 5;
-        int startPage = Math.max(0, (page / barSize) * barSize);
-        int endPage = Math.min(totalPage, startPage + barSize);
-
         model.addAttribute("boardList", boardList);
         model.addAttribute("keyword", keyword);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        model.addAttribute("barSize", barSize);
 
         return "board/list";
     }
