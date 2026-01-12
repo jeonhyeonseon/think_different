@@ -17,12 +17,19 @@
                 <input type="text" name="title" id="chatroom-title" placeholder="제목을 입력하세요">
             </div>
             <!-- 카테고리 -->
-            <div class="chatroom-categories-container">
-                <button type="button" 
-                        class="category-button"
-                        th:each="category : ${categories}"
-                        th:text="${category}">카테고리</button>
-            </div>
+            <ul class="category-button">
+                <li th:each="category : ${categories}">
+                    <input type="checkbox"
+                           name="category"
+                           class="category-checkbox"
+                           th:id="${'category_' + category.name()}"
+                           th:value="${category.name()}">
+                    <label class="category-pill"
+                           th:for="${'category_' + category.name()}"
+                           th:text="${category.displayKoreanName}">
+                    </label>
+                </li>
+            </ul>
             <!-- 내용 -->
             <div class="chatroom-content-container">
                 <textarea name="contents" id="chatroom-contents" placeholder="내용을 작성하세요"></textarea>
