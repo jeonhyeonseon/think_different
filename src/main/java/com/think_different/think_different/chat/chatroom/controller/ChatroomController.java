@@ -26,24 +26,14 @@ public class ChatroomController {
     // 목록
     @GetMapping
     public String showChatroomList(@RequestParam(required = false) String keyword,
-                                    @PageableDefault(page = 0, size = 10) Pageable pageable,
+                                   @PageableDefault(page = 0, size = 10) Pageable pageable,
                                    Model model) {
 
         Page<ChatroomListResponseDto> chatroomList = chatroomService.getChatroomList(keyword, pageable);
 
-        // 페이지 바 표시
-        int page = chatroomList.getNumber();
-        int totalPage = chatroomList.getTotalPages();
-        int barSize = 5;
-        int startPage = Math.max(0, (page / barSize) * barSize);
-        int endPage = Math.min(totalPage, startPage + barSize);
-
         model.addAttribute("categories", Category.values());
         model.addAttribute("chatroomList", chatroomList);
         model.addAttribute("keyword", keyword);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        model.addAttribute("barSize", barSize);
 
         return "chatrooms/list";
     }
