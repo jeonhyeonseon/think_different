@@ -114,3 +114,59 @@
     border-radius: 4px;
     padding: 10px;
 }
+
+.list-link {
+    display:block;
+    color:inherit;
+    text-decoration:none;
+}
+
+#message-container {
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.chatroom-title {
+    margin:0;
+    flex: 1;
+    font-size:16px;
+    font-weight:700;
+}
+
+.chatroom-category {
+    flex: 1;
+    display:flex;
+    justify-content: center;
+    gap:8px;
+}
+
+.category-pill{
+    padding:6px 14px;
+    border:1px solid #222;
+    border-radius:999px;
+    background:darkkhaki;
+    font-size:12px;
+    font-weight:700;
+    line-height:1;
+    white-space:nowrap;
+}
+
+.pagination {
+    margin-top: 16px;
+    text-align: center;
+
+    display: flex;
+    justify-content: center;
+
+    gap: 8px;
+}
+
+.pagination a,
+.pagination strong {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+}
