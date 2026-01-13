@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +27,8 @@ public class ChatroomController {
     // 목록
     @GetMapping
     public String showChatroomList(@RequestParam(required = false) String keyword,
-                                   @PageableDefault(page = 0, size = 10) Pageable pageable,
-                                   Model model) {
+                                   @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+                                   Model model, Sort sort) {
 
         Page<ChatroomListResponseDto> chatroomList = chatroomService.getChatroomList(keyword, pageable);
 
