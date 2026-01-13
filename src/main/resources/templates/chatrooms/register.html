@@ -14,7 +14,7 @@
         <form th:action="@{/chatrooms}" id="chatroom-register" method="post">
             <!-- 제목 -->
             <div class="chatroom-title-container">
-                <input type="text" name="title" id="chatroom-title" placeholder="제목을 입력하세요">
+                <input type="text" name="title" id="chatroom-title" placeholder="제목을 입력하세요" required>
             </div>
             <!-- 카테고리 -->
             <ul class="category-button">
@@ -32,7 +32,7 @@
             </ul>
             <!-- 내용 -->
             <div class="chatroom-content-container">
-                <textarea name="contents" id="chatroom-contents" placeholder="내용을 작성하세요"></textarea>
+                <textarea name="contents" id="chatroom-contents" placeholder="내용을 작성하세요" required></textarea>
             </div>
             <div class="chatroom-register-button">
                 <button type="submit" class="register-btn">등록</button>
