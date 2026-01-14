@@ -1,9 +1,6 @@
 package com.think_different.think_different.chat.chatroom.controller;
 
-import com.think_different.think_different.chat.chatroom.dto.ChatroomDetailResponseDto;
-import com.think_different.think_different.chat.chatroom.dto.ChatroomListResponseDto;
-import com.think_different.think_different.chat.chatroom.dto.ChatroomRegisterRequestDto;
-import com.think_different.think_different.chat.chatroom.dto.ChatroomUpdateRequestDto;
+import com.think_different.think_different.chat.chatroom.dto.*;
 import com.think_different.think_different.chat.chatroom.entity.Category;
 import com.think_different.think_different.chat.chatroom.service.ChatroomService;
 import lombok.RequiredArgsConstructor;
@@ -98,5 +95,19 @@ public class ChatroomController {
         chatroomService.deleteChatroom(id);
 
         return "redirect:/chatrooms";
+    }
+
+    // 실제 채팅 화면
+    @GetMapping("/{id}/chat")
+    public String enterChatroom(@PathVariable Long id,
+                                Model model) {
+
+        ChatroomDataInfo chatroomDataInfo = chatroomService.getChatroomInfo(id);
+
+        model.addAttribute("chatroomName", chatroomDataInfo.getTitle());
+        model.addAttribute("memberCount", chatroomDataInfo.getMemberCount());
+        model.addAttribute("categories", chatroomDataInfo.getCategories());
+
+        return "chatrooms/chat";
     }
 }

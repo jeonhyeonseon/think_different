@@ -17,7 +17,7 @@ public class ChatStompController {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final ChatService chatService;
 
-    @MessageMapping("/chatrooms/{chatroomId}/message")
+    @MessageMapping("/chatrooms/{chatroomId}/chat") // /pub로 들어오는 메시지를 서버 메소드로 라우팅
     public void chat(@DestinationVariable Long chatroomId, ChatDto chatDto) {
         if(chatDto.getMessage() == null || chatDto.getMessage().isBlank()) {
             return;
@@ -25,6 +25,6 @@ public class ChatStompController {
 
         chatDto.setChatroomId(chatroomId);
         ChatDto saveChatData = chatService.save(chatDto);
-        simpMessagingTemplate.convertAndSend("/sub/chatrooms/" + chatroomId, saveChatData);
+        simpMessagingTemplate.convertAndSend("/sub/chatrooms/" + chatroomId, saveChatData); // /sub로 publish해서 구독자에게 전달
     }
 }
