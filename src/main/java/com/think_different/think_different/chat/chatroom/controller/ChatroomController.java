@@ -104,6 +104,7 @@ public class ChatroomController {
 
         ChatroomDataInfo chatroomDataInfo = chatroomService.getChatroomInfo(id);
 
+        model.addAttribute("chatroomId", id);
         model.addAttribute("chatroomName", chatroomDataInfo.getTitle());
         model.addAttribute("memberCount", chatroomDataInfo.getMemberCount());
         model.addAttribute("categories", chatroomDataInfo.getCategories());
