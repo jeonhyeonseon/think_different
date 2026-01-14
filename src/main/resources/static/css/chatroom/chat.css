@@ -1,8 +1,12 @@
 .chatroom-chat-container {
     max-width: 800px;
+    height: 90vh;
     margin: 20px auto;
     padding: 20px;
     box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
 }
 
 .chat-header-box {
@@ -56,10 +60,41 @@
     display: inline-block;
 }
 
-.chat-contents-box {
+.chat-log-box {
     margin-top: 20px;
+    padding: 12px;
+    flex: 1;
 }
 
-.chat-contents {
-    line-height: 1.6;
+.chat-input-box {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+}
+
+#messageInput {
+    padding: 10px 12px;
+    border: solid 1px olivedrab;
+    border-radius: 6px;
+    flex: 1;
+    font-size: 14px;
+    outline: none;
+}
+
+#messageInput:focus {
+    border-color: darkgreen;
+}
+
+.submit-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    background: lightskyblue;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: cornflowerblue;
 }
