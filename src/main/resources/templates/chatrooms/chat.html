@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <title>Chat</title>
+    <th:block layout:fragment="head">
+        <link rel="stylesheet" th:href="@{/css/chatroom/chat.css}">
+        <script th:src="@{/js/chatroom/chat.js}" defer></script>
+    </th:block>
+</head>
+<body>
+    <th:block layout:fragment="content">
+        <div class="chatroom-chat-container">
+            <!-- 헤더 -->
+            <div class="chat-header-box">
+                <!-- 인원수 -->
+                <div class="chat-header-row">
+                    <h1 class="chat-title" th:text="${chatroomName}">제목</h1>
+                    <span class="member-count">
+                        (<span th:text="${memberCount}">0</span>)
+                    </span>
+                </div>
+                <!-- 카테고리 -->
+                <ul class="category-box">
+                    <li th:each="category : ${categories}">
+                        <span class="category-pill" th:text="${category.displayName}"></span>
+                    </li>
+                </ul>
+            </div>
+            <!-- 메시지 -->
+            <div class="chat-contents-box">
+                <p class="chat-contents" th:text="${chat}">메시지내용</p>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>
