@@ -39,7 +39,7 @@
             <!-- 목록 -->
             <ul class="list-container" id="list-container">
                 <li class="list-item" th:each="chatroom : ${chatroomList.content}">
-                    <a class="list-link" th:href="@{/chatrooms/{id}(id=${chatroom.id})}">
+                    <a class="list-link" th:href="@{/chatrooms/{id}/chat(id=${chatroom.id})}">
                         <!-- 채팅페이지로 이동 -->
                         <div id="message-container">
                             <!-- 채팅방 제목 -->
@@ -48,7 +48,7 @@
                             <div class="chatroom-category">
                                 <span class="category-pill"
                                       th:each="category : ${chatroom.categories}"
-                                      th:text="${category.displayKoreanName}">카테고리</span>
+                                      th:text="${category.displayName}">카테고리</span>
                             </div>
                             <!-- 닉네임 -->
                             <!-- 인원수 -->

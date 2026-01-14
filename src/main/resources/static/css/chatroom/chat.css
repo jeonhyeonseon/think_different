@@ -1,0 +1,65 @@
+.chatroom-chat-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.chat-header-box {
+    padding: 24px 32px;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: greenyellow;
+}
+
+.chat-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.chat-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.member-count {
+    font-size: 10px;
+    color: #333333;
+}
+
+.category-box {
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style: none;
+}
+
+.category-box li {
+    display: inline-block;
+}
+
+.category-pill {
+    padding: 6px 14px;
+    border: 1px solid lightseagreen;
+    border-radius: 999px;
+    background: white;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.chat-contents-box {
+    margin-top: 20px;
+}
+
+.chat-contents {
+    line-height: 1.6;
+}
