@@ -2,6 +2,7 @@ package com.think_different.think_different.member.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Table(name = "tbl_member")
@@ -29,4 +30,8 @@ public class Member {
 
     @Column(nullable = false, unique = true)
     private String email; // 이메일
+
+    public void encodePassword(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
+    }
 }
