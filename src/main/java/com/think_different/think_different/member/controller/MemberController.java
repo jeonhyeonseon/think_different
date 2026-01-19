@@ -33,4 +33,11 @@ public class MemberController {
 
         return "redirect:/members";
     }
+
+    // 로그인
+    @GetMapping("/login")
+    public String loginForm() {
+
+        return "members/login";
+    }
 }
