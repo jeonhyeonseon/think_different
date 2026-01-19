@@ -32,7 +32,8 @@ public class SecurityConfig {
                             "/members",           // 회원가입 POST (컨트롤러가 @PostMapping 이면 여기)
                             "/members/login",     // 커스텀 로그인 화면
                             "/board",
-                            "/chatrooms"
+                            "/chatrooms",
+                            "/css/**", "/js/**", "/images/**"
                     ).permitAll()
                     .requestMatchers( // authenticated
                             "/chatrooms/*/chat",
