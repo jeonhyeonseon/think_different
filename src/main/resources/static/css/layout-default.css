@@ -25,6 +25,11 @@
     font-weight: 700;
 }
 
+.header h2 {
+    display: flex;
+    gap: 10px;
+}
+
 /* 사이드 */
 .layout {
     min-width: 720px;

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$CONTENT_TITLE"></title>
+    <link rel="stylesheet" th:href="@{/css/member/login.css}">
+</head>
+
+<body>
+<main class="login-layout">
+    <th:block layout:fragment="content"/>
+</main>
+</body>
+</html>
