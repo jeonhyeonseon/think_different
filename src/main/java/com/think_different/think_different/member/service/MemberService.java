@@ -20,10 +20,21 @@ public class MemberService {
 
     public void joinMember(MemberRequestDto memberRequestDto) {
 
+        // 아이디 중복 체크
+        if(memberRepository.existsByLoginId(memberRequestDto.getLoginId())) {
+            throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
+        }
+
+        // 이메일 중복 체크
+        if(memberRepository.existsByEmail(memberRequestDto.getEmail())) {
+            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+        }
+
+        // 엔터티 변환
         Member member = memberRequestDto.toMember();
-
+        // 비밀번호 암호화
         member.encodePassword(passwordEncoder);
-
+        // 저장
         memberRepository.save(member);
     }
 }
