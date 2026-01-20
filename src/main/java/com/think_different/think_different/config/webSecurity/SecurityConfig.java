@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -14,6 +15,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @Slf4j
 public class SecurityConfig {
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/css/**", "/js/**", "/scss/**", "/vendor/**");
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, ApplicationEventPublisher applicationEventPublisher) throws Exception {
@@ -31,9 +37,9 @@ public class SecurityConfig {
                             "/members/join",      // 회원가입 화면
                             "/members",           // 회원가입 POST (컨트롤러가 @PostMapping 이면 여기)
                             "/members/login",     // 커스텀 로그인 화면
+                            "/login",
                             "/board",
-                            "/chatrooms",
-                            "/css/**", "/js/**", "/images/**"
+                            "/chatrooms"
                     ).permitAll()
                     .requestMatchers( // authenticated
                             "/chatrooms/*/chat",
@@ -46,6 +52,7 @@ public class SecurityConfig {
 
         http.formLogin(configurer -> {
            configurer.loginPage("/members/login")
+                   .loginProcessingUrl("/login")
                    .usernameParameter("loginId")
                    .passwordParameter("password")
                    .defaultSuccessUrl("/chatrooms", true)
