@@ -31,7 +31,7 @@ public class MemberController {
 
         memberService.joinMember(memberRequestDto);
 
-        return "redirect:/members";
+        return "redirect:/members/login";
     }
 
     // 로그인
