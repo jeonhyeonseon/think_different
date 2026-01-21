@@ -37,4 +37,14 @@ public class MemberService {
         // 저장
         memberRepository.save(member);
     }
+
+    // 아이디 중복 체크
+    public boolean existsLoginId(String loginId) {
+        return memberRepository.existsByLoginId(loginId);
+    }
+
+    // 이메일 중복 체크
+    public boolean existsEmail(String email) {
+        return memberRepository.existsByEmail(email);
+    }
 }

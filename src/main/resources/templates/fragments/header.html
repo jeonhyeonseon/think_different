@@ -1,4 +1,4 @@
-<header th:fragment="headerFragment" class="header">
+<header th:fragment="headerFragment" class="header" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="header-group">
         <h1>
             <a th:href="@{/}">
@@ -7,8 +7,24 @@
         </h1>
 
         <h2>
-            <a class="join-btn" th:href="@{/members/join}">Join</a>
-            <a class="login-btn" th:href="@{/members/login}">Login</a>
+            <!-- 로그인 전 -->
+            <span sec:authorize="isAnonymous()">
+                <a class="join-btn" th:href="@{/members/join}">Join</a>
+                <a class="login-btn" th:href="@{/members/login}">Login</a>
+            </span>
+
+            <!-- 로그인 후 -->
+            <span sec:authorize="isAuthenticated()">
+                <span class="name">
+                    <span sec:authentication="principal.name"></span> 님
+                </span>
+                <form th:action="@{/members/logout}" method="post" style="display: inline">
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+            </span>
         </h2>
     </div>
 </header>
