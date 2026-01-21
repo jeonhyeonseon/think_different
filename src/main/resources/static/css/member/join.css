@@ -42,6 +42,15 @@
     border-color: lightseagreen;
 }
 
+.input-box {
+    display: flex;
+    gap: 8px;
+}
+
+.input-box input {
+    flex: 1;
+}
+
 .join-btn {
     width: 100%;
     height: 54px;
@@ -56,6 +65,11 @@
 
 .join-btn:hover {
     background: #e9e9e9;
+}
+
+.msg {
+    margin-top: 4px;
+    font-size: 14px;
 }
 
 .join-help {
