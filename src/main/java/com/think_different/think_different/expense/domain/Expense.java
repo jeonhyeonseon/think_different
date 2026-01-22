@@ -39,4 +39,13 @@ public class Expense {
 
     private String memo; // 메모
 
+    public void updateExpense(String detail, ExpenseType expenseType, Category category, String account, Long amount, LocalDate paymentDate, String memo) {
+        this.detail = detail;
+        this.expenseType = expenseType;
+        this.category = category;
+        this.account = account;
+        this.amount = amount;
+        this.paymentDate = paymentDate;
+        this.memo = memo;
+    }
 }
