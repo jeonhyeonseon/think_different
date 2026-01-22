@@ -45,4 +45,12 @@ public class ExpenseService {
                               updateRequestDto.getPaymentDate(),
                               updateRequestDto.getMemo());
     }
+
+    public void deleteExpense(Long id) {
+
+        Expense expense = expenseRepository.findById(id)
+                            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 내용입니다."));
+
+        expenseRepository.delete(expense);
+    }
 }
