@@ -2,6 +2,7 @@ package com.think_different.think_different.expense.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Expense {
 
     @Id
@@ -25,7 +27,7 @@ public class Expense {
     private ExpenseType expenseType; // 타입
 
     @Enumerated(EnumType.STRING)
-    private Category Category; // 카테고리
+    private Category category; // 카테고리
 
     private String account; // 계좌
 
