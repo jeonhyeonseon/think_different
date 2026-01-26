@@ -2,7 +2,6 @@ package com.think_different.think_different.expense.dto;
 
 import com.think_different.think_different.expense.domain.Category;
 import com.think_different.think_different.expense.domain.Expense;
-import com.think_different.think_different.expense.domain.ExpenseType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,6 @@ import java.time.LocalDate;
 public class ExpenseUpdateRequestDto {
 
     private String detail;
-    private ExpenseType expenseType;
     private Category category;
     private String account;
     private Long amount;
@@ -25,7 +23,6 @@ public class ExpenseUpdateRequestDto {
     public static ExpenseUpdateRequestDto fromExpense(Expense expense) {
         return new ExpenseUpdateRequestDto(
                 expense.getDetail(),
-                expense.getExpenseType(),
                 expense.getCategory(),
                 expense.getAccount(),
                 expense.getAmount(),
