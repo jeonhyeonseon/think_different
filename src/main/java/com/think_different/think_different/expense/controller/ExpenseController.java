@@ -50,4 +50,12 @@ public class ExpenseController {
 
         return "redirect:/expense/" + id;
     }
+
+    @PostMapping("/{id}/delete")
+    public String deleteExpense(@PathVariable Long id) {
+
+        expenseService.deleteExpense(id);
+
+        return "redirect:/expense/" + id;
+    }
 }
