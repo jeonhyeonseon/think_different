@@ -35,7 +35,7 @@ public class ExpenseService {
         LocalDate start = yearMonth.atDay(1);
         LocalDate end = yearMonth.atEndOfMonth();
 
-        List<Expense> expenseList = expenseRepository.findByExpenseDateBetween(start, end);
+        List<Expense> expenseList = expenseRepository.findByPaymentDateBetween(start, end);
 
         long totalAmount = expenseList.stream()
                                        .mapToLong(Expense::getAmount)
