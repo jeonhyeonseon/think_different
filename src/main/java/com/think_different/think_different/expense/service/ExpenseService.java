@@ -17,17 +17,17 @@ public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
 
-    public void createExpense(ExpenseCreateRequestDto expenseCreateRequestDto) {
+    public void createExpense(ExpenseCreateRequestDto createRequestDto) {
 
-        Expense expense = expenseCreateRequestDto.toExpense();
+        Expense expense = createRequestDto.toExpense();
+
         expenseRepository.save(expense);
     }
 
-
-    public ExpenseUpdateRequestDto getUpdateExpense(Long id) {
+    public ExpenseUpdateRequestDto updateExpenseForm(Long id) {
 
         Expense expense = expenseRepository.findById(id)
-                            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 내용입니다."));
+                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지출입니다."));
 
         return ExpenseUpdateRequestDto.fromExpense(expense);
     }
@@ -35,21 +35,18 @@ public class ExpenseService {
     public void updateExpense(Long id, ExpenseUpdateRequestDto updateRequestDto) {
 
         Expense expense = expenseRepository.findById(id)
-                            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 내용입니다."));
+                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지출입니다."));
 
         expense.updateExpense(updateRequestDto.getDetail(),
-                              updateRequestDto.getExpenseType(),
                               updateRequestDto.getCategory(),
-                              updateRequestDto.getAccount(),
                               updateRequestDto.getAmount(),
-                              updateRequestDto.getPaymentDate(),
-                              updateRequestDto.getMemo());
+                              updateRequestDto.getPaymentDate());
     }
 
     public void deleteExpense(Long id) {
 
         Expense expense = expenseRepository.findById(id)
-                            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 내용입니다."));
+                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지출입니다."));
 
         expenseRepository.delete(expense);
     }

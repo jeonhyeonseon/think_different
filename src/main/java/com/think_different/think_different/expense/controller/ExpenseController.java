@@ -17,47 +17,45 @@ public class ExpenseController {
 
     private final ExpenseService expenseService;
 
-    // 등록
-    @GetMapping("/new")
-    public String showCreateExpense() {
+    @GetMapping("/create")
+    public String showCreateExpenseForm() {
 
         return "expense/create";
     }
 
     @PostMapping
-    public String createExpense(@ModelAttribute ExpenseCreateRequestDto expenseCreateRequestDto) {
+    public String createExpense(@ModelAttribute ExpenseCreateRequestDto createRequestDto) {
 
-        expenseService.createExpense(expenseCreateRequestDto);
+        expenseService.createExpense(createRequestDto);
 
-        return "redirect:/expense";
+        return "redirect:/create";
     }
 
-    // 수정
     @GetMapping("/{id}/edit")
-    public String getUpdateExpense(@PathVariable Long id, Model model) {
+    public String showEditExpenseForm(@PathVariable Long id,
+                                      Model model) {
 
-        ExpenseUpdateRequestDto expenseUpdateRequestDto = expenseService.getUpdateExpense(id);
+        ExpenseUpdateRequestDto updateRequestDto = expenseService.updateExpenseForm(id);
 
-        model.addAttribute("updateExpense", expenseUpdateRequestDto);
+        model.addAttribute("updateRequestDto", updateRequestDto);
 
-        return "expense/update";
+        return "expsene/edit";
     }
 
     @PostMapping("/{id}/edit")
-    public String updateExpense(@PathVariable Long id, ExpenseUpdateRequestDto updateRequestDto) {
+    public String editExpense(@PathVariable Long id,
+                              @ModelAttribute ExpenseUpdateRequestDto updateRequestDto) {
 
         expenseService.updateExpense(id, updateRequestDto);
 
         return "redirect:/expense/" + id;
     }
 
-    // 삭제
     @PostMapping("/{id}/delete")
     public String deleteExpense(@PathVariable Long id) {
 
         expenseService.deleteExpense(id);
 
-        return "redirect:/expense";
+        return "redirect:/expense/" + id;
     }
-
 }
