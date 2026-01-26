@@ -15,19 +15,15 @@ public class ExpenseCreateRequestDto {
 
     private String detail;
     private Category category;
-    private String account;
     private Long amount;
     private LocalDate paymentDate;
-    private String memo;
 
     public Expense toExpense() {
         return Expense.builder()
                 .detail(this.detail)
                 .category(this.category)
-                .account(this.account)
                 .amount(this.amount)
                 .paymentDate(LocalDate.now())
-                .memo(this.memo)
                 .build();
     }
 }
