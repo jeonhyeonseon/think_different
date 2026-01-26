@@ -1,6 +1,7 @@
 package com.think_different.think_different.expense.controller;
 
 import com.think_different.think_different.expense.dto.ExpenseCreateRequestDto;
+import com.think_different.think_different.expense.dto.ExpenseListResponseDto;
 import com.think_different.think_different.expense.dto.ExpenseUpdateRequestDto;
 import com.think_different.think_different.expense.service.ExpenseService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,17 @@ import org.springframework.web.bind.annotation.*;
 public class ExpenseController {
 
     private final ExpenseService expenseService;
+
+    @GetMapping
+    public String showExpenseList(@RequestParam String month,
+                                  Model model) {
+
+        ExpenseListResponseDto listResponseDto = expenseService.listExpense(month);
+
+        model.addAttribute("listResponseDto", listResponseDto);
+
+        return "expense/list";
+    }
 
     @GetMapping("/create")
     public String showCreateExpenseForm() {

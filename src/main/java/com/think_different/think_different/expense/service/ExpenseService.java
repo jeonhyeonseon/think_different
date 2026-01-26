@@ -2,12 +2,18 @@ package com.think_different.think_different.expense.service;
 
 import com.think_different.think_different.expense.domain.Expense;
 import com.think_different.think_different.expense.dto.ExpenseCreateRequestDto;
+import com.think_different.think_different.expense.dto.ExpenseListResponseDto;
 import com.think_different.think_different.expense.dto.ExpenseUpdateRequestDto;
 import com.think_different.think_different.expense.repository.ExpenseRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -16,6 +22,27 @@ import org.springframework.stereotype.Service;
 public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
+
+    public ExpenseListResponseDto listExpense(String month) {
+        YearMonth yearMonth;
+
+        try {
+            yearMonth = YearMonth.parse(month);
+        } catch (DateTimeException e) {
+            throw new IllegalArgumentException("YYYY-MM 형식이 올바르지 않습니다.");
+        }
+
+        LocalDate start = yearMonth.atDay(1);
+        LocalDate end = yearMonth.atEndOfMonth();
+
+        List<Expense> expenseList = expenseRepository.findByExpenseDateBetween(start, end);
+
+        long totalAmount = expenseList.stream()
+                                       .mapToLong(Expense::getAmount)
+                                       .sum();
+
+        return ExpenseListResponseDto.fromExpense(expenseList, totalAmount, yearMonth);
+    }
 
     public void createExpense(ExpenseCreateRequestDto createRequestDto) {
 
