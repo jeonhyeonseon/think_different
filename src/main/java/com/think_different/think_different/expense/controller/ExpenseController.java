@@ -19,8 +19,12 @@ public class ExpenseController {
     private final ExpenseService expenseService;
 
     @GetMapping
-    public String showExpenseList(@RequestParam String month,
+    public String showExpenseList(@RequestParam(required = false) String month,
                                   Model model) {
+
+        if(month == null || month.isBlank()) {
+            month = java.time.YearMonth.now().toString();
+        }
 
         ExpenseListResponseDto listResponseDto = expenseService.listExpense(month);
 
@@ -40,10 +44,10 @@ public class ExpenseController {
 
         expenseService.createExpense(createRequestDto);
 
-        return "redirect:/create";
+        return "redirect:/expense";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/{id}")
     public String showEditExpenseForm(@PathVariable Long id,
                                       Model model) {
 
@@ -68,6 +72,6 @@ public class ExpenseController {
 
         expenseService.deleteExpense(id);
 
-        return "redirect:/expense/" + id;
+        return "redirect:/expense";
     }
 }
