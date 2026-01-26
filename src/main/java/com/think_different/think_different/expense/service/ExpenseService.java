@@ -23,4 +23,23 @@ public class ExpenseService {
 
         expenseRepository.save(expense);
     }
+
+    public ExpenseUpdateRequestDto updateExpenseForm(Long id) {
+
+        Expense expense = expenseRepository.findById(id)
+                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지출입니다."));
+
+        return ExpenseUpdateRequestDto.fromExpense(expense);
+    }
+
+    public void updateExpense(Long id, ExpenseUpdateRequestDto updateRequestDto) {
+
+        Expense expense = expenseRepository.findById(id)
+                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지출입니다."));
+
+        expense.updateExpense(updateRequestDto.getDetail(),
+                              updateRequestDto.getCategory(),
+                              updateRequestDto.getAmount(),
+                              updateRequestDto.getPaymentDate());
+    }
 }
