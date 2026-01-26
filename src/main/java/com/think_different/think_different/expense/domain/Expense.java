@@ -24,9 +24,6 @@ public class Expense {
     private String detail; // 지출내용
 
     @Enumerated(EnumType.STRING)
-    private ExpenseType expenseType; // 타입
-
-    @Enumerated(EnumType.STRING)
     private Category category; // 카테고리
 
     private String account; // 계좌
@@ -39,9 +36,8 @@ public class Expense {
 
     private String memo; // 메모
 
-    public void updateExpense(String detail, ExpenseType expenseType, Category category, String account, Long amount, LocalDate paymentDate, String memo) {
+    public void updateExpense(String detail, Category category, String account, Long amount, LocalDate paymentDate, String memo) {
         this.detail = detail;
-        this.expenseType = expenseType;
         this.category = category;
         this.account = account;
         this.amount = amount;
