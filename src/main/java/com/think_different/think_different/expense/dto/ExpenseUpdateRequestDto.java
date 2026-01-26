@@ -15,19 +15,15 @@ public class ExpenseUpdateRequestDto {
 
     private String detail;
     private Category category;
-    private String account;
     private Long amount;
     private LocalDate paymentDate;
-    private String memo;
 
     public static ExpenseUpdateRequestDto fromExpense(Expense expense) {
         return new ExpenseUpdateRequestDto(
                 expense.getDetail(),
                 expense.getCategory(),
-                expense.getAccount(),
                 expense.getAmount(),
-                expense.getPaymentDate(),
-                expense.getMemo()
+                expense.getPaymentDate()
         );
     }
 }

@@ -26,22 +26,17 @@ public class Expense {
     @Enumerated(EnumType.STRING)
     private Category category; // 카테고리
 
-    private String account; // 계좌
-
     private Long amount; // 지출금액
 
     @CreatedDate
     @Column(updatable = false)
     private LocalDate paymentDate; // 지출일
 
-    private String memo; // 메모
 
-    public void updateExpense(String detail, Category category, String account, Long amount, LocalDate paymentDate, String memo) {
+    public void updateExpense(String detail, Category category, Long amount, LocalDate paymentDate) {
         this.detail = detail;
         this.category = category;
-        this.account = account;
         this.amount = amount;
         this.paymentDate = paymentDate;
-        this.memo = memo;
     }
 }
