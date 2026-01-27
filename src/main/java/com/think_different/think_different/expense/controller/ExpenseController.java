@@ -55,7 +55,7 @@ public class ExpenseController {
 
         model.addAttribute("updateRequestDto", updateRequestDto);
 
-        return "expsene/edit";
+        return "expense/edit";
     }
 
     @PostMapping("/{id}/edit")
