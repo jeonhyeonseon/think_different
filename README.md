@@ -10,20 +10,27 @@ Spring Boot 기반 개인 웹 서비스입니다.
 
 ### 게시판
 게시글 CRUD
+
 검색 / 페이징
 
 ### 실시간 채팅 (WebSocket + STOMP)
 채팅방 구독/발행
+
 메시지 전송/수신
 
 ### 가계부
 지출/수입 CRUD
+
 카테고리 분류
+
 월별 조회
 
 ## 기술 스택
 Backend: Java, Spring Boot, Spring MVC, JPA, Spring Security
+
 Front: Thymeleaf, HTML/CSS/JS
+
 Realtime: WebSocket, STOMP
+
 DB: MySQL
 
