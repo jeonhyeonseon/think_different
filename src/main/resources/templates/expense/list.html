@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Expense List</title>
+    <link rel="stylesheet" th:href="@{/css/expense/list.css}">
+</head>
+<body>
+    <th:block layout:fragment="content">
+        <div class="expense-list-container">
+            <div class="month-box">
+                <h2 th:text="${listResponseDto.yearMonth}">2026-01</h2>
+                <div class="total-amount">
+                    합계 : <span th:text="${listResponseDto.totalAmount}">0</span> 원
+                </div>
+            </div>
+            <ul class="expense-header">
+                <li>지출내용</li>
+                <li>카테고리</li>
+                <li>금액</li>
+                <li>날짜</li>
+            </ul>
+            <ul class="expense-list">
+                <li th:each="expense: ${listResponseDto.expenseList}">
+                    <a th:href="@{|/expense/${expense.id}|}">
+                        <span th:text="${expense.detail}">지출내용</span>
+                        <span th:text="${expense.category}">카테고리</span>
+                        <span th:text="${expense.amount}">지출금</span>
+                        <span th:text="${expense.paymentDate}">지출날짜</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </th:block>
+</body>
+</html>
