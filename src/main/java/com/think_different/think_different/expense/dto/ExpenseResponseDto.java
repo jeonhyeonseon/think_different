@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ExpenseResponseDto {
 
+    private Long id;
     private String detail;
     private Category category;
     private Long amount;
@@ -20,6 +21,7 @@ public class ExpenseResponseDto {
 
     public static ExpenseResponseDto fromExpense(Expense expense) {
         return new ExpenseResponseDto(
+                expense.getId(),
                 expense.getDetail(),
                 expense.getCategory(),
                 expense.getAmount(),

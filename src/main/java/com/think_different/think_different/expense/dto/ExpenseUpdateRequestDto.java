@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ExpenseUpdateRequestDto {
 
+    private Long id;
     private String detail;
     private Category category;
     private Long amount;
@@ -20,6 +21,7 @@ public class ExpenseUpdateRequestDto {
 
     public static ExpenseUpdateRequestDto fromExpense(Expense expense) {
         return new ExpenseUpdateRequestDto(
+                expense.getId(),
                 expense.getDetail(),
                 expense.getCategory(),
                 expense.getAmount(),

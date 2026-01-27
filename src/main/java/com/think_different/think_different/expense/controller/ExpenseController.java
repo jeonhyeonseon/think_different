@@ -64,7 +64,7 @@ public class ExpenseController {
 
         expenseService.updateExpense(id, updateRequestDto);
 
-        return "redirect:/expense/" + id;
+        return "redirect:/expense";
     }
 
     @PostMapping("/{id}/delete")

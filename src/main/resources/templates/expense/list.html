@@ -28,10 +28,12 @@
             </ul>
             <ul class="expense-list">
                 <li th:each="expense: ${listResponseDto.expenseList}">
-                    <span th:text="${expense.detail}">지출내용</span>
-                    <span th:text="${expense.category}">카테고리</span>
-                    <span th:text="${expense.amount}">지출금</span>
-                    <span th:text="${expense.paymentDate}">지출날짜</span>
+                    <a th:href="@{|/expense/${expense.id}|}">
+                        <span th:text="${expense.detail}">지출내용</span>
+                        <span th:text="${expense.category}">카테고리</span>
+                        <span th:text="${expense.amount}">지출금</span>
+                        <span th:text="${expense.paymentDate}">지출날짜</span>
+                    </a>
                 </li>
             </ul>
         </div>
