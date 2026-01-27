@@ -1,0 +1,61 @@
+.expense-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: mistyrose;
+    border-radius: 1px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.expense-container > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.expense-container > label {
+    display: flex;
+    flex-direction: column;
+
+    font-size: 14px;
+    font-weight: 600;
+    color: #333333;
+    gap: 6px;
+}
+
+.expense-container input,
+.expense-container select {
+    height: 40px;
+    padding: 0 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+/* number input 화살표 제거 (선택) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* date input 정렬 */
+input[type="date"] {
+    font-family: inherit;
+}
+
+.create-btn {
+    margin-top: 12px;
+    height: 44px;
+    border: none;
+    border-radius: 8px;
+
+    background-color:maroon;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}

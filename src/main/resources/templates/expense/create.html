@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Expense Create</title>
+    <link rel="stylesheet" th:href="@{/css/expense/create.css}">
+</head>
+<body>
+    <th:block layout:fragment="content">
+        <form th:action="@{/expense}" method="post" class="expense-container">
+            <div class="detail-box">
+                <label for="detail">지출내용
+                    <input type="text" name="detail" id="detail">
+                </label>
+            </div>
+
+            <div class="category-box">
+                <label for="category">카테고리
+                    <select name="category" id="category">
+                        <option value="FOOD">음식</option>
+                        <option value="CAFE">카페</option>
+                        <option value="TRAFFIC">교통</option>
+                        <option value="TELECOM">통신</option>
+                        <option value="OTT">OTT</option>
+                        <option value="SAVINGS">적금</option>
+                        <option value="INSURANCE">보험</option>
+                        <option value="INVEST">투자</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="amount-box">
+                <label for="amount">지출금
+                    <input type="number" name="amount" id="amount">
+                </label>
+            </div>
+
+            <div class="payment-date-box">
+                <label for="payment-date">지출일
+                    <input type="date" name="paymentDate" id="payment-date">
+                </label>
+            </div>
+
+            <button type="submit" class="create-btn">등록</button>
+        </form>
+    </th:block>
+</body>
+</html>
