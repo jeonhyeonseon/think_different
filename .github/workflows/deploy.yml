@@ -47,22 +47,37 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            set -e
-            source ~/.bashrc
+            set -Eeuo pipefail
             cd ~/app
-          
-            # java 프로세스만 잡기 (ssh 스크립트/기타 프로세스 제외)
-            PIDS=$(pgrep -f "java -jar .*app\.jar" || true)
+      
+            APP_JAR="$HOME/app/deploy/app.jar"
+            LOG="$HOME/app/app.log"
+            PATTERN="java .* -jar .*deploy/app\.jar"
+      
+            echo "Jar exists?"
+            ls -al "$APP_JAR"
+      
+            PIDS="$(pgrep -f "$PATTERN" || true)"
             if [ -n "$PIDS" ]; then
-              echo "Killing old java process(es): $PIDS"
-              kill -15 $PIDS || true
-              sleep 3
+              echo "Killing old java process(es):"
+              echo "$PIDS"
+              echo "$PIDS" | xargs -r kill -15 || true
+      
+              # 최대 20초 대기
+              for i in {1..20}; do
+                sleep 1
+                pgrep -f "$PATTERN" >/dev/null || break
+              done
+      
+              # 아직 살아있으면 강제 종료
+              if pgrep -f "$PATTERN" >/dev/null; then
+                echo "Still running, force kill"
+                pgrep -f "$PATTERN" | xargs -r kill -9 || true
+              fi
             fi
-          
-            nohup java -jar ~/app/deploy/app.jar --spring.profiles.active=prod > ~/app/app.log 2>&1 &
+      
+            nohup java -jar "$APP_JAR" --spring.profiles.active=prod >> "$LOG" 2>&1 &
             sleep 2
-          
-            # 기동 확인도 java 프로세스만 체크
-            pgrep -af "java -jar .*app\.jar" || (echo "App failed to start. See log:" && tail -n 200 ~/app/app.log && exit 1)
-          
-            echo "Deployed. Log: ~/app/app.log"
+      
+            pgrep -af "$PATTERN" || (echo "App failed to start. See log:" && tail -n 200 "$LOG" && exit 1)
+            echo "Deployed. Log: $LOG"
