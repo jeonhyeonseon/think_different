@@ -24,7 +24,6 @@ jobs:
       - name: Build (skip tests)
         run: ./gradlew clean build -x test
 
-      # build/libs/*.jar 중 plain.jar 제외하고 첫 번째 jar를 app.jar로 만들어 전송
       - name: Prepare artifact
         run: |
           mkdir -p deploy
@@ -36,7 +35,7 @@ jobs:
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}   # ubuntu
+          username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "deploy/app.jar"
           target: "/home/${{ secrets.EC2_USERNAME }}/app"
@@ -51,45 +50,11 @@ jobs:
             set -e
             cd ~/app
 
-            # 기존 실행 종료
             PID=$(pgrep -f "app.jar" || true)
             if [ -n "$PID" ]; then
               kill -15 $PID
               sleep 3
             fi
 
-            # prod 프로필로 실행 (DB_* 는 EC2에 환경변수로 세팅돼 있어야 함)
             nohup java -jar ~/app/deploy/app.jar --spring.profiles.active=prod > ~/app/app.log 2>&1 &
             echo "Deployed. Log: ~/app/app.log"
-            
-      - name: Prepare jar
-        run: |
-          mkdir -p deploy
-          JAR=$(ls build/libs/*.jar | grep -v plain | head -n 1)
-          cp "$JAR" deploy/app.jar
-
-      - name: Upload jar to EC2
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "deploy/app.jar"
-          target: "/home/${{ secrets.EC2_USERNAME }}/app"
-
-      - name: Restart app on EC2
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd ~/app
-
-            PID=$(pgrep -f "app.jar" || true)
-            if [ -n "$PID" ]; then
-              kill -15 $PID
-              sleep 3
-            fi
-
-            nohup java -jar ~/app/deploy/app.jar --spring.profiles.active=prod > app.log 2>&1 &
