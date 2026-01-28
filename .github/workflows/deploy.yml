@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "deploy/app.jar"
-          target: "/home/${{ secrets.EC2_USERNAME }}/app"
+          target: "/home/${{ secrets.EC2_USERNAME }}/app/deploy"
 
       - name: Restart app on EC2
         uses: appleboy/ssh-action@v1.0.3
@@ -48,13 +48,18 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             set -e
+            source ~/.bashrc
             cd ~/app
 
             PID=$(pgrep -f "app.jar" || true)
             if [ -n "$PID" ]; then
-              kill -15 $PID
+              echo "Killing old process: $PID"
+              kill -15 $PID || true
               sleep 3
             fi
 
             nohup java -jar ~/app/deploy/app.jar --spring.profiles.active=prod > ~/app/app.log 2>&1 &
+            sleep 2
+            pgrep -af "app.jar" || (echo "App failed to start. See log:" && tail -n 200 ~/app/app.log && exit 1)
+
             echo "Deployed. Log: ~/app/app.log"
