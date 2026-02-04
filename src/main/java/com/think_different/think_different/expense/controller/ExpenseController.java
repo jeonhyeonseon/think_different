@@ -7,6 +7,8 @@ import com.think_different.think_different.expense.dto.ExpenseUpdateRequestDto;
 import com.think_different.think_different.expense.service.ExpenseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ public class ExpenseController {
 
     @GetMapping
     public String showExpenseList(@RequestParam(required = false) String month,
+                                  @PageableDefault(direction = Sort.Direction.DESC)
                                   Model model) {
 
         if(month == null || month.isBlank()) {
