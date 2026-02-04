@@ -1,5 +1,6 @@
 package com.think_different.think_different.expense.controller;
 
+import com.think_different.think_different.expense.domain.Category;
 import com.think_different.think_different.expense.dto.ExpenseCreateRequestDto;
 import com.think_different.think_different.expense.dto.ExpenseListResponseDto;
 import com.think_different.think_different.expense.dto.ExpenseUpdateRequestDto;
@@ -53,6 +54,7 @@ public class ExpenseController {
 
         ExpenseUpdateRequestDto updateRequestDto = expenseService.updateExpenseForm(id);
 
+        model.addAttribute("categories", Category.values());
         model.addAttribute("updateRequestDto", updateRequestDto);
 
         return "expense/edit";
