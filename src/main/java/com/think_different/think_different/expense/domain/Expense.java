@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
 
@@ -28,8 +27,6 @@ public class Expense {
 
     private Long amount; // 지출금액
 
-    @CreatedDate
-    @Column(updatable = false)
     private LocalDate paymentDate; // 지출일
 
 
