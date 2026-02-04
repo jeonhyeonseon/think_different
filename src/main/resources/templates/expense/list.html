@@ -14,10 +14,15 @@
 <body>
     <th:block layout:fragment="content">
         <div class="expense-list-container">
-            <div class="month-box">
+            <div class="month-header">
                 <h2 th:text="${listResponseDto.yearMonth}">2026-01</h2>
-                <div class="total-amount">
-                    합계 : <span th:text="${listResponseDto.totalAmount}">0</span> 원
+
+                <div class="summary-box">
+                    <div class="total-box">
+                        합계 : <span th:text="${listResponseDto.totalAmount}">0</span> 원
+                    </div>
+
+                    <a th:href="@{/expense/create}" class="create-btn">작성하기</a>
                 </div>
             </div>
             <ul class="expense-header">
