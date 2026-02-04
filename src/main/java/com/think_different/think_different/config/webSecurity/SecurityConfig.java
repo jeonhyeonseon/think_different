@@ -42,6 +42,7 @@ public class SecurityConfig {
                             "/chatrooms"
                     ).permitAll()
                     .requestMatchers( // authenticated
+                            "/expense/**",
                             "/chatrooms/*/chat",
                             "/chatrooms/*/edit",
                             "/chatrooms/*/delete",
@@ -55,7 +56,7 @@ public class SecurityConfig {
                    .loginProcessingUrl("/login")
                    .usernameParameter("loginId")
                    .passwordParameter("password")
-                   .defaultSuccessUrl("/chatrooms", true)
+                   .defaultSuccessUrl("/expense", true)
                    .permitAll();
         });
 
