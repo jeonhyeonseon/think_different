@@ -6,20 +6,49 @@
     color: #222;
 }
 
-.month-box {
+.month-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.month-header h2 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.summary-box {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 16px;
+    align-items: center;
 }
 
-.month-box h2 {
-    margin: 0;
-    font-size: 24px;
+.total-box {
+    font-size: 16px;
     font-weight: 700;
+    color: steelblue;
 }
 
-.total-amount {
+.create-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 5px 10px;
+    font-size: 16px;
+    font-weight: 700;
+
+    color: #222;
+    background: powderblue;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.summary-box {
     font-size: 16px;
     font-weight: 700;
     color: steelblue;
