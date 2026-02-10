@@ -7,11 +7,15 @@ import com.think_different.think_different.expense.dto.ExpenseUpdateRequestDto;
 import com.think_different.think_different.expense.service.ExpenseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.YearMonth;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -23,16 +27,27 @@ public class ExpenseController {
 
     @GetMapping
     public String showExpenseList(@RequestParam(required = false) String month,
-                                  @PageableDefault(direction = Sort.Direction.DESC)
                                   Model model) {
 
-        if(month == null || month.isBlank()) {
-            month = java.time.YearMonth.now().toString();
+        YearMonth current = (month == null || month.isBlank())
+                            ? YearMonth.now() : YearMonth.parse(month);
+
+        ExpenseListResponseDto listResponseDto = expenseService.listExpense(current);
+
+        List<YearMonth> writtenMonth = expenseService.findWrittenMonth();
+
+        YearMonth prevMonth = null;
+        YearMonth nextMonth = null;
+
+        int indexMonth = writtenMonth.indexOf(current);
+        if (indexMonth != -1) {
+            if (indexMonth > 0) prevMonth = writtenMonth.get(indexMonth - 1);
+            if (indexMonth < writtenMonth.size() - 1) nextMonth = writtenMonth.get(indexMonth + 1);
         }
 
-        ExpenseListResponseDto listResponseDto = expenseService.listExpense(month);
-
         model.addAttribute("listResponseDto", listResponseDto);
+        model.addAttribute("prevMonth",prevMonth);
+        model.addAttribute("nextMonth", nextMonth);
 
         return "expense/list";
     }

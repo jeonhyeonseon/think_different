@@ -14,8 +14,20 @@
 <body>
     <th:block layout:fragment="content">
         <div class="expense-list-container">
-            <div class="month-header">
-                <h2 th:text="${listResponseDto.yearMonth}">2026-01</h2>
+            <div class="expense-header">
+                <div class="header-nav">
+                    <div class="left-nav">
+                        <a th:if="${prevMonth != null}"
+                           th:href="@{/expense(month=${prevMonth})}">◀ 이전달</a>
+                    </div>
+
+                    <h2 th:text="${listResponseDto.yearMonth}">2026-01</h2>
+
+                    <div class="right-nav">
+                        <a th:if="${nextMonth != null}"
+                           th:href="@{/expense(month=${nextMonth})}">다음달 ▶</a>
+                    </div>
+                </div>
 
                 <div class="summary-box">
                     <div class="total-box">
@@ -25,7 +37,7 @@
                     <a th:href="@{/expense/create}" class="create-btn">작성하기</a>
                 </div>
             </div>
-            <ul class="expense-header">
+            <ul class="expense-category-list">
                 <li>지출내용</li>
                 <li>카테고리</li>
                 <li>금액</li>
