@@ -15,7 +15,19 @@
     <th:block layout:fragment="content">
         <div class="expense-list-container">
             <div class="expense-header">
-                <h2 th:text="${listResponseDto.yearMonth}">2026-01</h2>
+                <div class="header-nav">
+                    <div class="left-nav">
+                        <a th:if="${prevMonth != null}"
+                           th:href="@{/expense(month=${prevMonth})}">◀ 이전달</a>
+                    </div>
+
+                    <h2 th:text="${listResponseDto.yearMonth}">2026-01</h2>
+
+                    <div class="right-nav">
+                        <a th:if="${nextMonth != null}"
+                           th:href="@{/expense(month=${nextMonth})}">다음달 ▶</a>
+                    </div>
+                </div>
 
                 <div class="summary-box">
                     <div class="total-box">

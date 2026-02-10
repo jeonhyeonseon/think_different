@@ -13,11 +13,26 @@
     margin-bottom: 20px;
 }
 
+.header-nav {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; /* 좌 / 가운데 / 우 */
+    align-items: center;
+    width: 100%;
+}
+
+.left-nav {
+    justify-self: start;
+}
+
 .expense-header h2 {
     margin: 0;
     font-size: 30px;
     font-weight: 700;
     text-align: center;
+}
+
+.right-nav {
+    justify-self: end;
 }
 
 .summary-box {
