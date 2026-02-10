@@ -23,15 +23,7 @@ public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
 
-    public ExpenseListResponseDto listExpense(String month) {
-        YearMonth yearMonth;
-
-        try {
-            yearMonth = YearMonth.parse(month);
-        } catch (DateTimeException e) {
-            throw new IllegalArgumentException("YYYY-MM 형식이 올바르지 않습니다.");
-        }
-
+    public ExpenseListResponseDto listExpense(YearMonth yearMonth) {
         LocalDate start = yearMonth.atDay(1);
         LocalDate end = yearMonth.atEndOfMonth();
 
@@ -42,6 +34,13 @@ public class ExpenseService {
                                        .sum();
 
         return ExpenseListResponseDto.fromExpense(expenseList, totalAmount, yearMonth);
+    }
+
+    public List<YearMonth> findWrittenMonth() {
+        return expenseRepository.findDistinctYearMonth()
+                                .stream()
+                                .map(YearMonth::parse)
+                                .toList();
     }
 
     public void createExpense(ExpenseCreateRequestDto createRequestDto) {
