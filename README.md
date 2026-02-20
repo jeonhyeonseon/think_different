@@ -34,7 +34,7 @@ Think_Different는 Spring Boot 기반 개인 웹 서비스입니다.
  - 실시간 메시지 전송 / 수신
  - WebSocket 기반 양방향 통신
 
-🛠 기술 스택
+## 🛠 기술 스택
 
 #### Backend
  - Java
@@ -54,8 +54,8 @@ Think_Different는 Spring Boot 기반 개인 웹 서비스입니다.
  - Docker
  - AWS EC2
 
-### 🎯 개발 포인트
- - Spring Security 기반 인증 처리 구조 이해
+## 🎯 개발 포인트
+ - Spring Security 기반 인증 처리
  - JPA 엔티티 설계 및 연관관계 매핑
  - WebSocket + STOMP 실시간 메시징 구현
  - 페이징 / 검색 / 상태 관리 로직 구현
