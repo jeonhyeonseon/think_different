@@ -1,15 +1,12 @@
-package com.think_different.think_different.expense.controller;
+package com.think_different.think_different.transaction.controller;
 
-import com.think_different.think_different.expense.domain.Category;
-import com.think_different.think_different.expense.dto.ExpenseCreateRequestDto;
-import com.think_different.think_different.expense.dto.ExpenseListResponseDto;
-import com.think_different.think_different.expense.dto.ExpenseUpdateRequestDto;
-import com.think_different.think_different.expense.service.ExpenseService;
+import com.think_different.think_different.transaction.domain.TransactionCategory;
+import com.think_different.think_different.transaction.dto.TransactionCreateRequestDto;
+import com.think_different.think_different.transaction.dto.TransactionListResponseDto;
+import com.think_different.think_different.transaction.dto.TransactionUpdateRequestDto;
+import com.think_different.think_different.transaction.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExpenseController {
 
-    private final ExpenseService expenseService;
+    private final TransactionService transactionService;
 
     @GetMapping
     public String showExpenseList(@RequestParam(required = false) String month,
@@ -32,9 +29,9 @@ public class ExpenseController {
         YearMonth current = (month == null || month.isBlank())
                             ? YearMonth.now() : YearMonth.parse(month);
 
-        ExpenseListResponseDto listResponseDto = expenseService.listExpense(current);
+        TransactionListResponseDto listResponseDto = transactionService.listExpense(current);
 
-        List<YearMonth> writtenMonth = expenseService.findWrittenMonth();
+        List<YearMonth> writtenMonth = transactionService.findWrittenMonth();
 
         YearMonth prevMonth = null;
         YearMonth nextMonth = null;
@@ -59,9 +56,9 @@ public class ExpenseController {
     }
 
     @PostMapping
-    public String createExpense(@ModelAttribute ExpenseCreateRequestDto createRequestDto) {
+    public String createExpense(@ModelAttribute TransactionCreateRequestDto createRequestDto) {
 
-        expenseService.createExpense(createRequestDto);
+        transactionService.createExpense(createRequestDto);
 
         return "redirect:/expense";
     }
@@ -70,9 +67,9 @@ public class ExpenseController {
     public String showEditExpenseForm(@PathVariable Long id,
                                       Model model) {
 
-        ExpenseUpdateRequestDto updateRequestDto = expenseService.updateExpenseForm(id);
+        TransactionUpdateRequestDto updateRequestDto = transactionService.updateExpenseForm(id);
 
-        model.addAttribute("categories", Category.values());
+        model.addAttribute("categories", TransactionCategory.values());
         model.addAttribute("updateRequestDto", updateRequestDto);
 
         return "expense/edit";
@@ -80,9 +77,9 @@ public class ExpenseController {
 
     @PostMapping("/{id}/edit")
     public String editExpense(@PathVariable Long id,
-                              @ModelAttribute ExpenseUpdateRequestDto updateRequestDto) {
+                              @ModelAttribute TransactionUpdateRequestDto updateRequestDto) {
 
-        expenseService.updateExpense(id, updateRequestDto);
+        transactionService.updateExpense(id, updateRequestDto);
 
         return "redirect:/expense";
     }
@@ -90,7 +87,7 @@ public class ExpenseController {
     @PostMapping("/{id}/delete")
     public String deleteExpense(@PathVariable Long id) {
 
-        expenseService.deleteExpense(id);
+        transactionService.deleteExpense(id);
 
         return "redirect:/expense";
     }
