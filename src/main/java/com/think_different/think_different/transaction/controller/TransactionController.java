@@ -26,13 +26,13 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @GetMapping
-    public String showExpenseList(@RequestParam(required = false) String month,
+    public String showTransactionList(@RequestParam(required = false) String month,
                                   Model model) {
 
         YearMonth current = (month == null || month.isBlank())
                             ? YearMonth.now() : YearMonth.parse(month);
 
-        TransactionListResponseDto listResponseDto = transactionService.listExpense(current);
+        TransactionListResponseDto listResponseDto = transactionService.listTransaction(current);
 
         List<YearMonth> writtenMonth = transactionService.findWrittenMonth();
 
@@ -53,7 +53,7 @@ public class TransactionController {
     }
 
     @GetMapping("/create")
-    public String showCreateExpenseForm() {
+    public String showCreateTransactionForm() {
 
         return "expense/create";
     }
@@ -70,10 +70,10 @@ public class TransactionController {
     }
 
     @GetMapping("/{id}")
-    public String showEditExpenseForm(@PathVariable Long id,
+    public String showEditTransactionForm(@PathVariable Long id,
                                       Model model) {
 
-        TransactionUpdateRequestDto updateRequestDto = transactionService.updateExpenseForm(id);
+        TransactionUpdateRequestDto updateRequestDto = transactionService.updateTransactionForm(id);
 
         model.addAttribute("categories", TransactionCategory.values());
         model.addAttribute("updateRequestDto", updateRequestDto);
@@ -82,18 +82,18 @@ public class TransactionController {
     }
 
     @PostMapping("/{id}/edit")
-    public String editExpense(@PathVariable Long id,
+    public String editTransaction(@PathVariable Long id,
                               @ModelAttribute TransactionUpdateRequestDto updateRequestDto) {
 
-        transactionService.updateExpense(id, updateRequestDto);
+        transactionService.updateTransaction(id, updateRequestDto);
 
         return "redirect:/expense";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteExpense(@PathVariable Long id) {
+    public String deleteTransaction(@PathVariable Long id) {
 
-        transactionService.deleteExpense(id);
+        transactionService.deleteTransaction(id);
 
         return "redirect:/expense";
     }

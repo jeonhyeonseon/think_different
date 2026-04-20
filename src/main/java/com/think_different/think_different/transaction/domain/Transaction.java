@@ -42,7 +42,7 @@ public class Transaction {
     private LocalDate transactionDate; // 지출일
 
 
-    public void updateExpense(String detail, TransactionCategory transactionCategory, Long amount, LocalDate transactionDate) {
+    public void updateTransaction(String detail, TransactionCategory transactionCategory, Long amount, LocalDate transactionDate) {
         this.detail = detail;
         this.transactionCategory = transactionCategory;
         this.amount = amount;

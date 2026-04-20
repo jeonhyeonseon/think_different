@@ -19,7 +19,7 @@ public class TransactionUpdateRequestDto {
     private Long amount;
     private LocalDate paymentDate;
 
-    public static TransactionUpdateRequestDto fromExpense(Transaction transaction) {
+    public static TransactionUpdateRequestDto fromTransaction(Transaction transaction) {
         return new TransactionUpdateRequestDto(
                 transaction.getId(),
                 transaction.getDetail(),

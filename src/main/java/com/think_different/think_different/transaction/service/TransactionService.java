@@ -25,7 +25,7 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
 
-    public TransactionListResponseDto listExpense(YearMonth yearMonth) {
+    public TransactionListResponseDto listTransaction(YearMonth yearMonth) {
         LocalDate start = yearMonth.atDay(1);
         LocalDate end = yearMonth.atEndOfMonth();
 
@@ -35,7 +35,7 @@ public class TransactionService {
                                        .mapToLong(Transaction::getAmount)
                                        .sum();
 
-        return TransactionListResponseDto.fromExpense(transactionList, totalAmount, yearMonth);
+        return TransactionListResponseDto.fromTransaction(transactionList, totalAmount, yearMonth);
     }
 
     public List<YearMonth> findWrittenMonth() {
@@ -56,26 +56,26 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
-    public TransactionUpdateRequestDto updateExpenseForm(Long id) {
+    public TransactionUpdateRequestDto updateTransactionForm(Long id) {
 
         Transaction transaction = transactionRepository.findById(id)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지출입니다."));
 
-        return TransactionUpdateRequestDto.fromExpense(transaction);
+        return TransactionUpdateRequestDto.fromTransaction(transaction);
     }
 
-    public void updateExpense(Long id, TransactionUpdateRequestDto updateRequestDto) {
+    public void updateTransaction(Long id, TransactionUpdateRequestDto updateRequestDto) {
 
         Transaction transaction = transactionRepository.findById(id)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지출입니다."));
 
-        transaction.updateExpense(updateRequestDto.getDetail(),
+        transaction.updateTransaction(updateRequestDto.getDetail(),
                               updateRequestDto.getTransactionCategory(),
                               updateRequestDto.getAmount(),
                               updateRequestDto.getPaymentDate());
     }
 
-    public void deleteExpense(Long id) {
+    public void deleteTransaction(Long id) {
 
         Transaction transaction = transactionRepository.findById(id)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지출입니다."));
