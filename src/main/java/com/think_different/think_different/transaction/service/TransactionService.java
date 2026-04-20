@@ -59,7 +59,7 @@ public class TransactionService {
     public TransactionUpdateRequestDto updateTransactionForm(Long id) {
 
         Transaction transaction = transactionRepository.findById(id)
-                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지출입니다."));
+                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 거래입니다."));
 
         return TransactionUpdateRequestDto.fromTransaction(transaction);
     }
@@ -67,18 +67,20 @@ public class TransactionService {
     public void updateTransaction(Long id, TransactionUpdateRequestDto updateRequestDto) {
 
         Transaction transaction = transactionRepository.findById(id)
-                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지출입니다."));
+                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 거래입니다."));
 
         transaction.updateTransaction(updateRequestDto.getDetail(),
+                              updateRequestDto.getTransactionType(),
                               updateRequestDto.getTransactionCategory(),
                               updateRequestDto.getAmount(),
-                              updateRequestDto.getPaymentDate());
+                              updateRequestDto.getTransactionDate()
+        );
     }
 
     public void deleteTransaction(Long id) {
 
         Transaction transaction = transactionRepository.findById(id)
-                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지출입니다."));
+                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 거래입니다."));
 
         transactionRepository.delete(transaction);
     }

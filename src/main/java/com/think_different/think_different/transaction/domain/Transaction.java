@@ -36,14 +36,16 @@ public class Transaction {
     @Column(nullable = false, length = 100)
     private String detail; // 지출내용
 
+    @Column(nullable = false)
     private Long amount; // 지출금액
 
     @Column(nullable = false)
     private LocalDate transactionDate; // 지출일
 
 
-    public void updateTransaction(String detail, TransactionCategory transactionCategory, Long amount, LocalDate transactionDate) {
+    public void updateTransaction(String detail, TransactionType transactionType, TransactionCategory transactionCategory, Long amount, LocalDate transactionDate) {
         this.detail = detail;
+        this.transactionType = transactionType;
         this.transactionCategory = transactionCategory;
         this.amount = amount;
         this.transactionDate = transactionDate;
