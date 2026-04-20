@@ -1,5 +1,6 @@
 package com.think_different.think_different.transaction.repository;
 
+import com.think_different.think_different.member.entity.Member;
 import com.think_different.think_different.transaction.domain.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +12,7 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-    List<Transaction> findByTransactionDateBetween(LocalDate start, LocalDate end);
+    List<Transaction> findByMemberAndTransactionDateBetween(Member member, LocalDate start, LocalDate end);
 
     @Query("""
         select distinct function('date_format', t.transactionDate, '%Y-%m')

@@ -25,11 +25,11 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
 
-    public TransactionListResponseDto listTransaction(YearMonth yearMonth) {
+    public TransactionListResponseDto listTransaction(YearMonth yearMonth, Member member) {
         LocalDate start = yearMonth.atDay(1);
         LocalDate end = yearMonth.atEndOfMonth();
 
-        List<Transaction> transactionList = transactionRepository.findByTransactionDateBetween(start, end);
+        List<Transaction> transactionList = transactionRepository.findByMemberAndTransactionDateBetween(member, start, end);
 
         long totalAmount = transactionList.stream()
                                        .mapToLong(Transaction::getAmount)
@@ -64,10 +64,14 @@ public class TransactionService {
         return TransactionUpdateRequestDto.fromTransaction(transaction);
     }
 
-    public void updateTransaction(Long id, TransactionUpdateRequestDto updateRequestDto) {
+    public void updateTransaction(Long id, TransactionUpdateRequestDto updateRequestDto, Member member) {
 
         Transaction transaction = transactionRepository.findById(id)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 거래입니다."));
+
+        if (!transaction.getMember().getId().equals(member.getId())) {
+            throw new IllegalArgumentException("작성자만이 거래를 수정할 수 있습니다.");
+        }
 
         transaction.updateTransaction(updateRequestDto.getDetail(),
                               updateRequestDto.getTransactionType(),
@@ -77,10 +81,14 @@ public class TransactionService {
         );
     }
 
-    public void deleteTransaction(Long id) {
+    public void deleteTransaction(Long id, Member member) {
 
         Transaction transaction = transactionRepository.findById(id)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 거래입니다."));
+
+        if (!transaction.getMember().getId().equals(member.getId())) {
+            throw new IllegalArgumentException("작성자만이 거래를 삭제할 수 있습니다.");
+        }
 
         transactionRepository.delete(transaction);
     }

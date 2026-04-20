@@ -27,12 +27,15 @@ public class TransactionController {
 
     @GetMapping
     public String showTransactionList(@RequestParam(required = false) String month,
-                                  Model model) {
+                                      @AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                      Model model) {
 
         YearMonth current = (month == null || month.isBlank())
                             ? YearMonth.now() : YearMonth.parse(month);
 
-        TransactionListResponseDto listResponseDto = transactionService.listTransaction(current);
+        Member member = customUserDetails.getMember();
+
+        TransactionListResponseDto listResponseDto = transactionService.listTransaction(current, member);
 
         List<YearMonth> writtenMonth = transactionService.findWrittenMonth();
 
@@ -83,17 +86,23 @@ public class TransactionController {
 
     @PostMapping("/{id}/edit")
     public String editTransaction(@PathVariable Long id,
-                              @ModelAttribute TransactionUpdateRequestDto updateRequestDto) {
+                                  @ModelAttribute TransactionUpdateRequestDto updateRequestDto,
+                                  @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
-        transactionService.updateTransaction(id, updateRequestDto);
+        Member member = customUserDetails.getMember();
+
+        transactionService.updateTransaction(id, updateRequestDto, member);
 
         return "redirect:/expense";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteTransaction(@PathVariable Long id) {
+    public String deleteTransaction(@PathVariable Long id,
+                                    @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
-        transactionService.deleteTransaction(id);
+        Member member = customUserDetails.getMember();
+
+        transactionService.deleteTransaction(id, member);
 
         return "redirect:/expense";
     }
