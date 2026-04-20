@@ -1,5 +1,7 @@
 package com.think_different.think_different.transaction.controller;
 
+import com.think_different.think_different.config.webSecurity.CustomUserDetails;
+import com.think_different.think_different.member.entity.Member;
 import com.think_different.think_different.transaction.domain.TransactionCategory;
 import com.think_different.think_different.transaction.dto.TransactionCreateRequestDto;
 import com.think_different.think_different.transaction.dto.TransactionListResponseDto;
@@ -7,6 +9,7 @@ import com.think_different.think_different.transaction.dto.TransactionUpdateRequ
 import com.think_different.think_different.transaction.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +26,13 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @GetMapping
-    public String showExpenseList(@RequestParam(required = false) String month,
+    public String showTransactionList(@RequestParam(required = false) String month,
                                   Model model) {
 
         YearMonth current = (month == null || month.isBlank())
                             ? YearMonth.now() : YearMonth.parse(month);
 
-        TransactionListResponseDto listResponseDto = transactionService.listExpense(current);
+        TransactionListResponseDto listResponseDto = transactionService.listTransaction(current);
 
         List<YearMonth> writtenMonth = transactionService.findWrittenMonth();
 
@@ -50,24 +53,27 @@ public class TransactionController {
     }
 
     @GetMapping("/create")
-    public String showCreateExpenseForm() {
+    public String showCreateTransactionForm() {
 
         return "expense/create";
     }
 
     @PostMapping
-    public String createExpense(@ModelAttribute TransactionCreateRequestDto createRequestDto) {
+    public String createTransaction(@ModelAttribute TransactionCreateRequestDto createRequestDto,
+                                    @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
-        transactionService.createExpense(createRequestDto);
+        Member member = customUserDetails.getMember();
+
+        transactionService.createTransaction(createRequestDto, member);
 
         return "redirect:/expense";
     }
 
     @GetMapping("/{id}")
-    public String showEditExpenseForm(@PathVariable Long id,
+    public String showEditTransactionForm(@PathVariable Long id,
                                       Model model) {
 
-        TransactionUpdateRequestDto updateRequestDto = transactionService.updateExpenseForm(id);
+        TransactionUpdateRequestDto updateRequestDto = transactionService.updateTransactionForm(id);
 
         model.addAttribute("categories", TransactionCategory.values());
         model.addAttribute("updateRequestDto", updateRequestDto);
@@ -76,18 +82,18 @@ public class TransactionController {
     }
 
     @PostMapping("/{id}/edit")
-    public String editExpense(@PathVariable Long id,
+    public String editTransaction(@PathVariable Long id,
                               @ModelAttribute TransactionUpdateRequestDto updateRequestDto) {
 
-        transactionService.updateExpense(id, updateRequestDto);
+        transactionService.updateTransaction(id, updateRequestDto);
 
         return "redirect:/expense";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteExpense(@PathVariable Long id) {
+    public String deleteTransaction(@PathVariable Long id) {
 
-        transactionService.deleteExpense(id);
+        transactionService.deleteTransaction(id);
 
         return "redirect:/expense";
     }

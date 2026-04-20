@@ -1,5 +1,8 @@
 package com.think_different.think_different.transaction.service;
 
+import com.think_different.think_different.member.entity.Member;
+import com.think_different.think_different.member.repository.MemberRepository;
+import com.think_different.think_different.member.service.MemberService;
 import com.think_different.think_different.transaction.domain.Transaction;
 import com.think_different.think_different.transaction.dto.TransactionCreateRequestDto;
 import com.think_different.think_different.transaction.dto.TransactionListResponseDto;
@@ -22,7 +25,7 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
 
-    public TransactionListResponseDto listExpense(YearMonth yearMonth) {
+    public TransactionListResponseDto listTransaction(YearMonth yearMonth) {
         LocalDate start = yearMonth.atDay(1);
         LocalDate end = yearMonth.atEndOfMonth();
 
@@ -32,7 +35,7 @@ public class TransactionService {
                                        .mapToLong(Transaction::getAmount)
                                        .sum();
 
-        return TransactionListResponseDto.fromExpense(transactionList, totalAmount, yearMonth);
+        return TransactionListResponseDto.fromTransaction(transactionList, totalAmount, yearMonth);
     }
 
     public List<YearMonth> findWrittenMonth() {
@@ -42,33 +45,37 @@ public class TransactionService {
                                 .toList();
     }
 
-    public void createExpense(TransactionCreateRequestDto createRequestDto) {
+    public void createTransaction(TransactionCreateRequestDto createRequestDto, Member member) {
 
-        Transaction transaction = createRequestDto.toExpense();
+        if (createRequestDto.getTransactionCategory().getType() != createRequestDto.getTransactionType()) {
+            new IllegalArgumentException("카테고리와 거래 유형이 맞지 않습니다.");
+        }
+
+        Transaction transaction = createRequestDto.toTransaction(member);
 
         transactionRepository.save(transaction);
     }
 
-    public TransactionUpdateRequestDto updateExpenseForm(Long id) {
+    public TransactionUpdateRequestDto updateTransactionForm(Long id) {
 
         Transaction transaction = transactionRepository.findById(id)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지출입니다."));
 
-        return TransactionUpdateRequestDto.fromExpense(transaction);
+        return TransactionUpdateRequestDto.fromTransaction(transaction);
     }
 
-    public void updateExpense(Long id, TransactionUpdateRequestDto updateRequestDto) {
+    public void updateTransaction(Long id, TransactionUpdateRequestDto updateRequestDto) {
 
         Transaction transaction = transactionRepository.findById(id)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지출입니다."));
 
-        transaction.updateExpense(updateRequestDto.getDetail(),
+        transaction.updateTransaction(updateRequestDto.getDetail(),
                               updateRequestDto.getTransactionCategory(),
                               updateRequestDto.getAmount(),
                               updateRequestDto.getPaymentDate());
     }
 
-    public void deleteExpense(Long id) {
+    public void deleteTransaction(Long id) {
 
         Transaction transaction = transactionRepository.findById(id)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지출입니다."));
