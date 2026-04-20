@@ -48,7 +48,7 @@ public class TransactionService {
     public void createTransaction(TransactionCreateRequestDto createRequestDto, Member member) {
 
         if (createRequestDto.getTransactionCategory().getType() != createRequestDto.getTransactionType()) {
-            new IllegalArgumentException("카테고리와 거래 유형이 맞지 않습니다.");
+            throw new IllegalArgumentException("카테고리와 거래 유형이 맞지 않습니다.");
         }
 
         Transaction transaction = createRequestDto.toTransaction(member);
