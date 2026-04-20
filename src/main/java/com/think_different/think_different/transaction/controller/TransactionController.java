@@ -1,5 +1,7 @@
 package com.think_different.think_different.transaction.controller;
 
+import com.think_different.think_different.config.webSecurity.CustomUserDetails;
+import com.think_different.think_different.member.entity.Member;
 import com.think_different.think_different.transaction.domain.TransactionCategory;
 import com.think_different.think_different.transaction.dto.TransactionCreateRequestDto;
 import com.think_different.think_different.transaction.dto.TransactionListResponseDto;
@@ -7,6 +9,7 @@ import com.think_different.think_different.transaction.dto.TransactionUpdateRequ
 import com.think_different.think_different.transaction.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -56,9 +59,12 @@ public class TransactionController {
     }
 
     @PostMapping
-    public String createExpense(@ModelAttribute TransactionCreateRequestDto createRequestDto) {
+    public String createTransaction(@ModelAttribute TransactionCreateRequestDto createRequestDto,
+                                    @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
-        transactionService.createExpense(createRequestDto);
+        Member member = customUserDetails.getMember();
+
+        transactionService.createTransaction(createRequestDto, member);
 
         return "redirect:/expense";
     }
