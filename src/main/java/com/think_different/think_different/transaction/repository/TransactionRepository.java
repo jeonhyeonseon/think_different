@@ -20,5 +20,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         order by function('date_format', t.transactionDate, '%Y-%m')
     
         """)
-    List<String> findDistinctYearMonth();
+    List<String> findDistinctYearMonthByMember(Member member);
 }

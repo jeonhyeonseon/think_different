@@ -38,8 +38,8 @@ public class TransactionService {
         return TransactionListResponseDto.fromTransaction(transactionList, totalAmount, yearMonth);
     }
 
-    public List<YearMonth> findWrittenMonth() {
-        return transactionRepository.findDistinctYearMonth()
+    public List<YearMonth> findWrittenMonth(Member member) {
+        return transactionRepository.findDistinctYearMonthByMember(member)
                                 .stream()
                                 .map(YearMonth::parse)
                                 .toList();

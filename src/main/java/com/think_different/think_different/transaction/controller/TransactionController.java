@@ -37,7 +37,7 @@ public class TransactionController {
 
         TransactionListResponseDto listResponseDto = transactionService.listTransaction(current, member);
 
-        List<YearMonth> writtenMonth = transactionService.findWrittenMonth();
+        List<YearMonth> writtenMonth = transactionService.findWrittenMonth(member);
 
         YearMonth prevMonth = null;
         YearMonth nextMonth = null;
