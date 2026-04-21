@@ -8,12 +8,12 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Expense Create</title>
-    <link rel="stylesheet" th:href="@{/css/expense/create.css}">
+    <title>Transaction Create</title>
+    <link rel="stylesheet" th:href="@{/css/transaction/create.css}">
 </head>
 <body>
     <th:block layout:fragment="content">
-        <form th:action="@{/expense}" method="post" class="expense-container">
+        <form th:action="@{/transaction}" method="post" class="transaction-container">
             <div class="detail-box">
                 <label for="detail">지출내용
                     <input type="text" name="detail" id="detail">

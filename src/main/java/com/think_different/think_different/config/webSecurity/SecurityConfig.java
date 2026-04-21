@@ -38,14 +38,10 @@ public class SecurityConfig {
                             "/members",           // 회원가입 POST (컨트롤러가 @PostMapping 이면 여기)
                             "/members/login",     // 커스텀 로그인 화면
                             "/login",
-                            "/board",
-                            "/chatrooms"
+                            "/board"
                     ).permitAll()
                     .requestMatchers( // authenticated
-                            "/expense/**",
-                            "/chatrooms/*/chat",
-                            "/chatrooms/*/edit",
-                            "/chatrooms/*/delete",
+                            "/transaction/**",
                             "/board/**"
                     ).authenticated()
                     .anyRequest().authenticated();
@@ -56,7 +52,7 @@ public class SecurityConfig {
                    .loginProcessingUrl("/login")
                    .usernameParameter("loginId")
                    .passwordParameter("password")
-                   .defaultSuccessUrl("/expense", true)
+                   .defaultSuccessUrl("/transaction", true)
                    .permitAll();
         });
 

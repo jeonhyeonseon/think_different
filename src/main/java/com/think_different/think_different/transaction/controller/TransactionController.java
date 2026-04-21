@@ -19,7 +19,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("/expense")
+@RequestMapping("/transaction")
 @RequiredArgsConstructor
 public class TransactionController {
 
@@ -52,13 +52,13 @@ public class TransactionController {
         model.addAttribute("prevMonth",prevMonth);
         model.addAttribute("nextMonth", nextMonth);
 
-        return "expense/list";
+        return "transaction/list";
     }
 
     @GetMapping("/create")
     public String showCreateTransactionForm() {
 
-        return "expense/create";
+        return "transaction/create";
     }
 
     @PostMapping
@@ -69,7 +69,7 @@ public class TransactionController {
 
         transactionService.createTransaction(createRequestDto, member);
 
-        return "redirect:/expense";
+        return "redirect:/transaction";
     }
 
     @GetMapping("/{id}")
@@ -81,7 +81,7 @@ public class TransactionController {
         model.addAttribute("categories", TransactionCategory.values());
         model.addAttribute("updateRequestDto", updateRequestDto);
 
-        return "expense/edit";
+        return "transaction/edit";
     }
 
     @PostMapping("/{id}/edit")
@@ -93,7 +93,7 @@ public class TransactionController {
 
         transactionService.updateTransaction(id, updateRequestDto, member);
 
-        return "redirect:/expense";
+        return "redirect:/transaction";
     }
 
     @PostMapping("/{id}/delete")
@@ -104,6 +104,6 @@ public class TransactionController {
 
         transactionService.deleteTransaction(id, member);
 
-        return "redirect:/expense";
+        return "redirect:/transaction";
     }
 }
