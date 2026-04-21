@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class TransactionListResponseDto {
 
-    private List<TransactionResponseDto> expenseList;
+    private List<TransactionResponseDto> transactionList;
     private Long totalAmount;
     private YearMonth yearMonth;
 

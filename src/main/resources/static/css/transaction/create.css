@@ -1,4 +1,4 @@
-.expense-container {
+.transaction-container {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
@@ -10,12 +10,12 @@
     gap: 20px;
 }
 
-.expense-container > div {
+.transaction-container > div {
     display: flex;
     flex-direction: column;
 }
 
-.expense-container > label {
+.transaction-container > label {
     display: flex;
     flex-direction: column;
 
@@ -25,8 +25,8 @@
     gap: 6px;
 }
 
-.expense-container input,
-.expense-container select {
+.transaction-container input,
+.transaction-container select {
     height: 40px;
     padding: 0 10px;
     font-size: 14px;
