@@ -55,13 +55,13 @@ public class TransactionController {
         return "transaction/list";
     }
 
-    @GetMapping("/create")
+    @GetMapping("/expense/new")
     public String showCreateTransactionForm() {
 
-        return "transaction/create";
+        return "transaction/expense/create";
     }
 
-    @PostMapping
+    @PostMapping("/expense")
     public String createTransaction(@ModelAttribute TransactionCreateRequestDto createRequestDto,
                                     @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
@@ -72,7 +72,7 @@ public class TransactionController {
         return "redirect:/transaction";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/expense/{id}")
     public String showEditTransactionForm(@PathVariable Long id,
                                       Model model) {
 
@@ -81,10 +81,10 @@ public class TransactionController {
         model.addAttribute("categories", TransactionCategory.values());
         model.addAttribute("updateRequestDto", updateRequestDto);
 
-        return "transaction/edit";
+        return "transaction/expense/edit";
     }
 
-    @PostMapping("/{id}/edit")
+    @PostMapping("/expense/{id}/edit")
     public String editTransaction(@PathVariable Long id,
                                   @ModelAttribute TransactionUpdateRequestDto updateRequestDto,
                                   @AuthenticationPrincipal CustomUserDetails customUserDetails) {
@@ -96,7 +96,7 @@ public class TransactionController {
         return "redirect:/transaction";
     }
 
-    @PostMapping("/{id}/delete")
+    @PostMapping("/expense/{id}/delete")
     public String deleteTransaction(@PathVariable Long id,
                                     @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 

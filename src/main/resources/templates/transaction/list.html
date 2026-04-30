@@ -34,7 +34,7 @@
                         합계 : <span th:text="${listResponseDto.totalAmount}">0</span> 원
                     </div>
 
-                    <a th:href="@{/transaction/create}" class="create-btn">작성하기</a>
+                    <a th:href="@{/transaction/expense/new}" class="create-btn">작성하기</a>
                 </div>
             </div>
             <ul class="transaction-category-list">
@@ -45,7 +45,7 @@
             </ul>
             <ul class="transaction-list">
                 <li th:each="transaction: ${listResponseDto.transactionList}">
-                    <a th:href="@{|/transaction/${transaction.id}|}">
+                    <a th:href="@{|/transaction/expense/${transaction.id}|}">
                         <span th:text="${transaction.detail}">지출내용</span>
                         <span th:text="${transaction.transactionCategory}">카테고리</span>
                         <span th:text="${#numbers.formatInteger(transaction.amount, 3, 'COMMA')}">지출금</span>

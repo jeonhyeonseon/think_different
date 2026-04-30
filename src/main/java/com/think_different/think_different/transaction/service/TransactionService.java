@@ -1,8 +1,6 @@
 package com.think_different.think_different.transaction.service;
 
 import com.think_different.think_different.member.entity.Member;
-import com.think_different.think_different.member.repository.MemberRepository;
-import com.think_different.think_different.member.service.MemberService;
 import com.think_different.think_different.transaction.domain.Transaction;
 import com.think_different.think_different.transaction.dto.TransactionCreateRequestDto;
 import com.think_different.think_different.transaction.dto.TransactionListResponseDto;
@@ -74,10 +72,10 @@ public class TransactionService {
         }
 
         transaction.updateTransaction(updateRequestDto.getDetail(),
-                              updateRequestDto.getTransactionType(),
-                              updateRequestDto.getTransactionCategory(),
-                              updateRequestDto.getAmount(),
-                              updateRequestDto.getTransactionDate()
+                                      updateRequestDto.getTransactionCategory().getType(),
+                                      updateRequestDto.getTransactionCategory(),
+                                      updateRequestDto.getAmount(),
+                                      updateRequestDto.getTransactionDate()
         );
     }
 
