@@ -2,7 +2,9 @@ package com.think_different.think_different.transaction.controller;
 
 import com.think_different.think_different.config.webSecurity.CustomUserDetails;
 import com.think_different.think_different.member.entity.Member;
+import com.think_different.think_different.transaction.domain.Transaction;
 import com.think_different.think_different.transaction.domain.TransactionCategory;
+import com.think_different.think_different.transaction.domain.TransactionType;
 import com.think_different.think_different.transaction.dto.TransactionCreateRequestDto;
 import com.think_different.think_different.transaction.dto.TransactionListResponseDto;
 import com.think_different.think_different.transaction.dto.TransactionUpdateRequestDto;
@@ -55,13 +57,16 @@ public class TransactionController {
         return "transaction/list";
     }
 
-    @GetMapping("/expense/new")
-    public String showCreateTransactionForm() {
+    @GetMapping("/new")
+    public String showCreateTransactionForm(Model model) {
 
-        return "transaction/expense/create";
+        model.addAttribute("types", TransactionType.values());
+        model.addAttribute("categories", TransactionCategory.values());
+
+        return "transaction/create";
     }
 
-    @PostMapping("/expense")
+    @PostMapping
     public String createTransaction(@ModelAttribute TransactionCreateRequestDto createRequestDto,
                                     @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
@@ -72,19 +77,20 @@ public class TransactionController {
         return "redirect:/transaction";
     }
 
-    @GetMapping("/expense/{id}")
+    @GetMapping("/{id}")
     public String showEditTransactionForm(@PathVariable Long id,
                                       Model model) {
 
         TransactionUpdateRequestDto updateRequestDto = transactionService.updateTransactionForm(id);
 
+        model.addAttribute("types", TransactionType.values());
         model.addAttribute("categories", TransactionCategory.values());
         model.addAttribute("updateRequestDto", updateRequestDto);
 
-        return "transaction/expense/edit";
+        return "transaction/edit";
     }
 
-    @PostMapping("/expense/{id}/edit")
+    @PostMapping("/{id}/edit")
     public String editTransaction(@PathVariable Long id,
                                   @ModelAttribute TransactionUpdateRequestDto updateRequestDto,
                                   @AuthenticationPrincipal CustomUserDetails customUserDetails) {
@@ -96,7 +102,7 @@ public class TransactionController {
         return "redirect:/transaction";
     }
 
-    @PostMapping("/expense/{id}/delete")
+    @PostMapping("/{id}/delete")
     public String deleteTransaction(@PathVariable Long id,
                                     @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
