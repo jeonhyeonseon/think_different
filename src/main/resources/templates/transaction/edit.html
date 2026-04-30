@@ -21,7 +21,7 @@
 
           <div class="category-box">
               <label for="category"> 카테고리
-                  <select name="category" id="category">
+                  <select name="transactionCategory" id="category">
                       <option th:each="category : ${categories}"
                               th:value="${category}"
                               th:text="${category}"
@@ -39,8 +39,8 @@
           </div>
 
           <div class="date-box">
-              <label for="paymentDate"> 날짜
-                  <input type="date" name="paymentDate" id="paymentDate"
+              <label for="transactionDate"> 날짜
+                  <input type="date" name="transactionDate" id="transactionDate"
                          th:value="${updateRequestDto.transactionDate}">
               </label>
           </div>

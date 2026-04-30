@@ -14,6 +14,17 @@
 <body>
     <th:block layout:fragment="content">
         <form th:action="@{/transaction}" method="post" class="transaction-container">
+            <div class="type-box">
+                <label for="type">거래 유형
+                    <select id="type">
+                        <option th:each="type : ${types}"
+                                th:value="${type}"
+                                th:text="${type}">
+                        </option>
+                    </select>
+                </label>
+            </div>
+
             <div class="detail-box">
                 <label for="detail">지출내용
                     <input type="text" name="detail" id="detail">
@@ -22,28 +33,25 @@
 
             <div class="category-box">
                 <label for="category">카테고리
-                    <select name="category" id="category">
-                        <option value="FOOD">음식</option>
-                        <option value="CAFE">카페</option>
-                        <option value="TRAFFIC">교통</option>
-                        <option value="TELECOM">통신</option>
-                        <option value="OTT">OTT</option>
-                        <option value="SAVINGS">적금</option>
-                        <option value="INSURANCE">보험</option>
-                        <option value="INVEST">투자</option>
+                    <select name="transactionCategory" id="category">
+                        <option th:each="category : ${categories}"
+                                th:value="${category}"
+                                th:text="${category.displayName}"
+                                th:attr="data-type=${category.type}">
+                        </option>
                     </select>
                 </label>
             </div>
 
             <div class="amount-box">
-                <label for="amount">지출금
+                <label for="amount">금액
                     <input type="number" name="amount" id="amount">
                 </label>
             </div>
 
             <div class="payment-date-box">
-                <label for="payment-date">지출일
-                    <input type="date" name="paymentDate" id="payment-date">
+                <label for="payment-date">날짜
+                    <input type="date" name="transactionDate" id="payment-date">
                 </label>
             </div>
 

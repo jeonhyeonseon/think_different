@@ -1,8 +1,6 @@
 package com.think_different.think_different.transaction.service;
 
 import com.think_different.think_different.member.entity.Member;
-import com.think_different.think_different.member.repository.MemberRepository;
-import com.think_different.think_different.member.service.MemberService;
 import com.think_different.think_different.transaction.domain.Transaction;
 import com.think_different.think_different.transaction.dto.TransactionCreateRequestDto;
 import com.think_different.think_different.transaction.dto.TransactionListResponseDto;
@@ -47,8 +45,8 @@ public class TransactionService {
 
     public void createTransaction(TransactionCreateRequestDto createRequestDto, Member member) {
 
-        if (createRequestDto.getTransactionCategory().getType() != createRequestDto.getTransactionType()) {
-            throw new IllegalArgumentException("카테고리와 거래 유형이 맞지 않습니다.");
+        if (createRequestDto.getTransactionCategory() == null) {
+            throw new IllegalArgumentException("카테고리는 필수입니다.");
         }
 
         Transaction transaction = createRequestDto.toTransaction(member);
@@ -74,10 +72,10 @@ public class TransactionService {
         }
 
         transaction.updateTransaction(updateRequestDto.getDetail(),
-                              updateRequestDto.getTransactionType(),
-                              updateRequestDto.getTransactionCategory(),
-                              updateRequestDto.getAmount(),
-                              updateRequestDto.getTransactionDate()
+                                      updateRequestDto.getTransactionCategory().getType(),
+                                      updateRequestDto.getTransactionCategory(),
+                                      updateRequestDto.getAmount(),
+                                      updateRequestDto.getTransactionDate()
         );
     }
 

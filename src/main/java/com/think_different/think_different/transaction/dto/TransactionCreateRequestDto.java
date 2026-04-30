@@ -23,12 +23,12 @@ public class TransactionCreateRequestDto {
 
     public Transaction toTransaction(Member member) {
         return Transaction.builder()
-                .member(member)
-                .detail(this.detail)
-                .transactionType(transactionType)
+                .detail(detail)
+                .transactionType(transactionCategory.getType())
                 .transactionCategory(transactionCategory)
-                .amount(this.amount)
-                .transactionDate(LocalDate.now())
+                .amount(amount)
+                .transactionDate(transactionDate)
+                .member(member)
                 .build();
     }
 }

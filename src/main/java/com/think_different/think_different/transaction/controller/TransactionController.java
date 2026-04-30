@@ -2,7 +2,9 @@ package com.think_different.think_different.transaction.controller;
 
 import com.think_different.think_different.config.webSecurity.CustomUserDetails;
 import com.think_different.think_different.member.entity.Member;
+import com.think_different.think_different.transaction.domain.Transaction;
 import com.think_different.think_different.transaction.domain.TransactionCategory;
+import com.think_different.think_different.transaction.domain.TransactionType;
 import com.think_different.think_different.transaction.dto.TransactionCreateRequestDto;
 import com.think_different.think_different.transaction.dto.TransactionListResponseDto;
 import com.think_different.think_different.transaction.dto.TransactionUpdateRequestDto;
@@ -55,8 +57,11 @@ public class TransactionController {
         return "transaction/list";
     }
 
-    @GetMapping("/create")
-    public String showCreateTransactionForm() {
+    @GetMapping("/new")
+    public String showCreateTransactionForm(Model model) {
+
+        model.addAttribute("types", TransactionType.values());
+        model.addAttribute("categories", TransactionCategory.values());
 
         return "transaction/create";
     }
@@ -78,6 +83,7 @@ public class TransactionController {
 
         TransactionUpdateRequestDto updateRequestDto = transactionService.updateTransactionForm(id);
 
+        model.addAttribute("types", TransactionType.values());
         model.addAttribute("categories", TransactionCategory.values());
         model.addAttribute("updateRequestDto", updateRequestDto);
 
