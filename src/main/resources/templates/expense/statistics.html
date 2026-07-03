@@ -32,63 +32,65 @@
     <main class="statistics-container">
 
         <div class="page-header">
-            <div>
-                <a th:href="@{/expense}" class="back-link">← 비용 관리로</a>
-                <h1>지출 통계</h1>
-                <p>월별 지출과 카테고리별 소비 흐름을 확인해보세요.</p>
+            <a th:href="@{/expense}" class="back-link">← 비용 관리로</a>
+
+            <div class="page-header-row">
+                <div>
+                    <h1>지출 통계</h1>
+                    <p>월별 지출과 카테고리별 소비 흐름을 확인해보세요.</p>
+                </div>
+
+                <form id="statisticsFilterForm"
+                      th:action="@{/expense/statistics}"
+                      method="get"
+                      class="filter-form">
+
+                    <select name="year" id="yearSelect">
+                        <option th:each="y : ${years}"
+                                th:value="${y}"
+                                th:text="${y + '년'}"
+                                th:selected="${y == selectedYear}">
+                        </option>
+                    </select>
+
+                    <select name="month" id="monthSelect">
+                        <option th:each="m : ${months}"
+                                th:value="${m}"
+                                th:text="${m + '월'}"
+                                th:selected="${m == selectedMonth}">
+                        </option>
+                    </select>
+
+                    <select name="category" id="categorySelect">
+                        <option value="ALL" th:selected="${selectedCategory == 'ALL'}">전체</option>
+                        <option value="DATE" th:selected="${selectedCategory == 'DATE'}">데이트</option>
+                        <option value="FOOD" th:selected="${selectedCategory == 'FOOD'}">식비</option>
+                        <option value="CAFE" th:selected="${selectedCategory == 'CAFE'}">카페</option>
+                        <option value="GIFT" th:selected="${selectedCategory == 'GIFT'}">선물</option>
+                        <option value="TRAVEL" th:selected="${selectedCategory == 'TRAVEL'}">여행</option>
+                        <option value="ETC" th:selected="${selectedCategory == 'ETC'}">기타</option>
+                    </select>
+                </form>
             </div>
         </div>
 
-        <form id="statisticsFilterForm"
-              th:action="@{/expense/statistics}"
-              method="get"
-              class="filter-form">
-
-            <select name="year" id="yearSelect">
-                <option th:each="y : ${years}"
-                        th:value="${y}"
-                        th:text="${y + '년'}"
-                        th:selected="${y == selectedYear}">
-                </option>
-            </select>
-
-            <select name="month" id="monthSelect">
-                <option th:each="m : ${months}"
-                        th:value="${m}"
-                        th:text="${m + '월'}"
-                        th:selected="${m == selectedMonth}">
-                </option>
-            </select>
-
-            <select name="category" id="categorySelect">
-                <option value="ALL" th:selected="${selectedCategory == 'ALL'}">전체</option>
-                <option value="DATE" th:selected="${selectedCategory == 'DATE'}">데이트</option>
-                <option value="FOOD" th:selected="${selectedCategory == 'FOOD'}">식비</option>
-                <option value="CAFE" th:selected="${selectedCategory == 'CAFE'}">카페</option>
-                <option value="GIFT" th:selected="${selectedCategory == 'GIFT'}">선물</option>
-                <option value="TRAVEL" th:selected="${selectedCategory == 'TRAVEL'}">여행</option>
-                <option value="ETC" th:selected="${selectedCategory == 'ETC'}">기타</option>
-            </select>
-
-        </form>
-
-        <section class="summary-section">
-
-            <div class="summary-card">
-                <span>월 총 지출</span>
+        <div class="summary-text">
+            <div>
+                <span>총 지출</span>
                 <strong th:text="${#numbers.formatInteger(statistics.totalAmount, 1, 'COMMA')} + '원'">
                     36,900원
                 </strong>
             </div>
 
-            <div class="summary-card">
+            <div class="summary-divider"></div>
+
+            <div>
                 <span>월 평균 지출</span>
                 <strong th:text="${#numbers.formatInteger(statistics.averageAmount, 1, 'COMMA')} + '원'">
                     9,225원
                 </strong>
             </div>
-
-        </section>
+        </div>
 
         <section class="chart-section">
             <div class="chart-card">
