@@ -129,18 +129,20 @@
 
             <div class="chart-placeholder">
 
-                <div class="chart-bar-item"
-                     th:each="chart : ${dashboard.monthlyExpenseCharts}">
+                <div class="chart-bar-item" th:each="chart : ${dashboard.monthlyExpenseCharts}">
 
-                    <div class="bar"
-                         th:style="'height:' + ${chart.heightPercent} + '%'"
-                         th:title="${chart.monthLabel} + ' 지출: ' + ${#numbers.formatInteger(chart.amount, 1, 'COMMA')} + '원'">
+                    <div class="bar-wrap-dashboard">
+                        <div class="bar" th:style="'height:' + ${chart.heightPercent} + '%'">
+
+                            <div class="bar-tooltip"
+                                 th:text="${#numbers.formatInteger(chart.amount, 1, 'COMMA')} + '원'">
+                                43,000원
+                            </div>
+                        </div>
                     </div>
 
                     <span th:text="${chart.monthLabel}">6월</span>
-
                 </div>
-
             </div>
 
             <a th:href="@{/expense}" class="detail-btn">상세 보기</a>
