@@ -74,22 +74,23 @@
             </div>
         </div>
 
-        <section class="summary-section">
-
-            <div class="summary-card">
-                <span>월 총 지출</span>
+        <div class="summary-text">
+            <div>
+                <span>총 지출</span>
                 <strong th:text="${#numbers.formatInteger(statistics.totalAmount, 1, 'COMMA')} + '원'">
                     36,900원
                 </strong>
             </div>
 
-            <div class="summary-card">
+            <div class="summary-divider"></div>
+
+            <div>
                 <span>월 평균 지출</span>
                 <strong th:text="${#numbers.formatInteger(statistics.averageAmount, 1, 'COMMA')} + '원'">
                     9,225원
                 </strong>
             </div>
-        </section>
+        </div>
 
         <section class="chart-section">
             <div class="chart-card">
