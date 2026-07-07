@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         }));
 
                     const holidayEvents = data
-                        .filter(item => item.classNames)
+                        .filter(item => item.classNames && item.classNames.includes('holiday-event'))
                         .map(holiday => ({
                             title: holiday.title,
                             start: holiday.start,
@@ -127,11 +127,25 @@ document.addEventListener('DOMContentLoaded', function () {
                             isHoliday: true
                         }));
 
+                    const anniversaryEvents = data
+                        .filter(item => item.classNames && item.classNames.includes('anniversary-event'))
+                        .map(anniversary => ({
+                            title: anniversary.title,
+                            start: anniversary.start,
+                            allDay: true,
+                            backgroundColor: '#FF7B7B',
+                            borderColor: '#FF7B7B',
+                            textColor: '#fff',
+                            classNames: ['anniversary-event'],
+                            isAnniversary: true
+                        }));
+
                     events = scheduleEvents;
 
                     successCallback([
                         ...scheduleEvents,
-                        ...holidayEvents
+                        ...holidayEvents,
+                        ...anniversaryEvents
                     ]);
 
                     renderDailySchedules(selectedDate);
