@@ -15,6 +15,8 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @Transactional
@@ -24,9 +26,23 @@ public class HolidayService {
     @Value("${holiday.api.key}")
     private String serviceKey;
 
+    private final Map<String, List<HolidayDto>> holidayCache = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public List<HolidayDto> getHolidayEvents(int year, int month) {
+        String cacheKey = year + "-" + String.format("%02d", month);
+
+        if (holidayCache.containsKey(cacheKey)) {
+            return holidayCache.get(cacheKey);
+        }
+
+        List<HolidayDto> holidays = requestHolidayApi(year, month);
+        holidayCache.put(cacheKey, holidays);
+
+        return holidays;
+    }
+
+    private List<HolidayDto> requestHolidayApi(int year, int month) {
         try {
             String url = UriComponentsBuilder
                     .fromHttpUrl("https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo")
@@ -39,6 +55,7 @@ public class HolidayService {
                     .toUriString();
 
             String response = readUrl(url);
+
             JsonNode items = objectMapper.readTree(response)
                     .path("response")
                     .path("body")
@@ -63,7 +80,7 @@ public class HolidayService {
     }
 
     private HolidayDto toHolidayEvent(JsonNode item) {
-        String name = item.path("dateName").asText();
+        String name = convertHolidayName(item.path("dateName").asText());
         String locdate = item.path("locdate").asText();
 
         LocalDate date = LocalDate.of(
@@ -80,6 +97,14 @@ public class HolidayService {
                 .textColor("#fff")
                 .classNames(List.of("holiday-event"))
                 .build();
+    }
+
+    private String convertHolidayName(String name) {
+        if ("기독탄신일".equals(name)) {
+            return "크리스마스";
+        }
+
+        return name;
     }
 
     private String readUrl(String url) throws Exception {

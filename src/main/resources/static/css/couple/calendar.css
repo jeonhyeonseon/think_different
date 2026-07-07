@@ -408,3 +408,9 @@ body {
 .time-fields.hidden {
     display: none;
 }
+
+.holiday-event {
+    background-color: #EF4444 !important;
+    border-color: #EF4444 !important;
+    color: #fff !important;
+}

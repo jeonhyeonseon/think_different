@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,6 +25,28 @@ public class CalendarController {
 
     private final CalendarService calendarService;
     private final HolidayService holidayService;
+
+    @GetMapping("/events")
+    @ResponseBody
+    public List<Object> getCalendarEvents(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                          @RequestParam int year,
+                                          @RequestParam int month) {
+
+        Member member = customUserDetails.getMember();
+        YearMonth yearMonth = YearMonth.of(year, month);
+
+        List<CalendarResponseDto> schedules =
+                calendarService.getMonthlySchedules(member, yearMonth);
+
+        List<HolidayDto> holidays =
+                holidayService.getHolidayEvents(year, month);
+
+        List<Object> events = new ArrayList<>();
+        events.addAll(schedules);
+        events.addAll(holidays);
+
+        return events;
+    }
 
     @GetMapping
     public String showCalendar(@AuthenticationPrincipal CustomUserDetails customUserDetails,
