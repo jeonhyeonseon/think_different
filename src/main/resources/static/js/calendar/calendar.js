@@ -22,39 +22,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const timeFields = document.getElementById('timeFields');
 
     let selectedDate = getToday();
-
-    const events = schedules.map(schedule => {
-        const startTime = formatTimeValue(schedule.startTime);
-        const endTime = formatTimeValue(schedule.endTime);
-
-        return {
-            id: schedule.id,
-            title: schedule.title,
-            start: schedule.scheduleDate,
-            allDay: true,
-
-            scheduleTitle: schedule.title,
-            scheduleDate: schedule.scheduleDate,
-            memo: schedule.memo,
-            scheduleStartTime: startTime,
-            scheduleEndTime: endTime,
-        };
-    });
+    let events = [];
 
     const calendar = new FullCalendar.Calendar(calendarElement, {
-       initialView: 'dayGridMonth',
-       locale: 'ko',
-       height: 680,
+        initialView: 'dayGridMonth',
+        locale: 'ko',
+        height: 680,
 
-       headerToolbar: {
-           left: 'prev,next today',
-           center: 'title',
-           right: ''
-       },
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: ''
+        },
 
-       buttonText: {
-           today: '오늘'
-       },
+        buttonText: {
+            today: '오늘'
+        },
 
         dateClick: function (info) {
             selectedDate = info.dateStr;
@@ -63,6 +46,10 @@ document.addEventListener('DOMContentLoaded', function () {
         },
 
         eventClick: function (info) {
+            if (info.event.extendedProps.isHoliday) {
+                return;
+            }
+
             const event = events.find(e => String(e.id) === String(info.event.id));
 
             if (!event) {
@@ -76,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
         },
 
         eventContent: function (arg) {
-            const startTime = arg.event.extendedProps.startTime;
+            const startTime = arg.event.extendedProps.scheduleStartTime;
             const title = arg.event.extendedProps.scheduleTitle || arg.event.title;
 
             if (startTime) {
@@ -90,8 +77,84 @@ document.addEventListener('DOMContentLoaded', function () {
             };
         },
 
-        events: events
+        events: function (info, successCallback, failureCallback) {
+            const centerDate = new Date(
+                (info.start.getTime() + info.end.getTime()) / 2
+            );
 
+            const year = centerDate.getFullYear();
+            const month = centerDate.getMonth() + 1;
+
+            fetch(`/calendar/events?year=${year}&month=${month}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('캘린더 이벤트 조회 실패');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const scheduleEvents = data
+                        .filter(item => !item.classNames)
+                        .map(schedule => ({
+                            id: schedule.id,
+                            title: schedule.title,
+                            start: schedule.scheduleDate,
+                            allDay: true,
+
+                            scheduleTitle: schedule.title,
+                            scheduleDate: schedule.scheduleDate,
+                            memo: schedule.memo,
+                            scheduleStartTime: formatTimeValue(schedule.startTime),
+                            scheduleEndTime: formatTimeValue(schedule.endTime),
+                            isHoliday: false,
+
+                            backgroundColor: '#FF7B7B',
+                            borderColor: '#FF7B7B',
+                            textColor: '#fff'
+                        }));
+
+                    const holidayEvents = data
+                        .filter(item => item.classNames && item.classNames.includes('holiday-event'))
+                        .map(holiday => ({
+                            title: holiday.title,
+                            start: holiday.start,
+                            allDay: true,
+
+                            backgroundColor: '#EF4444',
+                            borderColor: '#EF4444',
+                            textColor: '#fff',
+                            classNames: ['holiday-event'],
+                            isHoliday: true
+                        }));
+
+                    const anniversaryEvents = data
+                        .filter(item => item.classNames && item.classNames.includes('anniversary-event'))
+                        .map(anniversary => ({
+                            title: anniversary.title,
+                            start: anniversary.start,
+                            allDay: true,
+                            backgroundColor: '#FF7B7B',
+                            borderColor: '#FF7B7B',
+                            textColor: '#fff',
+                            classNames: ['anniversary-event'],
+                            isAnniversary: true
+                        }));
+
+                    events = scheduleEvents;
+
+                    successCallback([
+                        ...scheduleEvents,
+                        ...holidayEvents,
+                        ...anniversaryEvents
+                    ]);
+
+                    renderDailySchedules(selectedDate);
+                })
+                .catch(error => {
+                    console.error(error);
+                    failureCallback(error);
+                });
+        }
     });
 
     calendar.render();
@@ -106,16 +169,28 @@ document.addEventListener('DOMContentLoaded', function () {
     closeModalBtn.addEventListener('click', closeModal);
     cancelModalBtn.addEventListener('click', closeModal);
 
-    function closeModal() {
-        scheduleModal.classList.add('hidden');
-    }
+    scheduleForm.addEventListener('submit', function () {
+        if (!useTimeCheckbox.checked) {
+            startTimeInput.value = '';
+            endTimeInput.value = '';
+        }
+    });
+
+    useTimeCheckbox.addEventListener('change', function () {
+        if (this.checked) {
+            timeFields.classList.remove('hidden');
+        } else {
+            timeFields.classList.add('hidden');
+            startTimeInput.value = '';
+            endTimeInput.value = '';
+        }
+    });
 
     function renderDailySchedules(date) {
         const dailySchedules = events.filter(event => event.scheduleDate === date);
 
         if (dailySchedules.length === 0) {
-            scheduleListElement.innerHTML =
-                '<p class="empty-text">등록된 일정이 없습니다.</p>';
+            scheduleListElement.innerHTML = '<p class="empty-text">등록된 일정이 없습니다.</p>';
             return;
         }
 
@@ -172,13 +247,6 @@ document.addEventListener('DOMContentLoaded', function () {
         scheduleModal.classList.remove('hidden');
     }
 
-    scheduleForm.addEventListener('submit', function () {
-        if (!useTimeCheckbox.checked) {
-            startTimeInput.value = '';
-            endTimeInput.value = '';
-        }
-    });
-
     function openEditModal(schedule) {
         modalTitle.textContent = schedule.scheduleTitle;
 
@@ -223,16 +291,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return `${month}.${day} (${dayNames[dateObject.getDay()]}) 일정`;
     }
-
-    useTimeCheckbox.addEventListener('change', function () {
-        if (this.checked) {
-            timeFields.classList.remove('hidden');
-        } else {
-            timeFields.classList.add('hidden');
-            startTimeInput.value = '';
-            endTimeInput.value = '';
-        }
-    });
 
     function formatTimeValue(time) {
         if (!time) {

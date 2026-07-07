@@ -10,7 +10,7 @@ body {
 }
 
 .header {
-    height: 72px;
+    height: 55px;
     padding: 0 64px;
     border-bottom: 1px solid #e5e7eb;
     background-color: #fff;
@@ -101,11 +101,11 @@ body {
     margin-bottom: 24px;
 
     border-radius: 10px;
-    background-color: #E6FFFB;
+    background-color: #FFF4F4;
 
     font-size: 16px;
     font-weight: 700;
-    color: #142E4E;
+    color: #FF7B7B;
 }
 
 .schedule-list {
@@ -124,7 +124,7 @@ body {
 
     border: none;
     border-radius: 8px;
-    background-color: #4ECDC4;
+    background-color: #FF7B7B;
     color: #fff;
 
     font-size: 15px;
@@ -133,34 +133,32 @@ body {
 }
 
 .add-schedule-btn:hover {
-    background-color: #38B2AC;
+    background-color: #FFB6B6;
 }
-
-/* FullCalendar 커스텀 */
 
 .fc .fc-toolbar-title {
     font-size: 28px;
     font-weight: 800;
-    color: #142E4E;
+    color: #FF7B7B;
 }
 
 .fc .fc-button-primary {
-    background-color: #142E4E;
-    border-color: #142E4E;
+    background-color: #FF7B7B;
+    border-color: #FF7B7B;
 }
 
 .fc .fc-button-primary:hover {
-    background-color: #0F223A;
-    border-color: #0F223A;
+    background-color: #FFB6B6;
+    border-color: #FFB6B6;
 }
 
 .fc .fc-button-primary:disabled {
-    background-color: #142E4E;
-    border-color: #142E4E;
+    background-color: #FF7B7B;
+    border-color: #FF7B7B;
 }
 
 .fc .fc-daygrid-day-number {
-    color: #142E4E;
+    color: #656565;
     font-weight: 700;
     text-decoration: none;
 }
@@ -172,7 +170,29 @@ body {
 }
 
 .fc .fc-day-today {
-    background-color: #E6FFFB !important;
+    background-color: #FFF4F4 !important;
+}
+
+.fc .fc-button-primary:focus,
+.fc .fc-button-primary:active {
+    background-color: #FF7B7B !important;
+    border-color: #FF7B7B !important;
+    box-shadow: none !important;
+}
+
+/* 포커스 테두리 제거 */
+.fc .fc-button:focus {
+    box-shadow: none !important;
+}
+
+.fc .fc-button-primary:hover,
+.fc .fc-button-primary:focus,
+.fc .fc-button-primary:active,
+.fc .fc-button-primary:not(:disabled):active,
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+    background-color: #FFB6B6 !important;
+    border-color: #FFB6B6 !important;
+    box-shadow: none !important;
 }
 
 .fc-event {
@@ -180,8 +200,8 @@ body {
     border-radius: 6px;
     padding: 2px 4px;
 
-    background-color: #4ECDC4;
-    color: white;
+    background-color: #FF7B7B;
+    color: #fff;
 }
 
 .modal {
@@ -299,7 +319,7 @@ body {
 
 .submit-btn {
     border: none;
-    background-color: #4ECDC4;
+    background-color: #FF7B7B;
     color: #fff;
 }
 
@@ -335,7 +355,7 @@ body {
 
 .schedule-title-row strong {
     font-size: 16px;
-    color: #142E4E;
+    color: #FF7B7B;
 }
 
 .schedule-time,
@@ -375,7 +395,7 @@ body {
 
     font-size: 14px;
     font-weight: 700;
-    color: #142E4E;
+    color: #FF7B7B;
 
     cursor: pointer;
 }
@@ -387,4 +407,16 @@ body {
 
 .time-fields.hidden {
     display: none;
+}
+
+.holiday-event {
+    background-color: #EF4444 !important;
+    border-color: #EF4444 !important;
+    color: #fff !important;
+}
+
+.anniversary-event {
+    background-color: #FF7B7B !important;
+    border-color: #FF7B7B !important;
+    color: #fff !important;
 }

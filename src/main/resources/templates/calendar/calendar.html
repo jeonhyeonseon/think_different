@@ -6,7 +6,7 @@
     <title>Calendar Page</title>
 
     <link rel="stylesheet" th:href="@{/css/dashboard/dashboard.css}">
-    <link rel="stylesheet" th:href="@{/css/couple/calendar.css}">
+    <link rel="stylesheet" th:href="@{/css/calendar/calendar.css}">
 
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 </head>
@@ -15,11 +15,11 @@
         <div class="logo">Two-Gether</div>
 
         <nav class="nav">
-            <a th:href="@{/couple}">홈</a>
-            <a th:href="@{/calendar}">캘린더</a>
-            <a th:href="@{/record}">기록</a>
-            <a th:href="@{/expense}">비용</a>
-            <a th:href="@{/statistics}">통계</a>
+            <a th:href="@{/templates/couple}">홈</a>
+            <a th:href="@{/templates/calendar}">캘린더</a>
+            <a th:href="@{/templates/record}">기록</a>
+            <a th:href="@{/templates/expense}">비용</a>
+            <a th:href="@{/templates/statistics}">통계</a>
         </nav>
 
         <div class="profile">
@@ -64,7 +64,7 @@
                 <button type="button" id="closeModalBtn" class="modal-close-btn">×</button>
             </div>
 
-            <form id="scheduleForm" th:action="@{/calendar}" method="post">
+            <form id="scheduleForm" th:action="@{/templates/calendar}" method="post">
                 <div class="form-group">
                     <label for="scheduleDateInput">날짜</label>
                     <input type="date"
@@ -122,10 +122,6 @@
         </div>
     </div>
 
-    <script th:inline="javascript">
-        const schedules = /*[[${schedules}]]*/ [];
-    </script>
-
-    <script th:src="@{/js/couple/calendar.js}"></script>
+    <script th:src="@{/js/calendar/calendar.js}"></script>
 </body>
 </html>
