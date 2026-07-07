@@ -13,3 +13,7 @@ spring:
 server:
   servlet:
     context-path: /
+
+holiday:
+  api:
+    key: "12d9e4b2fb43c09229820c2b89c62fbc3f2284ae7337e66564ef2fd33ceca994"

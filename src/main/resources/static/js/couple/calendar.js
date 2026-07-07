@@ -41,6 +41,25 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     });
 
+    const holidayEvents = holidays.map(holiday => {
+        return {
+            title: holiday.title,
+            start: holiday.start,
+            allDay: true,
+            backgroundColor: holiday.backgroundColor,
+            borderColor: holiday.borderColor,
+            textColor: holiday.textColor,
+            classNames: holiday.classNames,
+
+            isHoliday: true
+        };
+    });
+
+    const calendarEvents = [
+        ...events,
+        ...holidayEvents
+    ];
+
     const calendar = new FullCalendar.Calendar(calendarElement, {
        initialView: 'dayGridMonth',
        locale: 'ko',
@@ -63,6 +82,10 @@ document.addEventListener('DOMContentLoaded', function () {
         },
 
         eventClick: function (info) {
+            if (info.event.extendedProps.isHoliday) {
+                return;
+            }
+
             const event = events.find(e => String(e.id) === String(info.event.id));
 
             if (!event) {
@@ -90,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
             };
         },
 
-        events: events
+        events: calendarEvents
 
     });
 
@@ -114,8 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const dailySchedules = events.filter(event => event.scheduleDate === date);
 
         if (dailySchedules.length === 0) {
-            scheduleListElement.innerHTML =
-                '<p class="empty-text">등록된 일정이 없습니다.</p>';
+            scheduleListElement.innerHTML = '<p class="empty-text">등록된 일정이 없습니다.</p>';
             return;
         }
 
