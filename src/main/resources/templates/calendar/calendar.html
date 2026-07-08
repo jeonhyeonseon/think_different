@@ -15,11 +15,11 @@
         <div class="logo">Two-Gether</div>
 
         <nav class="nav">
-            <a th:href="@{/templates/couple}">홈</a>
-            <a th:href="@{/templates/calendar}">캘린더</a>
-            <a th:href="@{/templates/record}">기록</a>
-            <a th:href="@{/templates/expense}">비용</a>
-            <a th:href="@{/templates/statistics}">통계</a>
+            <a th:href="@{/couple}">홈</a>
+            <a th:href="@{/calendar}">캘린더</a>
+            <a th:href="@{/record}">기록</a>
+            <a th:href="@{/expense}">비용</a>
+            <a th:href="@{/statistics}">통계</a>
         </nav>
 
         <div class="profile">
@@ -80,6 +80,20 @@
                            name="title"
                            placeholder="예: 비빔밥 먹기"
                            required>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">카테고리</label>
+                    <select id="category" name="category" required>
+                        <option value="DATE">데이트</option>
+                        <option value="BIRTHDAY">생일</option>
+                        <option value="FRIEND">친구</option>
+                        <option value="DINNER">회식</option>
+                        <option value="EXAM">시험</option>
+                        <option value="INTERVIEW">면접</option>
+                        <option value="TRAVEL">여행</option>
+                        <option value="ETC">기타</option>
+                    </select>
                 </div>
 
                 <div class="form-group">

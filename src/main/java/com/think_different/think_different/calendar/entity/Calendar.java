@@ -32,6 +32,10 @@ public class Calendar {
     @JoinColumn(name = "created_by", nullable = false)
     private Member createdBy;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CalendarCategory category;
+
     @Column(nullable = false)
     private String title;
 
@@ -46,11 +50,12 @@ public class Calendar {
 
     private LocalDateTime createdAt;
 
-    public void updateCalendar(String title, String memo, LocalDate scheduleDate, LocalTime startTime, LocalTime endTime) {
+    public void updateCalendar(String title, String memo, LocalDate scheduleDate, LocalTime startTime, LocalTime endTime, CalendarCategory category) {
         this.title = title;
         this.memo = memo;
         this.scheduleDate = scheduleDate;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.category = category == null ? CalendarCategory.ETC : category;
     }
 }

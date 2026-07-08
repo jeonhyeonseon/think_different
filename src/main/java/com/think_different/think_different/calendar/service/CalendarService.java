@@ -88,7 +88,8 @@ public class CalendarService {
                 calendarRequestDto.getMemo(),
                 calendarRequestDto.getScheduleDate(),
                 calendarRequestDto.getStartTime(),
-                calendarRequestDto.getEndTime()
+                calendarRequestDto.getEndTime(),
+                calendarRequestDto.getCategory()
         );
     }
 
