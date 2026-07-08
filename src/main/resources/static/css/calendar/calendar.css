@@ -193,14 +193,32 @@ body {
 
 /* 공휴일: 배경 없이 빨간 글씨 */
 .fc .holiday-event {
+    display: block !important;
+    width: 100% !important;
+
+    margin-top: -4px !important;
+    padding-right: 4px !important;
+
     background: transparent !important;
     border: none !important;
     color: #EF4444 !important;
-    font-weight: 800;
+
+    font-size: 13px;
+    font-weight: 700;
+    text-align: right !important;
 }
 
 .fc .holiday-event .fc-event-main {
     color: #EF4444 !important;
+    text-align: right !important;
+}
+
+.fc .holiday-event .fc-event-main-frame {
+    justify-content: flex-end !important;
+}
+
+.fc .holiday-event .fc-event-title {
+    text-align: right !important;
 }
 
 .fc .holiday-event .fc-event-dot {
@@ -213,10 +231,17 @@ body {
 
 /* 기념일: 배경 없이 하트 + 핑크 글씨 */
 .fc .anniversary-event {
+    display: inline-block !important;
+    margin-top: 6px !important;
+    margin-left: 6px !important;
+
     background: transparent !important;
     border: none !important;
+
     color: #FF7B7B !important;
+    font-size: 14px;
     font-weight: 800;
+    letter-spacing: -0.3px;
 }
 
 .fc .anniversary-event .fc-event-main {
@@ -226,8 +251,6 @@ body {
 .fc .anniversary-event .fc-event-dot {
     display: none !important;
 }
-
-/* Modal */
 
 .modal {
     position: fixed;
@@ -353,8 +376,6 @@ body {
     background-color: #FF7B7B;
     color: #fff;
 }
-
-/* Schedule panel */
 
 .schedule-item-card {
     width: 100%;
