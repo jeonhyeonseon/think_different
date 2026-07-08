@@ -89,22 +89,25 @@
         </div>
 
         <div class="card schedule-card">
-            <h3>다가오는 일정</h3>
+            <h3>일정</h3>
 
             <div th:if="${#lists.isEmpty(dashboard.upcomingSchedules)}">
                 <p class="empty-text">다가오는 일정이 없습니다.</p>
             </div>
 
             <div th:each="schedule : ${dashboard.upcomingSchedules}" class="schedule-item">
+                <div class="schedule-date">
+                    <span th:text="${#temporals.format(schedule.scheduleDate, 'M월 d일')}">
+                        7월 9일
+                    </span>
+                    <span th:text="${#temporals.dayOfWeekNameShort(schedule.scheduleDate)}">
+                        목
+                    </span>
+                </div>
 
-                <span th:text="${#temporals.format(schedule.scheduleDate, 'M.d')} + ' (' + ${#temporals.dayOfWeekNameShort(schedule.scheduleDate)} + ')'">
-                    6.15 (월)
-                </span>
-
-                <span th:text="${schedule.title}">
+                <strong class="schedule-title" th:text="${schedule.title}">
                     일정 제목
-                </span>
-
+                </strong>
             </div>
 
             <a th:href="@{/calendar}" class="detail-btn">
@@ -117,7 +120,7 @@
     <section class="bottom-section">
 
         <div class="card expense-card">
-            <h3>이번 달 데이트 비용</h3>
+            <h3>데이트 비용</h3>
 
             <h2 th:text="${#numbers.formatInteger(dashboard.monthlyTotalAmount, 1, 'COMMA')} + '원'">
                 182,000원
