@@ -1,6 +1,7 @@
 package com.think_different.think_different.calendar.dto;
 
 import com.think_different.think_different.calendar.entity.Calendar;
+import com.think_different.think_different.calendar.entity.CalendarCategory;
 import com.think_different.think_different.couple.domain.Couple;
 import com.think_different.think_different.member.entity.Member;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.time.LocalTime;
 public class CalendarRequestDto {
 
     private String title;
+    private CalendarCategory category;
     private String memo;
     private LocalDate scheduleDate;
     private LocalTime startTime;
@@ -23,6 +25,7 @@ public class CalendarRequestDto {
                 .couple(couple)
                 .createdBy(createdBy)
                 .title(title)
+                .category(category == null ? CalendarCategory.ETC : category)
                 .memo(memo)
                 .scheduleDate(scheduleDate)
                 .startTime(startTime)

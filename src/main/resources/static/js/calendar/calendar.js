@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const scheduleDateInput = document.getElementById('scheduleDateInput');
     const titleInput = document.getElementById('title');
+    const categoryInput = document.getElementById('category');
     const memoInput = document.getElementById('memo');
     const startTimeInput = document.getElementById('startTime');
     const endTimeInput = document.getElementById('endTime');
@@ -106,11 +107,15 @@ document.addEventListener('DOMContentLoaded', function () {
                             memo: schedule.memo,
                             scheduleStartTime: formatTimeValue(schedule.startTime),
                             scheduleEndTime: formatTimeValue(schedule.endTime),
-                            isHoliday: false,
 
-                            backgroundColor: '#FF7B7B',
-                            borderColor: '#FF7B7B',
-                            textColor: '#fff'
+                            category: schedule.category,
+                            categoryDisplayName: schedule.categoryDisplayName,
+
+                            backgroundColor: schedule.backgroundColor,
+                            borderColor: schedule.borderColor,
+                            textColor: schedule.textColor,
+
+                            isHoliday: false
                         }));
 
                     const holidayEvents = data
@@ -120,9 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             start: holiday.start,
                             allDay: true,
 
-                            backgroundColor: '#EF4444',
-                            borderColor: '#EF4444',
-                            textColor: '#fff',
+                            display: 'list-item',
                             classNames: ['holiday-event'],
                             isHoliday: true
                         }));
@@ -130,12 +133,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     const anniversaryEvents = data
                         .filter(item => item.classNames && item.classNames.includes('anniversary-event'))
                         .map(anniversary => ({
-                            title: anniversary.title,
+                            title: `❤️ ${anniversary.title}`,
                             start: anniversary.start,
                             allDay: true,
-                            backgroundColor: '#FF7B7B',
-                            borderColor: '#FF7B7B',
-                            textColor: '#fff',
+
+                            display: 'list-item',
                             classNames: ['anniversary-event'],
                             isAnniversary: true
                         }));
@@ -154,6 +156,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.error(error);
                     failureCallback(error);
                 });
+        },
+
+        dayCellClassNames: function (arg) {
+            const dateStr = formatLocalDate(arg.date);
+
+            const isHoliday = calendar.getEvents().some(event =>
+                event.startStr === dateStr &&
+                event.extendedProps.isHoliday
+            );
+
+            if (isHoliday) {
+                return ['holiday-date'];
+            }
+
+            return [];
         }
     });
 
@@ -208,7 +225,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         class="schedule-item-card"
                         data-id="${schedule.id}">
                     <div class="schedule-title-row">
-                        <span class="schedule-check"></span>
                         <strong>${schedule.scheduleTitle}</strong>
                     </div>
                     ${timeText}
@@ -238,6 +254,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         scheduleDateInput.value = selectedDate;
         titleInput.value = '';
+        categoryInput.value = 'DATE';
         memoInput.value = '';
         startTimeInput.value = '';
         endTimeInput.value = '';
@@ -256,6 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         scheduleDateInput.value = schedule.scheduleDate;
         titleInput.value = schedule.scheduleTitle;
+        categoryInput.value = schedule.category || 'ETC';
         memoInput.value = schedule.memo || '';
         startTimeInput.value = schedule.scheduleStartTime || '';
         endTimeInput.value = schedule.scheduleEndTime || '';
@@ -302,5 +320,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         return '';
+    }
+
+    function formatLocalDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
     }
 });
