@@ -31,13 +31,9 @@ document.addEventListener('DOMContentLoaded', function () {
         height: 680,
 
         headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
+            left: '',
+            center: 'prev title next',
             right: ''
-        },
-
-        buttonText: {
-            today: '오늘'
         },
 
         dateClick: function (info) {
