@@ -223,6 +223,8 @@ body {
     border-radius: 6px;
     padding: 2px 4px;
     font-weight: 700;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 /* 공휴일: 배경 없이 빨간 글씨 */
@@ -253,6 +255,10 @@ body {
 
 .fc .holiday-event .fc-event-title {
     text-align: right !important;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .fc .holiday-event .fc-event-dot {
