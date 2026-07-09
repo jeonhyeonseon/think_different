@@ -78,6 +78,8 @@
                     <input type="text"
                            id="title"
                            name="title"
+                           maxlength="20"
+                           pattern="^(?=.*[가-힣a-zA-Z])[가-힣a-zA-Z0-9\s]+$"
                            placeholder="예: 비빔밥 먹기"
                            required>
                 </div>
@@ -100,6 +102,7 @@
                     <label for="memo">메모</label>
                     <textarea id="memo"
                               name="memo"
+                              maxlength="300"
                               placeholder="메모를 입력하세요"></textarea>
                 </div>
 
