@@ -9,6 +9,7 @@ import com.think_different.think_different.calendar.service.CalendarService;
 import com.think_different.think_different.calendar.service.HolidayService;
 import com.think_different.think_different.config.webSecurity.CustomUserDetails;
 import com.think_different.think_different.member.entity.Member;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -83,7 +84,7 @@ public class CalendarController {
     }
 
     @PostMapping
-    public String createSchedule(@ModelAttribute CalendarRequestDto calendarRequestDto,
+    public String createSchedule(@Valid @ModelAttribute CalendarRequestDto calendarRequestDto,
                                  @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
         Member member = customUserDetails.getMember();
@@ -95,7 +96,7 @@ public class CalendarController {
 
     @PostMapping("/{calendarId}/edit")
     public String updateSchedule(@PathVariable Long calendarId,
-                                 @ModelAttribute CalendarRequestDto calendarRequestDto,
+                                 @Valid @ModelAttribute CalendarRequestDto calendarRequestDto,
                                  @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
         Member member = customUserDetails.getMember();

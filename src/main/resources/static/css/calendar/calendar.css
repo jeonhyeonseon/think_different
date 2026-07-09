@@ -143,6 +143,15 @@ body {
     color: #FF7B7B;
 }
 
+.fc-event-title,
+.fc-event-main span {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .fc .fc-button-primary {
     background-color: #FF7B7B !important;
     border-color: #FF7B7B !important;
@@ -401,7 +410,7 @@ body {
 
 .schedule-title-row strong {
     font-size: 16px;
-    color: #FF7B7B;
+    color: #3a3a3a;
 }
 
 .schedule-time,
