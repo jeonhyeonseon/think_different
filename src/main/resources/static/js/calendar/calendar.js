@@ -31,13 +31,9 @@ document.addEventListener('DOMContentLoaded', function () {
         height: 680,
 
         headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
+            left: '',
+            center: 'prev title next',
             right: ''
-        },
-
-        buttonText: {
-            today: '오늘'
         },
 
         dateClick: function (info) {
@@ -76,6 +72,10 @@ document.addEventListener('DOMContentLoaded', function () {
             return {
                 html: `<span>${title}</span>`
             };
+        },
+
+        eventDidMount: function(info) {
+            info.el.title = info.event.extendedProps.fullTitle || info.event.title;
         },
 
         events: function (info, successCallback, failureCallback) {
@@ -121,13 +121,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     const holidayEvents = data
                         .filter(item => item.classNames && item.classNames.includes('holiday-event'))
                         .map(holiday => ({
-                            title: holiday.title,
+                            title: shortenHolidayTitle(holiday.title),
                             start: holiday.start,
                             allDay: true,
 
                             display: 'list-item',
                             classNames: ['holiday-event'],
-                            isHoliday: true
+                            isHoliday: true,
+                            fullTitle: holiday.title
                         }));
 
                     const anniversaryEvents = data
@@ -328,5 +329,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const day = String(date.getDate()).padStart(2, '0');
 
         return `${year}-${month}-${day}`;
+    }
+
+    function shortenHolidayTitle(title) {
+        if (!title) {
+            return '';
+        }
+
+        if (title.includes('대체공휴일')) {
+            return '대체공휴일';
+        }
+
+        return title;
     }
 });

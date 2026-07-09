@@ -140,7 +140,33 @@ body {
 .fc .fc-toolbar-title {
     font-size: 28px;
     font-weight: 800;
-    color: #FF7B7B;
+    color: #3a3a3a;
+}
+
+.fc .fc-button {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    padding: 0;
+    width: auto;
+    height: auto;
+
+    color: #666;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.fc .fc-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.fc .fc-toolbar-chunk {
+    display: flex;
+    align-items: center;
 }
 
 .fc-event-title,
@@ -152,19 +178,18 @@ body {
     text-overflow: ellipsis;
 }
 
-.fc .fc-button-primary {
-    background-color: #FF7B7B !important;
-    border-color: #FF7B7B !important;
-    box-shadow: none !important;
+.fc .fc-button-primary:hover {
+    background: transparent !important;
+    color: #FF7B7B !important;
 }
 
-.fc .fc-button-primary:hover,
 .fc .fc-button-primary:focus,
 .fc .fc-button-primary:active,
 .fc .fc-button-primary:not(:disabled):active,
 .fc .fc-button-primary:not(:disabled).fc-button-active {
-    background-color: #FFB6B6 !important;
-    border-color: #FFB6B6 !important;
+    background: transparent !important;
+    border: none !important;
+    color: #FF7B7B !important;
     box-shadow: none !important;
 }
 
@@ -198,6 +223,8 @@ body {
     border-radius: 6px;
     padding: 2px 4px;
     font-weight: 700;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 /* 공휴일: 배경 없이 빨간 글씨 */
@@ -228,6 +255,10 @@ body {
 
 .fc .holiday-event .fc-event-title {
     text-align: right !important;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .fc .holiday-event .fc-event-dot {
