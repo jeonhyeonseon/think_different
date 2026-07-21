@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>버킷리스트</title>
+    <link rel="stylesheet" th:href="@{/css/bucketlist/bucketlist.css}">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">Two-Gether</div>
+
+        <nav class="nav">
+            <a th:href="@{/couple}">홈</a>
+            <a th:href="@{/calendar}">캘린더</a>
+            <a th:href="@{/bucketlist}" class="active">버킷리스트</a>
+            <a th:href="@{/record}">기록</a>
+            <a th:href="@{/expense}">비용</a>
+            <a th:href="@{/statistics}">통계</a>
+        </nav>
+
+        <div class="profile">
+            <a th:href="@{/mypage}" class="profile-link">
+                <span class="nickname">
+                    <span th:text="${member.name}">현선</span> 님
+                </span>
+                <img th:src="@{/images/default-profile.png}" alt="프로필 이미지">
+            </a>
+        </div>
+    </header>
+
+    <main class="bucketlist-container">
+
+        <div class="bucketlist-header">
+            <div>
+                <h1>버킷리스트</h1>
+                <p>함께 하고 싶은 일들을 자유롭게 남겨보세요.</p>
+            </div>
+
+            <button type="button" class="add-btn" onclick="openCreateModal()">
+                버킷리스트 추가
+            </button>
+        </div>
+
+        <section class="recommend-section">
+            <div class="recommend-header">
+                <h2>오늘의 추천</h2>
+
+                <p class="recommend-context">
+                    <span th:text="${recommendation.season.displayName}">봄</span>
+                    ·
+                    <span th:text="${recommendation.weekend} ? '주말' : '평일'">평일</span>
+                    ·
+                    <span th:if="${!recommendation.weather.unknown}"
+                          th:text="${recommendation.weather.description} + ' ' + ${#numbers.formatDecimal(recommendation.weather.temperature, 1, 1)} + '℃'">
+                        맑음 18.0℃
+                    </span>
+                    <span th:if="${recommendation.weather.unknown}">날씨 정보 없음</span>
+                </p>
+            </div>
+
+            <div th:if="${#lists.isEmpty(recommendation.recommendations)}" class="empty-box">
+                오늘 조건에 맞는 추천 항목이 없어요. 버킷리스트를 더 등록해보세요.
+            </div>
+
+            <div class="recommend-grid" th:if="${!#lists.isEmpty(recommendation.recommendations)}">
+
+                <div class="recommend-card" th:each="item : ${recommendation.recommendations}">
+
+                    <div class="tag-row">
+                        <span class="tag priority" th:text="${item.priorityDisplayName}">꼭 하고 싶어요</span>
+                        <span class="tag place" th:text="${item.placeTypeDisplayName}">실내</span>
+                        <span class="tag season" th:text="${item.seasonDisplayName}">사계절</span>
+                    </div>
+
+                    <h3 th:text="${item.title}">한강 피크닉</h3>
+                    <p class="suggested-by" th:text="${item.suggestedByName} + ' 님이 제안'">현선 님이 제안</p>
+
+                    <form th:action="@{/bucketlist/{id}/add-to-calendar(id=${item.id})}"
+                          method="post"
+                          class="add-to-calendar-form">
+
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}">
+
+                        <input type="date" name="scheduleDate" class="schedule-date-input" required>
+
+                        <button type="submit" class="add-to-calendar-btn">
+                            일정에 추가
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="bucketlist-list-section">
+
+            <div th:if="${#lists.isEmpty(bucketListItems)}" class="empty-box">
+                아직 등록된 버킷리스트가 없습니다.
+            </div>
+
+            <div class="bucketlist-grid" th:if="${!#lists.isEmpty(bucketListItems)}">
+
+                <div class="bucketlist-card"
+                     th:each="item : ${bucketListItems}"
+                     th:classappend="${item.completed} ? ' completed'"
+                     th:data-id="${item.id}"
+                     th:data-title="${item.title}"
+                     th:data-memo="${item.memo}"
+                     th:data-place-type="${item.placeType}"
+                     th:data-season="${item.season}"
+                     th:data-priority="${item.priority}"
+                     onclick="openDetailModal(this)">
+
+                    <div class="tag-row">
+                        <span class="tag priority" th:text="${item.priorityDisplayName}">꼭 하고 싶어요</span>
+                        <span class="tag place" th:text="${item.placeTypeDisplayName}">실내</span>
+                        <span class="tag season" th:text="${item.seasonDisplayName}">사계절</span>
+                    </div>
+
+                    <h3 th:text="${item.title}">한강 피크닉</h3>
+                    <p class="memo" th:text="${item.memo}">벚꽃 필 때 같이 가기</p>
+
+                    <div class="card-footer">
+                        <span class="suggested-by" th:text="${item.suggestedByName} + ' 님이 제안'">현선 님이 제안</span>
+
+                        <form th:action="@{/bucketlist/{id}/complete(id=${item.id})}"
+                              method="post"
+                              class="complete-form"
+                              onclick="event.stopPropagation()">
+
+                            <input type="hidden"
+                                   th:name="${_csrf.parameterName}"
+                                   th:value="${_csrf.token}">
+
+                            <label class="complete-label">
+                                <input type="checkbox"
+                                       th:checked="${item.completed}"
+                                       onchange="this.form.submit()">
+                                완료
+                            </label>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="bucketListModal" class="modal">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2 id="modalTitle">버킷리스트 등록</h2>
+
+                <button type="button" class="modal-close" onclick="closeCreateModal()">×</button>
+            </div>
+
+            <form id="bucketListForm" th:action="@{/bucketlist}" method="post">
+
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <div class="form-group">
+                    <label>제목</label>
+                    <input type="text" name="title" maxlength="50" required>
+                </div>
+
+                <div class="form-group">
+                    <label>메모</label>
+                    <textarea name="memo" maxlength="300"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>실내/야외</label>
+                    <select name="placeType">
+                        <option value="INDOOR">실내</option>
+                        <option value="OUTDOOR">야외</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>계절</label>
+                    <select name="season">
+                        <option value="ALL_SEASON">사계절</option>
+                        <option value="SPRING">봄</option>
+                        <option value="SUMMER">여름</option>
+                        <option value="FALL">가을</option>
+                        <option value="WINTER">겨울</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>우선순위</label>
+                    <select name="priority">
+                        <option value="MUST_DO">꼭 하고 싶어요</option>
+                        <option value="SOMEDAY">언젠가</option>
+                        <option value="HOLD">보류</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">등록하기</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="bucketListDetailModal" class="modal">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2 id="detailTitle">버킷리스트 상세</h2>
+
+                <button type="button" class="modal-close" onclick="closeDetailModal()">×</button>
+            </div>
+
+            <div id="detailViewArea">
+
+                <div class="detail-row">
+                    <span>메모</span>
+                    <p id="detailMemo">등록된 메모가 없습니다.</p>
+                </div>
+
+                <div class="detail-row">
+                    <span>실내/야외</span>
+                    <strong id="detailPlaceType"></strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>계절</span>
+                    <strong id="detailSeason"></strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>우선순위</span>
+                    <strong id="detailPriority"></strong>
+                </div>
+
+                <div class="detail-actions">
+                    <button type="button" class="edit-btn" onclick="switchToEditMode()">수정</button>
+
+                    <form id="deleteForm" method="post" onsubmit="return confirm('버킷리스트 항목을 삭제하시겠습니까?')">
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}">
+
+                        <button type="submit" class="delete-btn">삭제</button>
+                    </form>
+                </div>
+            </div>
+
+            <form id="detailEditForm" method="post" class="detail-edit-form hidden">
+
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <div class="form-group">
+                    <label>제목</label>
+                    <input type="text" id="editTitle" name="title" maxlength="50" required>
+                </div>
+
+                <div class="form-group">
+                    <label>메모</label>
+                    <textarea id="editMemo" name="memo" maxlength="300"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>실내/야외</label>
+                    <select id="editPlaceType" name="placeType">
+                        <option value="INDOOR">실내</option>
+                        <option value="OUTDOOR">야외</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>계절</label>
+                    <select id="editSeason" name="season">
+                        <option value="ALL_SEASON">사계절</option>
+                        <option value="SPRING">봄</option>
+                        <option value="SUMMER">여름</option>
+                        <option value="FALL">가을</option>
+                        <option value="WINTER">겨울</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>우선순위</label>
+                    <select id="editPriority" name="priority">
+                        <option value="MUST_DO">꼭 하고 싶어요</option>
+                        <option value="SOMEDAY">언젠가</option>
+                        <option value="HOLD">보류</option>
+                    </select>
+                </div>
+
+                <div class="detail-actions">
+                    <button type="button" class="cancel-btn" onclick="switchToViewMode()">취소</button>
+                    <button type="submit" class="submit-btn">수정 완료</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script th:src="@{/js/bucketlist/bucketlist.js}"></script>
+</body>
+</html>
