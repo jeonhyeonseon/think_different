@@ -16,4 +16,8 @@ server:
 
 holiday:
   api:
-    key: "12d9e4b2fb43c09229820c2b89c62fbc3f2284ae7337e66564ef2fd33ceca994"
+    key: ${HOLIDAY_API_KEY}
+
+weather:
+  api:
+    key: ${WEATHER_API_KEY}
