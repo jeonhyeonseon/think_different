@@ -410,3 +410,193 @@ body {
     background-color: #fff5f5;
     border-color: #ffb6b6;
 }
+
+/* 버킷리스트 룰렛 */
+.roulette-card {
+    min-height: auto;
+    justify-content: flex-start;
+}
+
+.roulette-context {
+    margin: -18px 0 18px;
+    color: #777;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.roulette-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.flip-pool-data {
+    display: none;
+}
+
+.flip-card-single {
+    width: 190px;
+
+    perspective: 800px;
+}
+
+.flip-card-inner {
+    position: relative;
+    display: grid;
+    width: 100%;
+
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+}
+
+.flip-card-inner.flipped {
+    transform: rotateY(180deg);
+}
+
+.flip-card-inner.shuffling {
+    animation: flip-card-shuffle 0.5s ease-in-out;
+}
+
+@keyframes flip-card-shuffle {
+    0%, 100% {
+        transform: translateX(0) rotate(0deg);
+    }
+    20% {
+        transform: translateX(-10px) rotate(-8deg);
+    }
+    40% {
+        transform: translateX(10px) rotate(8deg);
+    }
+    60% {
+        transform: translateX(-8px) rotate(-5deg);
+    }
+    80% {
+        transform: translateX(8px) rotate(5deg);
+    }
+}
+
+.flip-card-front,
+.flip-card-back {
+    grid-area: 1 / 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+
+    padding: 10px;
+    border-radius: 10px;
+
+    backface-visibility: hidden;
+}
+
+.flip-card-front {
+    background-color: #fff0f3;
+    border: 1px solid #ffd6dc;
+}
+
+.flip-card-mark {
+    font-size: 36px;
+    font-weight: 800;
+    color: #ffb6b6;
+}
+
+.flip-card-hint {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: #ff9a9a;
+}
+
+.flip-card-back {
+    background-color: #ff7b7b;
+    color: #fff;
+    transform: rotateY(180deg);
+    text-align: center;
+    overflow: hidden;
+}
+
+.flip-card-back .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+}
+
+.flip-card-back .tag {
+    padding: 3px 8px;
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.25);
+
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.flip-card-title {
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.3;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.flip-card-link {
+    width: auto;
+    height: auto;
+    padding: 4px 10px;
+
+    border: none;
+    background-color: #fff;
+    color: #ff7b7b;
+    font-size: 11px;
+}
+
+.flip-card-link:hover {
+    background-color: #fff5f5;
+}
+
+.roulette-actions {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}
+
+.roulette-actions .roulette-spin-btn,
+.roulette-actions .detail-btn {
+    flex: 1;
+    width: auto;
+    margin-top: 0;
+}
+
+.roulette-spin-btn {
+    width: 100%;
+    height: 48px;
+
+    border: none;
+    border-radius: 8px;
+    background-color: #ff7b7b;
+
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.roulette-spin-btn:hover {
+    background-color: #ff6363;
+}
+
+.roulette-spin-btn:disabled {
+    background-color: #ffd6dc;
+    cursor: not-allowed;
+}

@@ -184,30 +184,84 @@
             </a>
         </div>
 
-        <div class="card stats-card">
-            <h3>이번 달 한눈에 보기</h3>
+        <div class="card stats-card roulette-card">
+            <h3>버킷리스트</h3>
 
-            <div class="stats-item">
-                <span>총 지출</span>
-                <strong>182,000원</strong>
+            <p class="roulette-context" th:if="${!#lists.isEmpty(dashboard.bucketListRoulette.recommendations)}">
+                <span th:text="${dashboard.bucketListRoulette.season.displayName}">봄</span>
+                ·
+                <span th:text="${dashboard.bucketListRoulette.weekend} ? '주말' : '평일'">평일</span>
+                ·
+                <span th:if="${!dashboard.bucketListRoulette.weather.unknown}"
+                      th:text="${dashboard.bucketListRoulette.weather.description} + ' ' + ${#numbers.formatDecimal(dashboard.bucketListRoulette.weather.temperature, 1, 1)} + '℃'">
+                    맑음 18.0℃
+                </span>
+                <span th:if="${dashboard.bucketListRoulette.weather.unknown}">날씨 정보 없음</span>
+            </p>
+
+            <div th:if="${#lists.isEmpty(dashboard.bucketListRoulette.recommendations)}" class="empty-text">
+                오늘 조건에 맞는 버킷리스트 항목이 없어요.
             </div>
 
-            <div class="stats-item">
-                <span>평균 지출</span>
-                <strong>45,500원</strong>
-            </div>
+            <div class="roulette-wrap" th:unless="${#lists.isEmpty(dashboard.bucketListRoulette.recommendations)}">
 
-            <div class="stats-item">
-                <span>데이트 횟수</span>
-                <strong>4회</strong>
-            </div>
+                <ul id="flipPoolData" class="flip-pool-data">
+                    <li th:each="item : ${dashboard.bucketListRoulette.recommendations}"
+                        th:data-id="${item.id}"
+                        th:data-title="${item.title}"
+                        th:data-priority="${item.priorityDisplayName}"
+                        th:data-place="${item.placeTypeDisplayName}"
+                        th:data-season="${item.seasonDisplayName}">
+                    </li>
+                </ul>
 
-            <button class="detail-btn">통계 보기</button>
+                <div class="flip-card-single">
+                    <div class="flip-card-inner" id="flipCardInner" onclick="handleFlipCardClick()">
+
+                        <div class="flip-card-front">
+                            <span class="flip-card-mark">?</span>
+                            <p class="flip-card-hint">카드를 클릭해보세요</p>
+                        </div>
+
+                        <div class="flip-card-back">
+                            <div class="tag-row">
+                                <span class="tag priority" id="flipCardTagPriority"></span>
+                                <span class="tag place" id="flipCardTagPlace"></span>
+                                <span class="tag season" id="flipCardTagSeason"></span>
+                            </div>
+
+                            <strong class="flip-card-title" id="flipCardTitle"></strong>
+
+                            <a class="detail-btn flip-card-link"
+                               id="flipCardLink"
+                               href="#"
+                               onclick="event.stopPropagation()">
+                                상세 보기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="roulette-actions">
+                    <button type="button"
+                            class="roulette-spin-btn"
+                            id="flipResetBtn"
+                            onclick="resetFlipCard()"
+                            disabled>
+                        다시하기
+                    </button>
+
+                    <a th:href="@{/bucketlist}" class="detail-btn">
+                        버킷리스트 전체 보기
+                    </a>
+                </div>
+            </div>
         </div>
 
     </section>
 
 </main>
 
+<script th:src="@{/js/dashboard/dashboard.js}"></script>
 </body>
 </html>

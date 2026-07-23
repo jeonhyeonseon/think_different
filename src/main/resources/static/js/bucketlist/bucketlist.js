@@ -95,4 +95,23 @@ document.addEventListener('DOMContentLoaded', function () {
         input.min = today;
         input.value = today;
     });
+
+    openHighlightedBucketListFromQuery();
 });
+
+function openHighlightedBucketListFromQuery() {
+    const highlightId = new URLSearchParams(window.location.search).get('highlight');
+
+    if (!highlightId) {
+        return;
+    }
+
+    const card = document.querySelector('.bucketlist-card[data-id="' + highlightId + '"]');
+
+    if (!card) {
+        return;
+    }
+
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    openDetailModal(card);
+}

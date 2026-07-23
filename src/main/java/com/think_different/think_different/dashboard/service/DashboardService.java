@@ -1,5 +1,7 @@
 package com.think_different.think_different.dashboard.service;
 
+import com.think_different.think_different.bucketlist.dto.BucketListRecommendationResponseDto;
+import com.think_different.think_different.bucketlist.service.BucketListRecommendationService;
 import com.think_different.think_different.calendar.dto.CalendarResponseDto;
 import com.think_different.think_different.calendar.repository.CalendarRepository;
 import com.think_different.think_different.common.file.FileUploadService;
@@ -33,6 +35,7 @@ public class DashboardService {
     private final CalendarRepository calendarRepository;
     private final ExpenseRepository expenseRepository;
     private final DateRecordService dateRecordService;
+    private final BucketListRecommendationService bucketListRecommendationService;
 
     public DashboardResponseDto getDashboard(Member member) {
 
@@ -116,6 +119,8 @@ public class DashboardService {
 
         List<DateRecordRecentResponseDto> recentRecords = dateRecordService.getRecentRecords(member);
 
+        BucketListRecommendationResponseDto bucketListRoulette = bucketListRecommendationService.recommendRandomCards(member);
+
         int maxAmount = monthlyExpenseCharts.stream()
                 .mapToInt(MonthlyExpenseChartDto::getAmount)
                 .max()
@@ -145,6 +150,7 @@ public class DashboardService {
                 .monthlyDateCount(monthlyDateCount)
                 .monthlyExpenseCharts(monthlyExpenseCharts)
                 .recentRecords(recentRecords)
+                .bucketListRoulette(bucketListRoulette)
                 .build();
     }
 
