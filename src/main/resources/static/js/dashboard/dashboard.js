@@ -1,3 +1,21 @@
+const BUCKET_LIST_TAG_EMOJI = {
+    '실내': '🏠',
+    '야외': '🌿',
+    '봄': '🌸',
+    '여름': '🌞',
+    '가을': '🍂',
+    '겨울': '❄️',
+    '사계절': '🌈',
+    '꼭 하고 싶어요': '⭐',
+    '언젠가': '🌙',
+    '보류': '⏸️'
+};
+
+function formatBucketListTag(text) {
+    const emoji = BUCKET_LIST_TAG_EMOJI[text];
+    return emoji ? emoji + ' ' + text : text;
+}
+
 function getBucketListRoulettePool() {
     return Array.from(document.querySelectorAll('#flipPoolData li')).map(function (li) {
         return {
@@ -5,7 +23,8 @@ function getBucketListRoulettePool() {
             title: li.dataset.title,
             priority: li.dataset.priority,
             place: li.dataset.place,
-            season: li.dataset.season
+            season: li.dataset.season,
+            memo: li.dataset.memo
         };
     });
 }
@@ -37,11 +56,17 @@ function handleFlipCardClick() {
 function revealBucketListCard(item) {
     const cardInner = document.getElementById('flipCardInner');
 
-    document.getElementById('flipCardTagPriority').textContent = item.priority;
-    document.getElementById('flipCardTagPlace').textContent = item.place;
-    document.getElementById('flipCardTagSeason').textContent = item.season;
+    document.getElementById('flipCardTagPriority').textContent = formatBucketListTag(item.priority);
+    document.getElementById('flipCardTagPlace').textContent = formatBucketListTag(item.place);
+    document.getElementById('flipCardTagSeason').textContent = formatBucketListTag(item.season);
     document.getElementById('flipCardTitle').textContent = item.title;
     document.getElementById('flipCardLink').href = '/bucketlist?highlight=' + encodeURIComponent(item.id);
+
+    const memoWrap = document.getElementById('flipCardMemoWrap');
+    const hasMemo = !!(item.memo && item.memo.trim());
+
+    memoWrap.hidden = !hasMemo;
+    document.getElementById('flipCardMemo').textContent = hasMemo ? item.memo : '';
 
     cardInner.classList.add('flipped');
 

@@ -211,7 +211,8 @@
                         th:data-title="${item.title}"
                         th:data-priority="${item.priorityDisplayName}"
                         th:data-place="${item.placeTypeDisplayName}"
-                        th:data-season="${item.seasonDisplayName}">
+                        th:data-season="${item.seasonDisplayName}"
+                        th:data-memo="${item.memo}">
                     </li>
                 </ul>
 
@@ -224,13 +225,20 @@
                         </div>
 
                         <div class="flip-card-back">
-                            <div class="tag-row">
-                                <span class="tag priority" id="flipCardTagPriority"></span>
-                                <span class="tag place" id="flipCardTagPlace"></span>
-                                <span class="tag season" id="flipCardTagSeason"></span>
+                            <div class="flip-card-header">
+                                <span class="flip-card-label">✨ Today's Pick ✨</span>
+                                <strong class="flip-card-title" id="flipCardTitle"></strong>
+                                <div class="tag-row">
+                                    <span class="tag priority" id="flipCardTagPriority"></span>
+                                    <span class="tag place" id="flipCardTagPlace"></span>
+                                    <span class="tag season" id="flipCardTagSeason"></span>
+                                </div>
                             </div>
 
-                            <strong class="flip-card-title" id="flipCardTitle"></strong>
+                            <div class="flip-card-memo-wrap" id="flipCardMemoWrap">
+                                <hr class="flip-card-divider">
+                                <p class="flip-card-memo" id="flipCardMemo"></p>
+                            </div>
 
                             <a class="detail-btn flip-card-link"
                                id="flipCardLink"
