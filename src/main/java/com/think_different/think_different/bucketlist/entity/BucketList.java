@@ -33,6 +33,7 @@ public class BucketList {
     @Column(nullable = false)
     private String title;
 
+    @Column(length = 300)
     private String memo;
 
     @Enumerated(EnumType.STRING)
