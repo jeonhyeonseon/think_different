@@ -1,5 +1,6 @@
 package com.think_different.think_different.dashboard.dto;
 
+import com.think_different.think_different.bucketlist.dto.BucketListRecommendationResponseDto;
 import com.think_different.think_different.calendar.dto.CalendarResponseDto;
 import com.think_different.think_different.record.dto.DateRecordRecentResponseDto;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,8 @@ public class DashboardResponseDto {
     private List<MonthlyExpenseChartDto> monthlyExpenseCharts;
 
     private List<DateRecordRecentResponseDto> recentRecords;
+
+    private BucketListRecommendationResponseDto bucketListRoulette;
 
     public String getDisplayMyName() {
         return myNickname != null && !myNickname.isBlank()
