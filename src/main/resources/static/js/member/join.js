@@ -26,6 +26,7 @@ $(function () {
             success: function (duplicated) {
                 const isDuplicated = (duplicated === true) || (duplicated === "true");
                 setMsg($("#loginId-msg"), isDuplicated ? "이미 사용 중인 아이디입니다." : "사용 가능한 아이디입니다.", isDuplicated);
+                $("#loginId-group").toggleClass("checked", !isDuplicated);
                 isLoginIdChecked = !isDuplicated;
             }
         });
@@ -33,6 +34,7 @@ $(function () {
 
     $("#loginId").on("input", function () {
         isLoginIdChecked = false;
+        $("#loginId-group").removeClass("checked");
     });
 
     // 비밀번호 형식 체크
@@ -93,6 +95,7 @@ $(function () {
 
         if (!EMAIL_REGEX.test(email)) {
             setMsg($("#email-msg"), "이메일 형식이 올바르지 않습니다.", true);
+            $("#email-group").removeClass("checked");
             isEmailChecked = false;
             return;
         }
@@ -104,6 +107,7 @@ $(function () {
             success: function (duplicated) {
                 const isDuplicated = (duplicated === true) || (duplicated === "true");
                 setMsg($("#email-msg"), isDuplicated ? "이미 사용 중인 이메일입니다." : "사용 가능한 이메일입니다.", isDuplicated);
+                $("#email-group").toggleClass("checked", !isDuplicated);
                 isEmailChecked = !isDuplicated;
             }
         });
@@ -111,8 +115,9 @@ $(function () {
 
     $("#email").on("input", function () {
         isEmailChecked = false;
-        const email = $(this).val().trim();
+        $("#email-group").removeClass("checked");
 
+        const email = $(this).val().trim();
         if (!email) {
             setMsg($("#email-msg"), "", false);
         } else if (!EMAIL_REGEX.test(email)) {
