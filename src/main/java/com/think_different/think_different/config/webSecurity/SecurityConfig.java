@@ -34,9 +34,11 @@ public class SecurityConfig {
             registry
                     .requestMatchers( // permitAll
                             "/",
-                            "/members/join",      // 회원가입 화면
-                            "/members",           // 회원가입 POST (컨트롤러가 @PostMapping 이면 여기)
-                            "/members/login",     // 커스텀 로그인 화면
+                            "/members/join",              // 회원가입 화면
+                            "/members",                   // 회원가입 POST (컨트롤러가 @PostMapping 이면 여기)
+                            "/members/exists/loginId",    // 아이디 중복 체크 API
+                            "/members/exists/email",      // 이메일 중복 체크 API
+                            "/members/login",             // 커스텀 로그인 화면
                             "/login",
                             "/board"
                     ).permitAll()
@@ -54,6 +56,7 @@ public class SecurityConfig {
                    .usernameParameter("loginId")
                    .passwordParameter("password")
                    .defaultSuccessUrl("/main", true)
+                   .failureHandler(new LoginFailureHandler())
                    .permitAll();
         });
 
