@@ -36,14 +36,20 @@ public class MemberController {
             bindingResult.rejectValue("passwordConfirm", "mismatch", "비밀번호가 일치하지 않습니다.");
         }
 
-        if (StringUtils.hasText(memberRequestDto.getLoginId())
-                && memberService.existsLoginId(memberRequestDto.getLoginId())) {
+        boolean loginIdDuplicate = StringUtils.hasText(memberRequestDto.getLoginId())
+                && memberService.existsLoginId(memberRequestDto.getLoginId());
+        if (loginIdDuplicate) {
             bindingResult.rejectValue("loginId", "duplicate", "이미 사용 중인 아이디입니다.");
+        } else if (!Boolean.TRUE.equals(memberRequestDto.getLoginIdChecked())) {
+            bindingResult.rejectValue("loginId", "notChecked", "아이디 중복 체크를 완료해주세요.");
         }
 
-        if (StringUtils.hasText(memberRequestDto.getEmail())
-                && memberService.existsEmail(memberRequestDto.getEmail())) {
+        boolean emailDuplicate = StringUtils.hasText(memberRequestDto.getEmail())
+                && memberService.existsEmail(memberRequestDto.getEmail());
+        if (emailDuplicate) {
             bindingResult.rejectValue("email", "duplicate", "이미 사용 중인 이메일입니다.");
+        } else if (!Boolean.TRUE.equals(memberRequestDto.getEmailChecked())) {
+            bindingResult.rejectValue("email", "notChecked", "이메일 중복 체크를 완료해주세요.");
         }
 
         if (bindingResult.hasErrors()) {
