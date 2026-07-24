@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+    const PHONE_REGEX = /^010-\d{4}-\d{4}$/;
 
     let isLoginIdChecked = false;
     let isEmailChecked = false;
@@ -19,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const passwordMsg = document.getElementById("password-msg");
 
     const phoneInput = document.getElementById("phone");
+    const phoneMsg = document.getElementById("phone-msg");
 
     const emailInput = document.getElementById("email");
     const emailGroup = document.getElementById("email-group");
@@ -97,22 +99,84 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // 전화번호 자동 하이픈
-    phoneInput.addEventListener("input", function () {
-        let number = phoneInput.value;
+    // 전화번호 - 010- 고정, 뒤 8자리만 입력 가능한 마스크 입력
+    const PHONE_PREFIX = "010-";
 
-        number = number.replace(/[^0-9]/g, "");
+    function formatPhoneDigits(digits) {
+        return digits.length > 4 ? `${digits.slice(0, 4)}-${digits.slice(4)}` : digits;
+    }
 
-        if (number.length < 4) {
-        } else if (number.length < 8) {
-            number = number.replace(/(\d{3})(\d+)/, "$1-$2");
-        } else if (number.length < 11) {
-            number = number.replace(/(\d{3})(\d{4})(\d+)/, "$1-$2-$3");
+    function parseInitialTailDigits(value) {
+        if (value && value.startsWith(PHONE_PREFIX)) {
+            return value.slice(PHONE_PREFIX.length).replace(/[^0-9]/g, "").slice(0, 8);
+        }
+        const digits = (value || "").replace(/[^0-9]/g, "");
+        return digits.startsWith("010") ? digits.slice(3, 11) : digits.slice(0, 8);
+    }
+
+    let phoneTailDigits = parseInitialTailDigits(phoneInput.value);
+
+    function renderPhone() {
+        phoneInput.value = PHONE_PREFIX + formatPhoneDigits(phoneTailDigits);
+
+        const len = phoneInput.value.length;
+        phoneInput.setSelectionRange(len, len);
+
+        if (phoneTailDigits.length === 8) {
+            setMsg(phoneMsg, "", false);
+        } else if (phoneTailDigits.length > 0) {
+            setMsg(phoneMsg, "전화번호 8자리를 모두 입력해주세요.", true);
         } else {
-            number = number.replace(/(\d{3})(\d{4})(\d{4}).*/, "$1-$2-$3");
+            setMsg(phoneMsg, "", false);
+        }
+    }
+
+    renderPhone();
+
+    phoneInput.addEventListener("focus", function () {
+        const len = phoneInput.value.length;
+        phoneInput.setSelectionRange(len, len);
+    });
+
+    phoneInput.addEventListener("click", function () {
+        const len = phoneInput.value.length;
+        phoneInput.setSelectionRange(len, len);
+    });
+
+    phoneInput.addEventListener("keydown", function (e) {
+        if (e.ctrlKey || e.metaKey || e.altKey) {
+            return;
         }
 
-        phoneInput.value = number;
+        if (e.key === "Backspace" || e.key === "Delete") {
+            e.preventDefault();
+            phoneTailDigits = phoneTailDigits.slice(0, -1);
+            renderPhone();
+            return;
+        }
+
+        if (/^[0-9]$/.test(e.key)) {
+            e.preventDefault();
+            if (phoneTailDigits.length < 8) {
+                phoneTailDigits += e.key;
+                renderPhone();
+            }
+            return;
+        }
+
+        if (["ArrowLeft", "ArrowRight", "Tab", "Home", "End", "Shift"].includes(e.key)) {
+            return;
+        }
+
+        e.preventDefault();
+    });
+
+    phoneInput.addEventListener("paste", function (e) {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData).getData("text");
+        const digits = pasted.replace(/[^0-9]/g, "");
+        phoneTailDigits = (phoneTailDigits + digits).slice(0, 8);
+        renderPhone();
     });
 
     // 이메일 형식 + 중복 체크
@@ -188,6 +252,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!EMAIL_REGEX.test(email)) {
             setMsg(emailMsg, "이메일 형식이 올바르지 않습니다.", true);
+            hasError = true;
+        }
+
+        if (!PHONE_REGEX.test(phone)) {
+            setMsg(phoneMsg, "전화번호를 010-XXXX-XXXX 형식으로 모두 입력해주세요.", true);
             hasError = true;
         }
 

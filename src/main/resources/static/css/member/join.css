@@ -100,9 +100,12 @@
 
 .msg {
     display: block;
+    font-size: 13px;
+}
+
+.msg:not(:empty) {
     margin-top: 6px;
     min-height: 16px;
-    font-size: 13px;
 }
 
 .msg.error-msg {

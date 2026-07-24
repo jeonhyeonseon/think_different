@@ -32,6 +32,7 @@ public class MemberRequestDto {
     private String passwordConfirm; // 비밀번호 확인
 
     @NotBlank(message = "전화번호를 입력해주세요.")
+    @Pattern(regexp = "^010-\\d{4}-\\d{4}$", message = "전화번호를 010-XXXX-XXXX 형식으로 모두 입력해주세요.")
     private String phone; // 전화번호
 
     @NotBlank(message = "이메일을 입력해주세요.")

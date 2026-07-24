@@ -51,8 +51,10 @@
                 </div>
 
                 <div class="form-field">
-                    <input type="text" th:field="*{phone}" placeholder="전화번호" required>
-                    <span class="msg error-msg" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+                    <input type="text" th:field="*{phone}" id="phone" inputmode="numeric" maxlength="13" required>
+                    <span id="phone-msg" class="msg"
+                          th:classappend="${#fields.hasErrors('phone')} ? 'error-msg' : ''"
+                          th:text="${#fields.hasErrors('phone')} ? ${#fields.errors('phone')[0]} : ''"></span>
                 </div>
 
                 <div class="form-field">
