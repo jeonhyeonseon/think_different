@@ -16,6 +16,10 @@ import lombok.NoArgsConstructor;
 public class MemberRequestDto {
 
     @NotBlank(message = "이름을 입력해주세요.")
+    @Pattern(
+            regexp = "^([가-힣]{2,}|[A-Za-z]{2,})$",
+            message = "이름은 한글 또는 영어만 입력 가능합니다. (혼용 불가)"
+    )
     private String name; // 이름
 
     @NotBlank(message = "아이디를 입력해주세요.")

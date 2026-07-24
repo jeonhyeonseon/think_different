@@ -1,12 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const NAME_REGEX = /^([가-힣]{2,}|[A-Za-z]{2,})$/;
     const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
     const PHONE_REGEX = /^010-\d{4}-\d{4}$/;
+    const NAME_ERROR_MESSAGE = "이름은 한글 또는 영어만 입력 가능합니다. (혼용 불가)";
 
     let isLoginIdChecked = false;
     let isEmailChecked = false;
 
-    const nameInput = document.querySelector("input[name='name']");
+    const nameInput = document.getElementById("name");
+    const nameMsg = document.getElementById("name-msg");
 
     const loginIdInput = document.getElementById("loginId");
     const loginIdGroup = document.getElementById("loginId-group");
@@ -35,6 +38,36 @@ document.addEventListener("DOMContentLoaded", function () {
         el.classList.toggle("error-msg", !!isError);
         el.classList.toggle("success-msg", !isError && !!text);
     }
+
+    // 이름 - 숫자 키 입력 자체를 차단
+    nameInput.addEventListener("keydown", function (e) {
+        if (e.ctrlKey || e.metaKey || e.altKey) {
+            return;
+        }
+        if (/^[0-9]$/.test(e.key)) {
+            e.preventDefault();
+        }
+    });
+
+    nameInput.addEventListener("paste", function (e) {
+        const clipboard = e.clipboardData || window.clipboardData;
+        const pasted = clipboard ? clipboard.getData("text") : "";
+        if (/[0-9]/.test(pasted)) {
+            e.preventDefault();
+        }
+    });
+
+    // 이름 형식 체크 (한글만 또는 영어만, 2자 이상, 혼용 불가)
+    nameInput.addEventListener("input", function () {
+        const name = nameInput.value.trim();
+        if (!name) {
+            setMsg(nameMsg, "", false);
+        } else if (!NAME_REGEX.test(name)) {
+            setMsg(nameMsg, NAME_ERROR_MESSAGE, true);
+        } else {
+            setMsg(nameMsg, "", false);
+        }
+    });
 
     // 아이디 중복 체크
     checkIdBtn.addEventListener("click", function () {
@@ -239,6 +272,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         let hasError = false;
+
+        if (!NAME_REGEX.test(name)) {
+            setMsg(nameMsg, NAME_ERROR_MESSAGE, true);
+            hasError = true;
+        }
 
         if (!PASSWORD_REGEX.test(pw)) {
             setMsg(passwordFormatMsg, "비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 모두 포함해야 합니다.", true);
