@@ -38,6 +38,9 @@ public class MemberRequestDto {
     @Email(message = "이메일 형식이 올바르지 않습니다.")
     private String email; // 이메일
 
+    private Boolean loginIdChecked; // 아이디 중복 체크 완료 여부
+    private Boolean emailChecked; // 이메일 중복 체크 완료 여부
+
     public Member toMember() {
         return Member.builder()
                 .name(this.name)

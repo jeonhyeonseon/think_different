@@ -1,74 +1,105 @@
-$(function () {
+document.addEventListener("DOMContentLoaded", function () {
     const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
 
     let isLoginIdChecked = false;
     let isEmailChecked = false;
 
-    function setMsg($el, text, isError) {
-        $el.text(text)
-            .toggleClass("error-msg", !!isError)
-            .toggleClass("success-msg", !isError && !!text);
+    const nameInput = document.querySelector("input[name='name']");
+
+    const loginIdInput = document.getElementById("loginId");
+    const loginIdGroup = document.getElementById("loginId-group");
+    const loginIdCheckedInput = document.getElementById("loginIdChecked");
+    const loginIdMsg = document.getElementById("loginId-msg");
+    const checkIdBtn = document.getElementById("check-id");
+
+    const passwordInput = document.getElementById("password");
+    const passwordFormatMsg = document.getElementById("password-format-msg");
+    const passwordConfirmInput = document.getElementById("passwordConfirm");
+    const passwordMsg = document.getElementById("password-msg");
+
+    const phoneInput = document.getElementById("phone");
+
+    const emailInput = document.getElementById("email");
+    const emailGroup = document.getElementById("email-group");
+    const emailCheckedInput = document.getElementById("emailChecked");
+    const emailMsg = document.getElementById("email-msg");
+    const checkEmailBtn = document.getElementById("check-email");
+
+    const joinForm = document.querySelector(".join-form");
+
+    function setMsg(el, text, isError) {
+        el.textContent = text;
+        el.classList.toggle("error-msg", !!isError);
+        el.classList.toggle("success-msg", !isError && !!text);
     }
 
     // 아이디 중복 체크
-    $("#check-id").on('click', function () {
-        const loginId = $("#loginId").val().trim();
+    checkIdBtn.addEventListener("click", function () {
+        const loginId = loginIdInput.value.trim();
         if (!loginId) {
             alert("아이디를 입력해주세요.");
             return;
         }
 
-        $.ajax({
-            url: "/members/exists/loginId",
-            type: "GET",
-            data: { loginId },
-            success: function (duplicated) {
-                const isDuplicated = (duplicated === true) || (duplicated === "true");
-                setMsg($("#loginId-msg"), isDuplicated ? "이미 사용 중인 아이디입니다." : "사용 가능한 아이디입니다.", isDuplicated);
-                $("#loginId-group").toggleClass("checked", !isDuplicated);
+        fetch(`/members/exists/loginId?loginId=${encodeURIComponent(loginId)}`)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (duplicated) {
+                const isDuplicated = duplicated === true;
+                setMsg(loginIdMsg, isDuplicated ? "이미 사용 중인 아이디입니다." : "사용 가능한 아이디입니다.", isDuplicated);
+                loginIdGroup.classList.toggle("checked", !isDuplicated);
                 isLoginIdChecked = !isDuplicated;
-            }
-        });
+                loginIdCheckedInput.value = isLoginIdChecked ? "true" : "false";
+            });
     });
 
-    $("#loginId").on("input", function () {
+    loginIdInput.addEventListener("input", function () {
         isLoginIdChecked = false;
-        $("#loginId-group").removeClass("checked");
+        loginIdCheckedInput.value = "false";
+        loginIdGroup.classList.remove("checked");
+
+        const loginId = loginIdInput.value.trim();
+        if (!loginId) {
+            setMsg(loginIdMsg, "", false);
+        } else {
+            setMsg(loginIdMsg, "아이디 중복 체크를 해주세요.", true);
+        }
     });
 
     // 비밀번호 형식 체크
-    $("#password").on("input", function () {
-        const pw = $(this).val();
+    passwordInput.addEventListener("input", function () {
+        const pw = passwordInput.value;
         if (!pw) {
-            setMsg($("#password-format-msg"), "", false);
+            setMsg(passwordFormatMsg, "", false);
         } else if (!PASSWORD_REGEX.test(pw)) {
-            setMsg($("#password-format-msg"), "비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 모두 포함해야 합니다.", true);
+            setMsg(passwordFormatMsg, "비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 모두 포함해야 합니다.", true);
         } else {
-            setMsg($("#password-format-msg"), "사용 가능한 비밀번호입니다.", false);
+            setMsg(passwordFormatMsg, "사용 가능한 비밀번호입니다.", false);
         }
         checkPasswordMatch();
     });
 
     // 비밀번호 확인 일치 여부
-    $("#passwordConfirm").on("input", checkPasswordMatch);
+    passwordConfirmInput.addEventListener("input", checkPasswordMatch);
 
     function checkPasswordMatch() {
-        const pw = $("#password").val();
-        const pwConfirm = $("#passwordConfirm").val();
+        const pw = passwordInput.value;
+        const pwConfirm = passwordConfirmInput.value;
 
         if (pwConfirm && pw !== pwConfirm) {
-            setMsg($("#password-msg"), "비밀번호가 일치하지 않습니다.", true);
+            setMsg(passwordMsg, "비밀번호가 일치하지 않습니다.", true);
         } else if (pwConfirm) {
-            setMsg($("#password-msg"), "비밀번호가 일치합니다.", false);
+            setMsg(passwordMsg, "비밀번호가 일치합니다.", false);
         } else {
-            setMsg($("#password-msg"), "", false);
+            setMsg(passwordMsg, "", false);
         }
     }
 
     // 전화번호 자동 하이픈
-    $("#phone").on("input", function () {
-        let number = $(this).val();
+    phoneInput.addEventListener("input", function () {
+        let number = phoneInput.value;
 
         number = number.replace(/[^0-9]/g, "");
 
@@ -81,12 +112,12 @@ $(function () {
             number = number.replace(/(\d{3})(\d{4})(\d{4}).*/, "$1-$2-$3");
         }
 
-        $(this).val(number);
+        phoneInput.value = number;
     });
 
     // 이메일 형식 + 중복 체크
-    $("#check-email").on('click', function () {
-        const email = $("#email").val().trim();
+    checkEmailBtn.addEventListener("click", function () {
+        const email = emailInput.value.trim();
 
         if (!email) {
             alert("이메일을 입력해주세요.");
@@ -94,46 +125,48 @@ $(function () {
         }
 
         if (!EMAIL_REGEX.test(email)) {
-            setMsg($("#email-msg"), "이메일 형식이 올바르지 않습니다.", true);
-            $("#email-group").removeClass("checked");
+            setMsg(emailMsg, "이메일 형식이 올바르지 않습니다.", true);
+            emailGroup.classList.remove("checked");
             isEmailChecked = false;
+            emailCheckedInput.value = "false";
             return;
         }
 
-        $.ajax({
-            url: "/members/exists/email",
-            type: "GET",
-            data: { email },
-            success: function (duplicated) {
-                const isDuplicated = (duplicated === true) || (duplicated === "true");
-                setMsg($("#email-msg"), isDuplicated ? "이미 사용 중인 이메일입니다." : "사용 가능한 이메일입니다.", isDuplicated);
-                $("#email-group").toggleClass("checked", !isDuplicated);
+        fetch(`/members/exists/email?email=${encodeURIComponent(email)}`)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (duplicated) {
+                const isDuplicated = duplicated === true;
+                setMsg(emailMsg, isDuplicated ? "이미 사용 중인 이메일입니다." : "사용 가능한 이메일입니다.", isDuplicated);
+                emailGroup.classList.toggle("checked", !isDuplicated);
                 isEmailChecked = !isDuplicated;
-            }
-        });
+                emailCheckedInput.value = isEmailChecked ? "true" : "false";
+            });
     });
 
-    $("#email").on("input", function () {
+    emailInput.addEventListener("input", function () {
         isEmailChecked = false;
-        $("#email-group").removeClass("checked");
+        emailCheckedInput.value = "false";
+        emailGroup.classList.remove("checked");
 
-        const email = $(this).val().trim();
+        const email = emailInput.value.trim();
         if (!email) {
-            setMsg($("#email-msg"), "", false);
+            setMsg(emailMsg, "", false);
         } else if (!EMAIL_REGEX.test(email)) {
-            setMsg($("#email-msg"), "이메일 형식이 올바르지 않습니다.", true);
+            setMsg(emailMsg, "이메일 형식이 올바르지 않습니다.", true);
         } else {
-            setMsg($("#email-msg"), "이메일 중복 체크를 해주세요.", true);
+            setMsg(emailMsg, "이메일 중복 체크를 해주세요.", true);
         }
     });
 
-    $(".join-form").on("submit", function (e) {
-        const name = $("input[name='name']").val().trim();
-        const loginId = $("#loginId").val().trim();
-        const pw = $("#password").val();
-        const pwConfirm = $("#passwordConfirm").val();
-        const phone = $("#phone").val().trim();
-        const email = $("#email").val().trim();
+    joinForm.addEventListener("submit", function (e) {
+        const name = nameInput.value.trim();
+        const loginId = loginIdInput.value.trim();
+        const pw = passwordInput.value;
+        const pwConfirm = passwordConfirmInput.value;
+        const phone = phoneInput.value.trim();
+        const email = emailInput.value.trim();
 
         if (!name || !loginId || !pw || !pwConfirm || !phone || !email) {
             e.preventDefault();
@@ -141,36 +174,35 @@ $(function () {
             return;
         }
 
+        let hasError = false;
+
         if (!PASSWORD_REGEX.test(pw)) {
-            e.preventDefault();
-            alert("비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 모두 포함해야 합니다.");
-            $("#password").focus();
-            return;
+            setMsg(passwordFormatMsg, "비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 모두 포함해야 합니다.", true);
+            hasError = true;
         }
 
         if (pw !== pwConfirm) {
-            e.preventDefault();
-            alert("비밀번호가 일치하지 않습니다.");
-            $("#passwordConfirm").focus();
-            return;
+            setMsg(passwordMsg, "비밀번호가 일치하지 않습니다.", true);
+            hasError = true;
         }
 
         if (!EMAIL_REGEX.test(email)) {
-            e.preventDefault();
-            alert("이메일 형식이 올바르지 않습니다.");
-            $("#email").focus();
-            return;
+            setMsg(emailMsg, "이메일 형식이 올바르지 않습니다.", true);
+            hasError = true;
         }
 
         if (!isLoginIdChecked) {
-            e.preventDefault();
-            alert("아이디 중복 체크를 해주세요.");
-            return;
+            setMsg(loginIdMsg, "아이디 중복 체크를 완료해주세요.", true);
+            hasError = true;
         }
 
         if (!isEmailChecked) {
+            setMsg(emailMsg, "이메일 중복 체크를 완료해주세요.", true);
+            hasError = true;
+        }
+
+        if (hasError) {
             e.preventDefault();
-            alert("이메일 중복 체크를 해주세요.");
         }
     });
 });
