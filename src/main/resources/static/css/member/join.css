@@ -72,6 +72,14 @@
     font-size: 14px;
 }
 
+.msg.error-msg {
+    color: #e0433d;
+}
+
+.msg.success-msg {
+    color: #1a9e6a;
+}
+
 .join-help {
     margin: 14px 0 0;
     text-align: center;
