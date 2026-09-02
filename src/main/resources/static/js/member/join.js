@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const NAME_ERROR_MESSAGE = "이름은 한글 또는 영어만 입력 가능합니다. (혼용 불가)";
 
     let isLoginIdChecked = false;
-    let isEmailChecked = false;
+    let isEmailVerified = false;
 
     const nameInput = document.getElementById("name");
     const nameMsg = document.getElementById("name-msg");
@@ -27,11 +27,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const emailInput = document.getElementById("email");
     const emailGroup = document.getElementById("email-group");
-    const emailCheckedInput = document.getElementById("emailChecked");
+    const emailCodeGroup = document.getElementById("email-code-group");
+    const emailCodeInput = document.getElementById("emailCode");
+    const emailVerifiedInput = document.getElementById("emailVerified");
     const emailMsg = document.getElementById("email-msg");
-    const checkEmailBtn = document.getElementById("check-email");
+    const sendEmailCodeBtn = document.getElementById("send-email-code");
+    const verifyEmailCodeBtn = document.getElementById("verify-email-code");
 
     const joinForm = document.querySelector(".join-form");
+    const joinSubmitBtn = document.getElementById("join-submit-btn");
 
     function setMsg(el, text, isError) {
         el.textContent = text;
@@ -212,8 +216,18 @@ document.addEventListener("DOMContentLoaded", function () {
         renderPhone();
     });
 
-    // 이메일 형식 + 중복 체크
-    checkEmailBtn.addEventListener("click", function () {
+    function resetEmailVerification() {
+        isEmailVerified = false;
+        emailVerifiedInput.value = "false";
+        emailCodeGroup.classList.remove("checked");
+        emailCodeInput.value = "";
+        emailCodeInput.disabled = true;
+        verifyEmailCodeBtn.disabled = true;
+        joinSubmitBtn.disabled = true;
+    }
+
+    // 이메일 형식 체크 + 인증코드 발송 (이메일 중복 체크는 서버에서 발송 시 함께 처리)
+    sendEmailCodeBtn.addEventListener("click", function () {
         const email = emailInput.value.trim();
 
         if (!email) {
@@ -223,29 +237,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!EMAIL_REGEX.test(email)) {
             setMsg(emailMsg, "이메일 형식이 올바르지 않습니다.", true);
-            emailGroup.classList.remove("checked");
-            isEmailChecked = false;
-            emailCheckedInput.value = "false";
             return;
         }
 
-        fetch(`/members/exists/email?email=${encodeURIComponent(email)}`)
+        fetch("/members/email/send-code", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `email=${encodeURIComponent(email)}`
+        })
             .then(function (response) {
-                return response.json();
+                return response.text().then(function (text) {
+                    return { ok: response.ok, text: text };
+                });
             })
-            .then(function (duplicated) {
-                const isDuplicated = duplicated === true;
-                setMsg(emailMsg, isDuplicated ? "이미 사용 중인 이메일입니다." : "사용 가능한 이메일입니다.", isDuplicated);
-                emailGroup.classList.toggle("checked", !isDuplicated);
-                isEmailChecked = !isDuplicated;
-                emailCheckedInput.value = isEmailChecked ? "true" : "false";
+            .then(function (result) {
+                setMsg(emailMsg, result.text, !result.ok);
+                if (result.ok) {
+                    emailCodeInput.disabled = false;
+                    verifyEmailCodeBtn.disabled = false;
+                }
+            });
+    });
+
+    // 인증코드 확인
+    verifyEmailCodeBtn.addEventListener("click", function () {
+        const email = emailInput.value.trim();
+        const code = emailCodeInput.value.trim();
+
+        if (!code) {
+            alert("인증코드를 입력해주세요.");
+            return;
+        }
+
+        fetch("/members/email/verify-code", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `email=${encodeURIComponent(email)}&code=${encodeURIComponent(code)}`
+        })
+            .then(function (response) {
+                return response.text().then(function (text) {
+                    return { ok: response.ok, text: text };
+                });
+            })
+            .then(function (result) {
+                setMsg(emailMsg, result.text, !result.ok);
+                isEmailVerified = result.ok;
+                emailVerifiedInput.value = isEmailVerified ? "true" : "false";
+                emailCodeGroup.classList.toggle("checked", isEmailVerified);
+                joinSubmitBtn.disabled = !isEmailVerified;
             });
     });
 
     emailInput.addEventListener("input", function () {
-        isEmailChecked = false;
-        emailCheckedInput.value = "false";
-        emailGroup.classList.remove("checked");
+        resetEmailVerification();
 
         const email = emailInput.value.trim();
         if (!email) {
@@ -253,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (!EMAIL_REGEX.test(email)) {
             setMsg(emailMsg, "이메일 형식이 올바르지 않습니다.", true);
         } else {
-            setMsg(emailMsg, "이메일 중복 체크를 해주세요.", true);
+            setMsg(emailMsg, "인증코드 발송을 눌러주세요.", true);
         }
     });
 
@@ -303,8 +347,8 @@ document.addEventListener("DOMContentLoaded", function () {
             hasError = true;
         }
 
-        if (!isEmailChecked) {
-            setMsg(emailMsg, "이메일 중복 체크를 완료해주세요.", true);
+        if (!isEmailVerified) {
+            setMsg(emailMsg, "이메일 인증을 완료해주세요.", true);
             hasError = true;
         }
 

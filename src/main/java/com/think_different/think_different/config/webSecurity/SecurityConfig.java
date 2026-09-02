@@ -37,7 +37,8 @@ public class SecurityConfig {
                             "/members/join",              // 회원가입 화면
                             "/members",                   // 회원가입 POST (컨트롤러가 @PostMapping 이면 여기)
                             "/members/exists/loginId",    // 아이디 중복 체크 API
-                            "/members/exists/email",      // 이메일 중복 체크 API
+                            "/members/email/send-code",   // 이메일 인증코드 발송 API
+                            "/members/email/verify-code", // 이메일 인증코드 확인 API
                             "/members/login",             // 커스텀 로그인 화면
                             "/login",
                             "/board"

@@ -44,7 +44,7 @@ public class MemberRequestDto {
     private String email; // 이메일
 
     private Boolean loginIdChecked; // 아이디 중복 체크 완료 여부
-    private Boolean emailChecked; // 이메일 중복 체크 완료 여부
+    private Boolean emailVerified; // 이메일 인증 완료 여부
 
     public Member toMember() {
         return Member.builder()
