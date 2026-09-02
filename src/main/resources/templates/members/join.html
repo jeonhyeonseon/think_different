@@ -62,16 +62,20 @@
                 <div class="form-field">
                     <div class="input-group" id="email-group">
                         <input type="email" th:field="*{email}" placeholder="이메일" required>
-                        <button type="button" id="check-email" class="check-btn">중복체크</button>
+                        <button type="button" id="send-email-code" class="check-btn">인증코드 발송</button>
+                    </div>
+                    <div class="input-group" id="email-code-group" style="margin-top: 8px;">
+                        <input type="text" id="emailCode" placeholder="인증코드 6자리" inputmode="numeric" maxlength="6" disabled>
+                        <button type="button" id="verify-email-code" class="check-btn" disabled>확인</button>
                         <span class="check-icon">✓</span>
                     </div>
-                    <input type="hidden" id="emailChecked" name="emailChecked" value="false">
+                    <input type="hidden" id="emailVerified" name="emailVerified" value="false">
                     <span id="email-msg" class="msg"
                           th:classappend="${#fields.hasErrors('email')} ? 'error-msg' : ''"
                           th:text="${#fields.hasErrors('email')} ? ${#fields.errors('email')[0]} : ''"></span>
                 </div>
 
-                <button class="join-btn" type="submit">회원가입</button>
+                <button class="join-btn" type="submit" id="join-submit-btn" disabled>회원가입</button>
 
                 <p class="join-help">
                     이미 계정이 있으신가요?
